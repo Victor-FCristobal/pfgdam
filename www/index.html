@@ -8,81 +8,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="css/index.css">
         <script src="https://kit.fontawesome.com/2dc7d57980.js" crossorigin="anonymous"></script>
-        <style>
-.float{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#c608e8;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
-	z-index:1000;
-	animation: bot-to-top 2s ease-out;
-}
-
-ul.float-item{
-	position:fixed;
-	right:40px;
-	padding-bottom:20px;
-	bottom:80px;
-	z-index:100;
-}
-
-ul li.float-item{
-	list-style:none;
-	margin-bottom:10px;
-}
-
-ul li a.float-item{
-	background-color:#7d0093;
-	color:#FFF;
-	border-radius:30px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
-	width:55px;
-	height:55px;
-  display:block;
-}
-
-ul:hover.float-item{
-	visibility:visible!important;
-	opacity:1!important;
-}
-
-
-.my-float{
-	font-size:24px;
-	margin-top:18px;
-}
-
-a#menu-share + ul{
-  visibility: hidden;
-}
-
-a.float-item:hover{
-  color:white;
-  background-color:#464646;
-  -ms-transform: scale(1.25); /* IE 9 */
-  -webkit-transform: scale(1.25); /* Safari 3-8 */
-  transform: scale(1.25);
-}
-
-a#menu-share:hover + ul{
-  visibility: visible;
-}
-
-.float:hover{
-  -ms-transform: scale(1.25); /* IE 9 */
-  -webkit-transform: scale(1.25); /* Safari 3-8 */
-  transform: scale(1.25);
-  background-color:#464646;
-  color:white; 
-}
-        </style>
     </head>
     <body>
       <div class="sticky-top mb-5 px-4 bg-light">
@@ -95,37 +20,37 @@ a#menu-share:hover + ul{
       <div class="px-4 bg-light">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" alt="avatar2" src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" />
+              <img class="rounded-circle shadow img-fluid" alt="deadlift" src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/barbell-deadlift-movement.gif" />
           </div>
           <div class="col-8">
             <div class="row">
               <div class="col-10">
-                <p>Peso muerto</p>
+                <p><strong><u>Peso muerto</u></strong></p>
               </div>
               <div class="col-2">
                 <i class="fa-solid fa-ellipsis-vertical"></i>
               </div>
             </div>
             <div class="row text-center">
-              <div class="col-3">
-                <div class="rounded-circle h-25 w-25 bs-secondary"></div>
+              <div class="col-3 rounded">
+                <div class="h-25 bg-calentamiento rounded"></div>
                 <p>20KG</p>
                 <p>12REP</p>
               </div>
-              <div class="col-3">
-                <div class="rounded-circle h-25 w-25 bs-green"></div>
-                <p>20KG</p>
-                <p>12REP</p>
+              <div class="col-3 rounded">
+                <div class="h-25 bg-facil rounded"></div>
+                <p>60KG</p>
+                <p>10REP</p>
               </div>
-              <div class="col-3">
-                <div class="rounded-circle h-25 w-25 bs-yellow"></div>
-                <p>20KG</p>
-                <p>12REP</p>
+              <div class="col-3 rounded">
+                <div class="h-25 bg-normal rounded"></div>
+                <p>80KG</p>
+                <p>8REP</p>
               </div>
-              <div class="col-3">
-                <div class="rounded-circle h-25 w-25 bs-red"></div>
-                <p>20KG</p>
-                <p>12REP</p>
+              <div class="col-3 rounded">
+                <div class="h-25 bg-dificil rounded"></div>
+                <p>100KG</p>
+                <p>8REP</p>
               </div>
               <div class="col-3">
                 <i class="fas fa-plus"></i>
@@ -138,10 +63,10 @@ a#menu-share:hover + ul{
           <a class="float" id="menu-share"><i class="fas fa-plus my-float"></i></a>
           <ul class="float-item flex-column">
             <li class="float-item">
-              <a class="float-item" href="/inicio"><i class="fa-solid fa-clipboard-list my-float float-item"></i> Importar desde rutina</a>
+              <a class="float-item" href="/inicio"><i class="fa-solid fa-clipboard-list my-float float-item"></i></a>
             </li>
             <li class="float-item">
-              <a class="float-item" href="/inicio"><i class="fa-solid fa-dumbbell my-float float-item"></i> Importar desde lista de ejercicios</a>
+              <a class="float-item" href="/inicio"><i class="fa-solid fa-dumbbell my-float float-item"></i></a>
             </li>
           </ul>
       </div>
