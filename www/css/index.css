@@ -136,3 +136,8 @@ a#menu-share:hover + ul{
 .bg-dificil{
   background-color: red !important;
 }
+.bg-primary{
+  background-color: #c608e8 !important;
+  color:#FFF;
+  font-size: calc(1.275rem + .3vw);
+}
