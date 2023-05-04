@@ -51,35 +51,30 @@ body {
     }
 }
 .float{
-	position:fixed;
+  display: block;
 	width:60px;
 	height:60px;
-	bottom:0px;
-	right:40px;
-	background-color:#c608e8;
+	background-color:#963a45;
 	color:#FFF;
 	border-radius:50px;
 	text-align:center;
 	box-shadow: 2px 2px 3px #999;
-	z-index:1000;
 	animation: bot-to-top 2s ease-out;
 }
 
 ul.float-item{
-	position:fixed;
-	right:40px;
-	padding-bottom:20px;
-	bottom:80px;
-	z-index:100;
+  position: absolute;
+	bottom:55px;
+  padding-left: 5px;
 }
 
 ul li.float-item{
 	list-style:none;
-	margin-bottom:10px;
+	margin-bottom:5px;
 }
 
 ul li a.float-item{
-	background-color:#7d0093;
+	background-color:#963a45;
 	color:#FFF;
 	border-radius:30px;
 	text-align:center;
@@ -105,8 +100,8 @@ a#menu-share + ul{
 }
 
 a.float-item:hover{
-  color:white;
-  background-color:#464646;
+  color: #424242;
+  background-color:#FFF ;
   -ms-transform: scale(1.25); /* IE 9 */
   -webkit-transform: scale(1.25); /* Safari 3-8 */
   transform: scale(1.25);
@@ -120,12 +115,12 @@ a#menu-share:hover + ul{
   -ms-transform: scale(1.25); /* IE 9 */
   -webkit-transform: scale(1.25); /* Safari 3-8 */
   transform: scale(1.25);
-  background-color:#464646;
-  color:white; 
+  background-color:#FFF;
+  color: #424242; 
 }
 
 .bg-calentamiento{
-  background-color: whitesmoke !important;
+  background-color: #cfcfcf !important;
 }
 .bg-facil{
   background-color: green !important;
@@ -137,7 +132,16 @@ a#menu-share:hover + ul{
   background-color: red !important;
 }
 .bg-primary{
-  background-color: #c608e8 !important;
+  background-color: #424242 !important;
   color:#FFF;
   font-size: calc(1.275rem + .3vw);
+}
+.mh-45px{
+  max-height: 45px;
+}
+.bg-light{
+  background-color: #dddddd !important;
+}
+body{
+  background-image: unset;
 }
