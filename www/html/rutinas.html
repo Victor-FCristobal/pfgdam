@@ -15,7 +15,7 @@
       <!-- Barra superior -->
       <div class="sticky-top bg-primary d-flex p-2">
         <div class="col-6">
-          <p class="m-2 h4"><a href="/www/index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+          <p class="m-2 h4"><a href="/www/index.html"><i class="fa-solid fa-arrow-left"></i></a> Rutinas</p>
         </div>
         <div class="text-end col-6">
           <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="1" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
@@ -28,19 +28,16 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="modalSetLabel">Crear categoría</h1>
+              <h1 class="modal-title fs-5" id="modalSetLabel">Crear rutina</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="input-group mb-2">
-                <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre">
+              <div class="form-group">
+                <input type="text" class="form-control" focus name="nombre" id="nombre">
               </div>
-              <div class="input-group flex-nowrap mb-2">
-                <span class="input-group-text">Color</span>
+              <div class="form-group">
                 <input type="color" class="form-control form-control-color" name="color" id="color">
               </div>
-              <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-              <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -50,167 +47,204 @@
         </div>
       </div>
       <!-- Fin modal -->
+      <!-- Ejercicio -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/sentadilla_libre.gif" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Sentadilla libre</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin ejercicio -->
+      <!-- Ejercicio -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/curl_biceps.gif" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Curl de bíceps</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="h-25 bg-calentamiento rounded-pill"></div>
+                <p>20KG</p>
+                <p>12REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-facil rounded-pill"></div>
+                <p>60KG</p>
+                <p>10REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-normal rounded-pill"></div>
+                <p>80KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
+                <p>100KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="2" class="btn"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin ejercicio -->
+      <!-- Ejercicio -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Peso muerto</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="h-25 bg-calentamiento rounded-pill"></div>
+                <p>20KG</p>
+                <p>12REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-facil rounded-pill"></div>
+                <p>60KG</p>
+                <p>10REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-normal rounded-pill"></div>
+                <p>80KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
+                <p>100KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="3" class="btn"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin ejercicio -->
+      <!-- Ejercicio -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Peso muerto</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="h-25 bg-calentamiento rounded-pill"></div>
+                <p>20KG</p>
+                <p>12REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-facil rounded-pill"></div>
+                <p>60KG</p>
+                <p>10REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-normal rounded-pill"></div>
+                <p>80KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
+                <p>100KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="4" class="btn"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin ejercicio -->
+      <!-- Ejercicio -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Peso muerto</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="h-25 bg-calentamiento rounded-pill"></div>
+                <p>20KG</p>
+                <p>12REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-facil rounded-pill"></div>
+                <p>60KG</p>
+                <p>10REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-normal rounded-pill"></div>
+                <p>80KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
+                <p>100KG</p>
+                <p>8REP</p>
+              </div>
+              <div class="col-3 d-flex flex-column justify-content-center">
+                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="5" class="btn"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin ejercicio -->
 
-      <!-- Categoría -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/pierna.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Pierna</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/pecho.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Pecho</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/abs.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Abdominales</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/espalda.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Espalda</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/cardio.png" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Cardio</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/hombros.png" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Hombros</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/biceps.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Biceps</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/www/img/grupo_muscular/biceps.jpg" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Triceps</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
     <!-- Modal -->
     <div class="modal fade" id="modalSet" tabindex="-1" aria-labelledby="modalSetLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">

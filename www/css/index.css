@@ -131,17 +131,38 @@ a#menu-share:hover + ul{
 .bg-dificil{
   background-color: red !important;
 }
-.bg-primary{
-  background-color: #424242 !important;
-  color:#FFF;
-  font-size: calc(1.275rem + .3vw);
-}
 .mh-45px{
   max-height: 45px;
 }
-.bg-light{
-  background-color: #dddddd !important;
-}
 body{
   background-image: unset;
+}
+.btn-check:checked + .btn-calentamiento {
+  background-color: #cfcfcf !important;
+  color: white;
+}
+.btn-check:checked + .btn-facil {
+  background-color: green !important;
+  color: white;
+}
+.btn-check:checked + .btn-normal {
+  background-color: orange !important;
+  color: white;
+}
+.btn-check:checked + .btn-dificil {
+  background-color: red !important;
+  color: white;
+}
+
+.btn-check:active + .btn-calentamiento {
+  border-color:none;
+}
+.btn-check:active + .btn-facil {
+  border-color:none;
+}
+.btn-check:active + .btn-normal {
+  border-color:none;
+}
+.btn-check:active + .btn-dificil {
+  border-color:none;
 }

@@ -10,5 +10,5 @@ modalSet.addEventListener('show.bs.modal', event => {
   // Update the modal's content.
   const modalTitle = modalSet.querySelector('.modal-title')
 
-  modalTitle.textContent = `Set Nº ${numero}`
+  modalTitle.textContent = 'Set Nº ' + numero
 })

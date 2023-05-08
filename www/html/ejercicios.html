@@ -14,19 +14,13 @@
     <body class="bg-light">
       <!-- Barra superior -->
       <div class="sticky-top bg-primary d-flex p-2">
-        <div class="col-6">
-          <p class="m-2 h4">Víctor</p>
-        </div>
-        <div class="text-end col-6">
-          <i class="fa-solid fa-calendar m-2 h4"></i>
-          <i class="fa-solid fa-gear m-2 h4"></i>
-        </div>
+        <p class="m-2 h4"><a href="/www/html/categorias.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
       </div>
       <!-- Ejercicio -->
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/sentadilla_libre.gif" />
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/sentadilla_libre.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -34,32 +28,8 @@
                 <p><strong><u>Sentadilla libre</u></strong></p>
               </div>
               <div class="col-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="h-25 bg-calentamiento rounded-pill"></div>
-                <p>20KG</p>
-                <p>12REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                <p>60KG</p>
-                <p>10REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                <p>80KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                <p>100KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="1" class="btn"><i class="fas fa-plus"></i></button>
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
               </div>
             </div>
           </div>
@@ -70,7 +40,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/curl_biceps.gif" />
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/curl_biceps.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -114,7 +84,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -122,6 +92,7 @@
                 <p><strong><u>Peso muerto</u></strong></p>
               </div>
               <div class="col-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
               </div>
             </div>
@@ -158,7 +129,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -202,7 +173,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -235,7 +206,7 @@
                 <p>8REP</p>
               </div>
               <div class="col-3 d-flex flex-column justify-content-center">
-                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="5"><i class="fas fa-plus"></i></button>
+                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="5" class="btn"><i class="fas fa-plus"></i></button>
               </div>
             </div>
           </div>
@@ -248,35 +219,28 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalSetLabel"></h1>
+            <h1 class="modal-title fs-5" id="modalSetLabel">Modal title</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="input-group flex-nowrap mb-3">
-              <span class="input-group-text">KG</span>
-              <input type="number" class="form-control" name="valor1">
+            <div class="form-group">
+              <label>KG</label>
+              <input type="numeric" focus name="valor1">
             </div>
-            <div class="input-group flex-nowrap mb-3">
-              <span class="input-group-text">REP</span>
-              <input type="number" class="form-control" name="valor2">
+            <div class="form-group">
+              <label>REP</label>
+              <input type="numeric" name="valor2">
             </div>
-            <div class="btn-group-sm text-center form-group">
-              <input type="radio" class="btn-check btn-calentamiento" name="dificultad" id="calentamiento">
-              <label class="btn btn-calentamiento" for="calentamiento">Calentamiento</label>
-  
-              <input type="radio" class="btn-check btn-facil" name="dificultad" id="facil">
-              <label class="btn btn-facil" for="facil">Fácil</label>
-  
-              <input type="radio" class="btn-check btn-normal" name="dificultad" id="normal">
-              <label class="btn btn-normal" for="normal">Normal</label>
-  
-              <input type="radio" class="btn-check btn-dificil" name="dificultad" id="dificil">
-              <label class="btn btn-dificil" for="dificil">Difícil</label>
+            <div class="row">
+              <p>Calentamiento</p>
+              <p>Fácil</p>
+              <p>Normal</p>
+              <p>Difícil</p>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <input type="submit" class="btn btn-primary" name="guardar" value="Guardar">
+            <button type="button" class="btn btn-primary">Guardar</button>
           </div>
         </div>
       </div>
@@ -285,10 +249,10 @@
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky">
       <div class="mx-2 text-center">
-        <a href="/www/html/categorias.html"><i class="fa-solid fa-dumbbell"></i></a>
+        <i class="fa-solid fa-dumbbell"></i>
       </div>
       <div class="mx-2 text-center">
-        <a href="/www/html/rutinas.html"><i class="fa-solid fa-list-ul"></i></a>
+        <i class="fa-solid fa-list-ul"></i>
       </div>
       <div class="mx-2 text-center">
         <a class="float" id="menu-share"><i class="fas fa-plus my-float"></i></a>
@@ -305,7 +269,7 @@
         </ul>
       </div>
       <div class="mx-2 text-center">
-        <a href="/www/html/estadisticas.html"><i class="fa-solid fa-chart-line"></i></a>
+        <i class="fa-solid fa-chart-line"></i>
       </div>
       <div class="mx-2 text-center">
         <i class="fas fa-plus"></i>
@@ -314,7 +278,7 @@
     <script src="/js/index.js"></script>
     <script src="/js/db.js"></script>
     <script src="/js/bootstrap.js"></script>
-    <!-- <script src="https://kit.fontawesome.com/2dc7d57980.js" crossorigin="anonymous"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://kit.fontawesome.com/2dc7d57980.js" crossorigin="anonymous"></script> -->
   </body>
 </html>
