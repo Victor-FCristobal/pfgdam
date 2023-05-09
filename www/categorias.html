@@ -49,30 +49,11 @@
       </div>
     </div>
     <!-- Fin modal nueva categoría -->
+    <div id="categorias">
 
-    <!-- Categoría -->
-    <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pierna.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Pierna</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    <!-- Fin categoría -->
-
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pecho.jpg" />
@@ -89,11 +70,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/abs.jpg" />
@@ -110,11 +91,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/espalda.jpg" />
@@ -131,11 +112,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/cardio.png" />
@@ -152,11 +133,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/hombros.png" />
@@ -173,11 +154,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
@@ -194,11 +175,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Categoría -->
-    <div class="px-4 my-2">
+    <!-- <div class="px-4 my-2">
       <div class="bg-white rounded shadow-sm p-3 row">
         <div class="col-4">
             <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
@@ -215,7 +196,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Fin categoría -->
 
     <!-- Barra inferior -->
@@ -227,5 +208,23 @@
     <script src="js/index.js"></script>
     <script src="js/db.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script>
+      var db = window.sqlitePlugin.openDatabase({ name: 'gimnasiodb.db',location: 'default',androidDatabaseProvider: 'system'});
+      db.transaction(function (transaction) {
+        transaction.executeSql('SELECT * FROM GRUPO_MUSCULAR', [], function (tx, results) {
+            var len = results.rows.length, i;
+            if(len == 0){
+              $("#categorias").append('<p>No hay categorías</p>');
+            }else{
+              for (i = 0; i < len; i++) {
+                  // $("#categorias").append("<tr><td>" + results.rows.item(i).Id + "</td><td>" + results.rows.item(i).FirstName + "</td><td>" + results.rows.item(i).LastName + "</td><td><a class='edit' href='#' id='edit_" + results.rows.item(i).Id + "'>Edit</a> &nbsp;&nbsp; <a class='delete' href='#' id='" + results.rows.item(i).Id + "'>Delete</a></td></tr>");
+                  // <div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pierna.jpg" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>Pierna</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>
+                  // '<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' + results.row.item(i).imagen + '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' + results.rows.item(i).nombre + '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>'
+                  $("#categorias").append('<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' + results.row.item(i).imagen + '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' + results.rows.item(i).nombre + '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>');
+              }
+            }
+        }, null);
+      });
+    </script>
   </body>
 </html>

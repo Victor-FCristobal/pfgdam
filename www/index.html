@@ -275,7 +275,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <input type="submit" class="btn btn-primary" name="guardar" value="Guardar">
+            <button type="button" class="btn btn-primary" id="btnSubmit">Guardar</button>
           </div>
         </div>
       </div>
@@ -292,5 +292,13 @@
     <script src="js/db.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/modal.js"></script>
+
+    <script>
+      document.addEventListener('deviceready', function() {
+  window.sqlitePlugin.echoTest(function() {
+    console.log('ECHO test OK');
+  });
+});
+    </script>
   </body>
 </html>
