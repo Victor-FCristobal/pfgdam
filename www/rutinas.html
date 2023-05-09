@@ -278,34 +278,11 @@
     </div>
 
     <!-- Barra inferior -->
-    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky">
-      <div class="mx-2 text-center">
-        <a href="/www/html/categorias.html"><i class="fa-solid fa-dumbbell"></i></a>
-      </div>
-      <div class="mx-2 text-center">
-        <a href="/www/html/rutinas.html"><i class="fa-solid fa-list-ul"></i></a>
-      </div>
-      <div class="mx-2 text-center">
-        <a class="float" id="menu-share"><i class="fas fa-plus my-float"></i></a>
-        <ul class="float-item flex-column">
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-clipboard-list my-float float-item"></i></a>
-          </li>
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-dumbbell my-float float-item"></i></a>
-          </li>
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-calendar my-float float-item"></i></a>
-          </li>
-        </ul>
-      </div>
-      <div class="mx-2 text-center">
-        <a href="/www/html/estadisticas.html"><i class="fa-solid fa-chart-line"></i></a>
-      </div>
-      <div class="mx-2 text-center">
-        <i class="fas fa-plus"></i>
-      </div>
-    </div>
+    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky" w3-include-html="footer.html"></div>
+    <script src="js/footer.js"></script>
+    <script>includeHTML();</script>
+    <!-- Fin  barra inferior -->
+    
     <script src="/js/index.js"></script>
     <script src="/js/db.js"></script>
     <script src="/js/bootstrap.js"></script>

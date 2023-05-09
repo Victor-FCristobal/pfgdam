@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/solid.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalNCategoria" data-bs-nset="1" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+
+    <!-- Modal nueva categoría -->
+    <div class="modal fade" id="modalNCategoria" tabindex="-1" aria-labelledby="modalNCategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalNCategoriaLabel">Crear categoría</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre">
+            </div>
+            <div class="input-group flex-nowrap mb-2">
+              <span class="input-group-text">Color</span>
+              <input type="color" class="form-control form-control-color" name="color" id="color">
+            </div>
+            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
+            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal nueva categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pierna.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Pierna</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pecho.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Pecho</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/abs.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Abdominales</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/espalda.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Espalda</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/cardio.png" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Cardio</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/hombros.png" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Hombros</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Biceps</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Categoría -->
+    <div class="px-4 my-2">
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <div class="col-4">
+            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-10">
+              <p><strong><u>Triceps</u></strong></p>
+            </div>
+            <div class="col-2">
+              <i class="fa-solid fa-pencil"></i>
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin categoría -->
+
+    <!-- Barra inferior -->
+    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky" w3-include-html="footer.html"></div>
+    <script src="js/footer.js"></script>
+    <script>includeHTML();</script>
+    <!-- Fin  barra inferior -->
+    
+    <script src="js/index.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/bootstrap.js"></script>
+  </body>
+</html>

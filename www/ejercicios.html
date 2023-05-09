@@ -5,22 +5,21 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" href="/css/fontawesome.css">
-        <link rel="stylesheet" href="/css/solid.css">
-        <link rel="stylesheet" href="/css/bootstrap.css">
-        <link rel="stylesheet" href="/css/index.css">
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="css/fontawesome.css">
+        <link rel="stylesheet" href="css/solid.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/index.css">
     </head>
     <body class="bg-light">
       <!-- Barra superior -->
       <div class="sticky-top bg-primary d-flex p-2">
-        <p class="m-2 h4"><a href="/www/html/categorias.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
+        <p class="m-2 h4"><a href="categorias.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
       </div>
       <!-- Ejercicio -->
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/sentadilla_libre.gif" />
+              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/sentadilla_libre.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -40,7 +39,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/curl_biceps.gif" />
+              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/curl_biceps.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -84,7 +83,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -129,7 +128,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -173,7 +172,7 @@
       <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
           <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="/img/ejercicios/peso_muerto.gif" />
+              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
           </div>
           <div class="col-8">
             <div class="row">
@@ -247,38 +246,13 @@
     </div>
 
     <!-- Barra inferior -->
-    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky">
-      <div class="mx-2 text-center">
-        <i class="fa-solid fa-dumbbell"></i>
-      </div>
-      <div class="mx-2 text-center">
-        <i class="fa-solid fa-list-ul"></i>
-      </div>
-      <div class="mx-2 text-center">
-        <a class="float" id="menu-share"><i class="fas fa-plus my-float"></i></a>
-        <ul class="float-item flex-column">
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-clipboard-list my-float float-item"></i></a>
-          </li>
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-dumbbell my-float float-item"></i></a>
-          </li>
-          <li class="float-item">
-            <a class="float-item"><i class="fa-solid fa-calendar my-float float-item"></i></a>
-          </li>
-        </ul>
-      </div>
-      <div class="mx-2 text-center">
-        <i class="fa-solid fa-chart-line"></i>
-      </div>
-      <div class="mx-2 text-center">
-        <i class="fas fa-plus"></i>
-      </div>
-    </div>
-    <script src="/js/index.js"></script>
-    <script src="/js/db.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://kit.fontawesome.com/2dc7d57980.js" crossorigin="anonymous"></script> -->
+    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around position-sticky" w3-include-html="footer.html"></div>
+    <script src="js/footer.js"></script>
+    <script>includeHTML();</script>
+    <!-- Fin  barra inferior -->
+    
+    <script src="js/index.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/bootstrap.js"></script>
   </body>
 </html>
