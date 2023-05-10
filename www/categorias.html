@@ -1,230 +1,336 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-    <link rel="stylesheet" href="css/fontawesome.css">
-    <link rel="stylesheet" href="css/solid.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/index.css">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="cordova.js"></script>
   </head>
   <body class="bg-light">
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex p-2">
       <div class="col-6">
-        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+        <p class="m-2 h4">
+          <a href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
+          Categorías
+        </p>
       </div>
       <div class="text-end col-6">
-        <button data-bs-toggle="modal" data-bs-target="#modalNCategoria" data-bs-nset="1" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#modalNCategoria"
+          data-bs-nset="1"
+          class="btn btn-primary me-1"
+        >
+          <i class="fas fa-plus"></i>
+        </button>
       </div>
     </div>
     <!-- Fin barra superior -->
 
     <!-- Modal nueva categoría -->
-    <div class="modal fade" id="modalNCategoria" tabindex="-1" aria-labelledby="modalNCategoriaLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalNCategoria"
+      tabindex="-1"
+      aria-labelledby="modalNCategoriaLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalNCategoriaLabel">Crear categoría</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h1 class="modal-title fs-5" id="modalNCategoriaLabel">
+              Crear categoría
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre">
+              <input
+                type="text"
+                class="form-control"
+                autofocus
+                placeholder="Nombre de la categoría:"
+                name="nombre"
+                id="nombre"
+              />
             </div>
             <div class="input-group flex-nowrap mb-2">
               <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color">
+              <input
+                type="color"
+                class="form-control form-control-color"
+                name="color"
+                id="color"
+              />
             </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2">
+            <p class="text-center">
+              Días de recuperación: <output id="num">2</output>
+            </p>
+            <input
+              type="range"
+              class="form-range"
+              min="0"
+              max="7"
+              id="recuperacion"
+              name="recuperacion"
+              oninput="num.value = this.value"
+              value="2"
+            />
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
             <button type="button" class="btn btn-primary">Guardar</button>
           </div>
         </div>
       </div>
     </div>
     <!-- Fin modal nueva categoría -->
-    <div id="categorias">
+    <!-- Categorías -->
+    <div id="categorias" class="mb-5">
 
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pecho.jpg" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Pecho</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/abs.jpg" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Abdominales</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/espalda.jpg" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Espalda</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/cardio.png" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Cardio</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/hombros.png" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Hombros</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Biceps</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+  
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row">
+          <div class="col-4">
+              <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-10">
+                <p><strong><u>Triceps</u></strong></p>
+              </div>
+              <div class="col-2">
+                <i class="fa-solid fa-pencil"></i>
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
     </div>
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pecho.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Pecho</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/abs.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Abdominales</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/espalda.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Espalda</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/cardio.png" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Cardio</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/hombros.png" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Hombros</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Biceps</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Categoría -->
-    <!-- <div class="px-4 my-2">
-      <div class="bg-white rounded shadow-sm p-3 row">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/biceps.jpg" />
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-10">
-              <p><strong><u>Triceps</u></strong></p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-pencil"></i>
-              <i class="fa-solid fa-trash-can"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Fin categoría -->
-
-    <!-- Barra inferior -->
-    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
-    <!-- Fin  barra inferior -->
+    <!-- Fin de categorías -->
     
-    <script src="js/index.js"></script>
-    <script src="js/db.js"></script>
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script src="js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script src="js/index.js"></script> -->
+    <!-- <script src="js/db.js"></script> -->
     <script src="js/bootstrap.js"></script>
     <script>
-      var db = window.sqlitePlugin.openDatabase({ name: 'gimnasiodb.db',location: 'default',androidDatabaseProvider: 'system'});
-      db.transaction(function (transaction) {
-        transaction.executeSql('SELECT * FROM GRUPO_MUSCULAR', [], function (tx, results) {
-            var len = results.rows.length, i;
-            if(len == 0){
-              $("#categorias").append('<p>No hay categorías</p>');
-            }else{
-              for (i = 0; i < len; i++) {
-                  // $("#categorias").append("<tr><td>" + results.rows.item(i).Id + "</td><td>" + results.rows.item(i).FirstName + "</td><td>" + results.rows.item(i).LastName + "</td><td><a class='edit' href='#' id='edit_" + results.rows.item(i).Id + "'>Edit</a> &nbsp;&nbsp; <a class='delete' href='#' id='" + results.rows.item(i).Id + "'>Delete</a></td></tr>");
-                  // <div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pierna.jpg" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>Pierna</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>
-                  // '<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' + results.row.item(i).imagen + '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' + results.rows.item(i).nombre + '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>'
-                  $("#categorias").append('<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' + results.row.item(i).imagen + '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' + results.rows.item(i).nombre + '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>');
+      document.addEventListener(
+        "deviceready",
+        () => {
+          try {
+            const db = window.sqlitePlugin.openDatabase({
+              name: "gimnasiodb.db",
+              location: "default",
+              androidDatabaseProvider: "system",
+            });
+            console.log(db);
+            db.transaction(function (transaction) {
+              try {
+                transaction.executeSql(
+                  "SELECT * FROM GRUPO_MUSCULAR",
+                  [],
+                  function (tx, results) {
+                    console.log("Estoy aqui!");
+                    let len = results.rows.length;
+                    console.log(len);
+                    if (len == 0) {
+                      $("#categorias").append("<p>No hay categorías</p>");
+                    } else {
+                      console.log(results);
+                      for (let i = 0; i < len; i++) {
+                        // $("#categorias").append("<tr><td>" + results.rows.item(i).Id + "</td><td>" + results.rows.item(i).FirstName + "</td><td>" + results.rows.item(i).LastName + "</td><td><a class='edit' href='#' id='edit_" + results.rows.item(i).Id + "'>Edit</a> &nbsp;&nbsp; <a class='delete' href='#' id='" + results.rows.item(i).Id + "'>Delete</a></td></tr>");
+                        // <div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="img/grupo_muscular/pierna.jpg" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>Pierna</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>
+                        // '<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' + results.row.item(i).imagen + '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' + results.rows.item(i).nombre + '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>'
+                        $("#categorias").append(
+                          '<div class="px-4 my-2"><div class="bg-white rounded shadow-sm p-3 row"><div class="col-4"><img class="rounded-circle shadow img-fluid" src="' +
+                            results.row.item(i).imagen +
+                            '" /></div><div class="col-8"><div class="row"><div class="col-10"><p><strong><u>' +
+                            results.rows.item(i).nombre +
+                            '</u></strong></p></div><div class="col-2"><i class="fa-solid fa-pencil"></i><i class="fa-solid fa-trash-can"></i></div></div></div></div></div>'
+                        );
+                        // let data = $("<div>", {
+                        //   id: "dfdjfdsf",
+                        //   class: "fjkdfsf",
+                        //   html: "fdffsfsfs"
+                        // });
+                      }
+                    }
+                  },
+                  (error) => {
+                    console.log(error.message);
+                  }
+                );
+              } catch (e) {
+                console.log(e);
               }
-            }
-        }, null);
-      });
+            },(error) => {
+              console.log(error);
+            });
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        },
+        false
+      );
     </script>
   </body>
 </html>
