@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+
+    <!-- Modal nueva categoría -->
+    <div class="modal fade" id="modalCCategoria" tabindex="-1" aria-labelledby="modalCCategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalCCategoriaLabel">
+              Crear categoría
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
+            </div>
+            <div class="input-group flex-nowrap mb-2">
+              <span class="input-group-text">Color</span>
+              <input type="color" class="form-control form-control-color" name="color" id="color" />
+            </div>
+            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
+            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal nueva categoría -->
+
+    <!-- Modal editar categoría -->
+    <div class="modal fade" id="modalUCategoria" tabindex="-1" aria-labelledby="modalUCategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalUCategoriaLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
+            </div>
+            <div class="input-group flex-nowrap mb-2">
+              <span class="input-group-text">Color</span>
+              <input type="color" class="form-control form-control-color" name="color" id="color" />
+            </div>
+            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
+            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Actualizar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal nueva categoría -->
+
+    <!-- Categorías -->
+    <div id="categorias" class="mb-5">
+      <!-- Categoría -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 row align-items-center">
+            <div class="col-4">
+                <img class="rounded-circle shadow img-fluid" src=grupo_muscular.imagen />
+            </div>
+            <div class="col-8">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p><strong><u>grupo_muscular.nombre</u></strong></p>
+                        <button class="btn btn-primary" id="grupo.muscular.ID"><i class="fa-solid fa-dumbbell"></i></button>
+                        <button data-bs-toggle="modal" data-bs-target="#modalUCategoria" data-bs-categoria="grupo_muscular.ID" class="btn btn-secondary"><i class="fa-solid fa-pencil"></i></button>
+                        <button data-bs-toggle="modal" data-bs-target="#modalDCategoria" data-bs-categoria="grupo_muscular.ID" class="btn btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Fin categoría -->
+    </div>
+    <!-- Fin de categorías -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script src="js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script src="js/index.js"></script> -->
+    <!-- <script src="js/db.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+    <script>
+        const db = window.sqlitePlugin.openDatabase({
+            name: 'gimnasio.db',
+            location: 'default',
+            androidDatabaseProvider: 'system'
+        });
+        const modalUCategoria = document.getElementById('modalUCategoria')
+        modalUCategoria.addEventListener('show.bs.modal', event => {
+            const boton = event.relatedTarget
+            const categoria = boton.getAttribute('data-bs-nCategoria')
+            db.transaction(function(tx) {
+                tx.executeSql('SELECT * FROM GRUPO_MUSCULAR WHERE ID = ' + categoria, [], function(tx, rs) {
+                    modalUCategoria.querySelector('.modal-title').textContent = rs.rows.item(0).nombre
+            });
+        });
+        })
+    </script>
+  </body>
+</html>

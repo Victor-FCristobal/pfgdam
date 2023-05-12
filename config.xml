@@ -12,4 +12,5 @@
         <preference name="android-targetSdkVersion" value="32"/>
     </platform>
     <preference name="orientation" value="portrait" />
+    <access origin="cdvfile://*" />
 </widget>

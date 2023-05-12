@@ -339,20 +339,7 @@
     <!-- Fin  barra inferior -->
   
     <script src="js/index.js"></script>
-    <!-- <script src="js/db.js"></script> -->
     <script src="js/bootstrap.js"></script>
     <script src="js/modal.js"></script>
-
-    <script>
-document.addEventListener('deviceready', function() {
-  var db = window.sqlitePlugin.openDatabase({name: 'test.db', location: 'default'});
-  db.transaction(function(tr) {
-    tr.executeSql("SELECT upper('Test string') AS upperString", [], function(tr, rs) {
-      console.log('Got upperString result: ' + rs.rows.item(0).upperString);
-    });
-  });
-});
-console.log('Prueba');
-    </script>
   </body>
 </html>

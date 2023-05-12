@@ -1,249 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" href="css/fontawesome.css">
-        <link rel="stylesheet" href="css/solid.css">
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/index.css">
-    </head>
-    <body class="bg-light">
-      <!-- Barra superior -->
-      <div class="sticky-top bg-primary d-flex p-2">
+  <head>
+      <meta charset="utf-8">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="msapplication-tap-highlight" content="no">
+      <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+      <link rel="stylesheet" href="css/fontawesome.css">
+      <link rel="stylesheet" href="css/solid.css">
+      <link rel="stylesheet" href="css/bootstrap.css">
+      <link rel="stylesheet" href="css/index.css">
+      <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
         <p class="m-2 h4"><a href="categorias.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
       </div>
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/sentadilla_libre.gif" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Sentadilla libre</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-pencil"></i>
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCEjercicio" class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalCEjercicio" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
       </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/curl_biceps.gif" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Curl de bíceps</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="h-25 bg-calentamiento rounded-pill"></div>
-                <p>20KG</p>
-                <p>12REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                <p>60KG</p>
-                <p>10REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                <p>80KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                <p>100KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="2" class="btn"><i class="fas fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Peso muerto</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="h-25 bg-calentamiento rounded-pill"></div>
-                <p>20KG</p>
-                <p>12REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                <p>60KG</p>
-                <p>10REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                <p>80KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                <p>100KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="3" class="btn"><i class="fas fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Peso muerto</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="h-25 bg-calentamiento rounded-pill"></div>
-                <p>20KG</p>
-                <p>12REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                <p>60KG</p>
-                <p>10REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                <p>80KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                <p>100KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="4" class="btn"><i class="fas fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-          <div class="col-4">
-              <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
-          </div>
-          <div class="col-8">
-            <div class="row">
-              <div class="col-10">
-                <p><strong><u>Peso muerto</u></strong></p>
-              </div>
-              <div class="col-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="h-25 bg-calentamiento rounded-pill"></div>
-                <p>20KG</p>
-                <p>12REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                <p>60KG</p>
-                <p>10REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                <p>80KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                <p>100KG</p>
-                <p>8REP</p>
-              </div>
-              <div class="col-3 d-flex flex-column justify-content-center">
-                <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="5" class="btn"><i class="fas fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin ejercicio -->
+    </div>
+    <!-- Fin barra superior -->
+    
+    <div id="ejercicios"></div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalSet" tabindex="-1" aria-labelledby="modalSetLabel" aria-hidden="true">
+    <!-- Modal nuevo ejercicio -->
+    <div class="modal fade" id="modalCEjercicio" tabindex="-1" aria-labelledby="modalCEjercicioLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalSetLabel">Modal title</h1>
+            <h1 class="modal-title fs-5" id="modalCEjercicioLabel">Crear ejercicio</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-              <label>KG</label>
-              <input type="numeric" focus name="valor1">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" autofocus placeholder="Nombre del ejercicio:" name="nombre" id="nombre" />
             </div>
-            <div class="form-group">
-              <label>REP</label>
-              <input type="numeric" name="valor2">
-            </div>
-            <div class="row">
-              <p>Calentamiento</p>
-              <p>Fácil</p>
-              <p>Normal</p>
-              <p>Difícil</p>
-            </div>
-          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary">Guardar</button>
           </div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Fin modal nuevo ejercicio -->
+
+    <!-- Modal editar ejercicio -->
+    <div class="modal fade" id="modalUEjercicio" tabindex="-1" aria-labelledby="modalUEjercicioLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalUEjercicioLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
+            </div>
+            <div class="input-group flex-nowrap mb-2">
+              <span class="input-group-text">Color</span>
+              <input type="color" class="form-control form-control-color" name="color" id="color" />
+            </div>
+            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
+            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Actualizar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal editar ejercicio -->
+
+    <!-- Modal borrar ejercicio -->
+    <div class="modal fade" id="modalDEjercicio" tabindex="-1" aria-labelledby="modalDEjercicioLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalDEjercicioLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>¡Se eliminará el ejercicio!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal borrar ejercicio -->
 
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
@@ -251,8 +102,195 @@
     <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
     
-    <script src="js/index.js"></script>
-    <script src="js/db.js"></script>
+    <!-- <script src="js/index.js"></script> -->
+    <!-- <script src="js/db.js"></script> -->
     <script src="js/bootstrap.js"></script>
+    <script>
+      document.addEventListener('deviceready', function() {
+        let db = window.sqlitePlugin.openDatabase({
+          name: 'gimnasio.db',
+          location: 'default',
+          androidDatabaseProvider: 'system'
+        });
+        db.transaction(function(tx){
+          tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO` (ID INTEGER,nombre TEXT NOT NULL,favorito INTEGER NOT NULL DEFAULT 0,metrica INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_METRICA(ID),tipo INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_TIPO(ID),imagen TEXT,oculto INTEGER,FOREIGN KEY(metrica) REFERENCES EJERCICIO_METRICA(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(tipo) REFERENCES EJERCICIO_TIPO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,PRIMARY KEY(ID AUTOINCREMENT))');
+        });
+        db.transaction(function(tx){
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (1,"Apertura abductores",0,1,2,"img/ejercicios/abductores.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (2,"Apertura aductores",0,1,2,"img/ejercicios/aductores.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (3,"Buenos días",0,1,2,"img/ejercicios/buenos_dias.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (4,"Sentadilla búlgara",0,1,2,"img/ejercicios/bulgara.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (5,"Sentadilla búlgara con kettlebell",0,1,2,"img/ejercicios/bulgara_kettlebell.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (6,"cable-cross-over.gif",0,1,2,"img/ejercicios/cable-cross-over.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (7,"Curl de bíceps",0,1,2,"img/ejercicios/curl_biceps.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (8,"Curl de bíceps alternado",0,1,2,"img/ejercicios/curl_biceps_alternado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (9,"Curl de bíceps con barra EZ",0,1,2,"img/ejercicios/curl_biceps_barra_ez.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (10,"Curl de bíceps concentrado",0,1,2,"img/ejercicios/curl_biceps_concentrado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (11,"Curl de bíceps con mancuernas",0,1,2,"img/ejercicios/curl_biceps_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (12,"Curl de bíceps inclinado",0,1,2,"img/ejercicios/curl_biceps_mancuerna_inclinado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (13,"Curl de bíceps en máquina",0,1,2,"img/ejercicios/curl_biceps_maquina.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (14,"Curl de bíceps en polea",0,1,2,"img/ejercicios/curl_biceps_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (15,"Curl femoral de pie",0,1,2,"img/ejercicios/curl_femoral_de_pie.png",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (16,"Curl femoral sentado",0,1,2,"img/ejercicios/curl_femoral_sentado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (17,"Curl femoral tumbado",0,1,2,"img/ejercicios/curl_femoral_tumbado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (18,"Curl martillo",0,1,2,"img/ejercicios/curl_martillo.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (19,"Curl martillo alternado",0,1,2,"img/ejercicios/curl_martillo_alternado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (20,"Curl martillo inclinado",0,1,2,"img/ejercicios/curl_martillo_inclinado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (21,"Curl martillo en polea",0,1,2,"img/ejercicios/curl_martillo_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (22,"Curl predicador",0,1,2,"img/ejercicios/curl_predicador.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (23,"Curl predicador con barra EZ",0,1,2,"img/ejercicios/curl_predicador_barra_ez.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (24,"Curl predicador en polea",0,1,2,"img/ejercicios/curl_predicador_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (25,"Curl zottman",0,1,2,"img/ejercicios/curl_zottman.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (26,"Dominada chin-up",0,1,2,"img/ejercicios/dominada_chin_up.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (27,"Dominada pull-up",0,1,2,"img/ejercicios/dominada_pull_up.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (28,"Dominada pull-up asistida",0,1,2,"img/ejercicios/dominada_pull_up_asistida.png",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (29,"Dominada pull-up con peso",0,1,2,"img/ejercicios/dominada_pull_up_peso.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (30,"Elevaciones laterales con mancuerna",0,1,2,"img/ejercicios/elevaciones_laterales_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (31,"Extensión de cuádriceps",0,1,2,"img/ejercicios/extension_cuadriceps.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (32,"Extensión de triceps con mancuerna",0,1,2,"img/ejercicios/extension_triceps_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (33,"Extensión de tríceps en polea",0,1,2,"img/ejercicios/extension_triceps_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (34,"Flexiones",0,1,2,"img/ejercicios/flexion.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (35,"Flexiones inclinadas en banco",0,1,2,"img/ejercicios/flexion_banco.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (36,"Flexiones inclinadas en barras",0,1,2,"img/ejercicios/flexion_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (37,"Flexiones declinadas",0,1,2,"img/ejercicios/flexion_declinada.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (38,"Flexiones diamante",0,1,2,"img/ejercicios/flexion_diamante.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (39,"Fly con mancuerna",0,1,2,"img/ejercicios/fly_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (40,"Fly en máquina",0,1,2,"img/ejercicios/fly_maquina.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (41,"Fly en polea",0,1,2,"img/ejercicios/fly_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (42,"Fondos en banco",0,1,2,"img/ejercicios/fondos_banco.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (43,"Fondos en barras",0,1,2,"img/ejercicios/fondos_barras.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (44,"Frontales con mancuerna",0,1,2,"img/ejercicios/frontales_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (45,"Gemelo en máquina sentado",0,1,2,"img/ejercicios/gemelo.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (46,"Gemelo en máquina de pie",0,1,2,"img/ejercicios/maquina_gemelo.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (47,"Gemelo en prensa inclinada",0,1,2,"img/ejercicios/gemelo_prensa_inclinada.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (48,"Hex press",0,1,2,"img/ejercicios/hex_press.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (49,"Hip thrust",0,1,2,"img/ejercicios/hip_thrust_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (50,"Hip thrust con mancuernas",0,1,2,"img/ejercicios/hip_thrust_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (51,"Hip thrust una pierna con mancuernas",0,1,2,"img/ejercicios/hip_thrust_mancuerna_una_pierna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (52,"Jaca",0,1,2,"img/ejercicios/jaca.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (53,"Jaca reversa",0,1,2,"img/ejercicios/jaca_reversa.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (54,"Jalón a la cara",0,1,2,"img/ejercicios/jalon_cara_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (55,"Jalón al pecho",0,1,2,"img/ejercicios/jalon_pecho.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (56,"Jalón al pecho agarre V",0,1,2,"img/ejercicios/jalon_pecho_agarre_v.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (57,"Jalón un brazo",0,1,2,"img/ejercicios/jalon_un_brazo.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (58,"Patada de burro",0,1,2,"img/ejercicios/patada_burro.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (59,"Patada de tríceps en polea",0,1,2,"img/ejercicios/patada_triceps_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (60,"Pec deck",0,1,2,"img/ejercicios/pec_deck.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (61,"Peso muerto",0,1,2,"img/ejercicios/peso_muerto.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (62,"Peso muerto con mancuernas",0,1,2,"img/ejercicios/peso_muerto_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (63,"Peso muerto rumano",0,1,2,"img/ejercicios/peso_muerto_rumano.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (64,"Peso muerto con mancuernas",0,1,2,"img/ejercicios/peso_muerto_rumano_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (65,"Peso muerto sumo",0,1,2,"img/ejercicios/peso_muerto_sumo.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (66,"Prensa inclinada",0,1,2,"img/ejercicios/prensa_inclinada.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (67,"Prensa inclinada una pierna",0,1,2,"img/ejercicios/prensa_inclinada_una_pierna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (68,"Press banca",0,1,2,"img/ejercicios/press_banca_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (69,"Press banca inclinado",0,1,2,"img/ejercicios/press_banca_inclinado_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (70,"Press banca agarre cerrado",0,1,2,"img/ejercicios/press_banca_barra_cerrado.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (71,"Press banca declinado con mancuernas",0,1,2,"img/ejercicios/press_banca_declinado_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (72,"Press banca inclinado con mancuernas",0,1,2,"img/ejercicios/press_banca_inclinado_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (73,"Press cubano con mancuernas",0,1,2,"img/ejercicios/press_cubano_mancuernas.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (74,"Press militar",0,1,2,"img/ejercicios/press_militar_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (75,"Press pecho en máquina",0,1,2,"img/ejercicios/press_pecho.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (76,"Ranita",0,1,2,"img/ejercicios/ranita.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (77,"Remo con barra",0,1,2,"img/ejercicios/remo_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (78,"Remo con barra T",0,1,2,"img/ejercicios/remo_barra_t.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (79,"Remo con mancuerna",0,1,2,"img/ejercicios/remo_mancuerna.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (80,"Remo en máquina",0,1,2,"img/ejercicios/remo_maquina.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (81,"Remo en polea",0,1,2,"img/ejercicios/remo_polea.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (82,"Remo en polea de pie",0,1,2,"img/ejercicios/remo_polea_depie.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (83,"Sentadilla libre",0,1,2,"img/ejercicios/sentadilla_libre.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (84,"Sentadilla frontal",0,1,2,"img/ejercicios/sentadilla_frontal.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (85,"Sentadilla pistola",0,1,2,"img/ejercicios/sentadilla_pistola.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (86,"Sentadilla smith",0,1,2,"img/ejercicios/sentadilla_smith.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (87,"Sentadilla sumo con kettlebell",0,1,2,"img/ejercicios/sentadilla_sumo_kettlebell.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (88,"Sentadilla una pierna",0,1,2,"img/ejercicios/sentadilla_unilateral.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (89,"Tríceps en polea con barra rígida",0,1,2,"img/ejercicios/triceps_polea_barra.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (90,"Tríceps en polea con barra EZ",0,1,2,"img/ejercicios/triceps_polea_barra_ez.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (91,"Tríceps en polea con barra V",0,1,2,"img/ejercicios/triceps_polea_barra_v.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (92,"Tríceps en polea con cuerda",0,1,2,"img/ejercicios/triceps_polea_cuerda.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (93,"Tríceps en polea con cuerda tras nuca",0,1,2,"img/ejercicios/triceps_polea_tras_nuca.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (94,"tuck-crunch.gif",0,1,2,"img/ejercicios/tuck-crunch.gif",0)');
+          tx.executeSql('INSERT INTO `EJERCICIO` VALUES (95,"Zancada con mancuernas",0,1,2,"img/ejercicios/zancada_mancuernas.gif",0)');
+        });
+        db.transaction(function(tx) {
+          tx.executeSql('SELECT * FROM EJERCICIO', [], function(tx, rs) {
+            for (let i = 0; i < rs.rows.length; i++) {
+                let ejercicio = rs.rows.item(i);
+                const div1 = document.createElement("div");
+                div1.className = "px-4 my-2";
+
+                const div2 = document.createElement("div");
+                div2.className = "bg-white rounded shadow-sm p-3 row align-items-center";
+
+                const div3 = document.createElement("div");
+                div3.className = "col-4";
+
+                const img = document.createElement("img");
+                img.className = "rounded-circle shadow img-fluid";
+                img.src = ejercicio.imagen;
+
+                const div4 = document.createElement("div");
+                div4.className = "col-8";
+
+                const div5 = document.createElement("div");
+                div5.className = "row align-items-center";
+
+                const div6 = document.createElement("div");
+                div6.className = "col-12";
+
+                const p = document.createElement("p");
+                p.innerHTML = "<strong><u>" + ejercicio.nombre + "</u></strong>";
+
+                const btn1 = document.createElement("button");
+                btn1.className = "btn m-1 btn-primary";
+                btn1.id = ejercicio.ID;
+                const i1 = document.createElement("i");
+                i1.className = "fa-solid fa-info-circle";
+                btn1.appendChild(i1);
+
+                const btn2 = document.createElement("button");
+                btn2.className = "btn m-1 btn-primary";
+                btn2.id = ejercicio.ID;
+                const i2 = document.createElement("i");
+                i2.className = "fa-solid fa-chart-line";
+                btn2.appendChild(i2);
+
+                const btn3 = document.createElement("button");
+                btn3.className = "btn m-1 btn-secondary";
+                btn3.id = ejercicio.ID;
+                btn3.dataset.bsToggle = "modal";
+                btn3.dataset.bsTarget = "#modalUEjercicio";
+                btn3.dataset.bsEjercicio = ejercicio.ID;
+                const i3 = document.createElement("i");
+                i3.className = "fa-solid fa-pencil";
+                btn3.appendChild(i3);
+
+                const btn4 = document.createElement("button");
+                btn4.className = "btn m-1 btn-secondary";
+                btn4.id = ejercicio.ID;
+                btn4.dataset.bsToggle = "modal";
+                btn4.dataset.bsTarget = "#modalDEjercicio";
+                btn4.dataset.bsEjercicio = ejercicio.ID;
+                const i4 = document.createElement("i");
+                i4.className = "fa-solid fa-trash-can";
+                btn4.appendChild(i4);
+
+                div6.appendChild(p);
+                div6.appendChild(btn1);
+                div6.appendChild(btn2);
+                div6.appendChild(btn3);
+                div6.appendChild(btn4);
+                div5.appendChild(div6);
+                div4.appendChild(div5);
+                div3.appendChild(img);
+                div2.appendChild(div3);
+                div2.appendChild(div4);
+                div1.appendChild(div2);
+                document.getElementById("ejercicios").appendChild(div1);
+            }
+          });
+        });
+      }, false);
+    </script>
   </body>
 </html>
