@@ -98,7 +98,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Eliminar</button>
+            <button type="button" class="btn btn-primary"><a id="eliminar" href="categorias.html?eliminar">Eliminar</a></button>
           </div>
         </div>
       </div>
@@ -121,29 +121,30 @@
     <!-- Fin  barra inferior -->
 
     <!-- <script src="js/index.js"></script> -->
-    <!-- <script src="js/db.js"></script> -->
+    <script src="js/db.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
+      const modalDCategoria = document.getElementById('modalDCategoria')
+      modalDCategoria.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const boton = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const idCategoria = boton.getAttribute('data-bs-categoria')
+        db.transaction(function(tx) {
+          tx.executeSql('SELECT nombre FROM GRUPO_MUSCULAR WHERE ID = ' + idCategoria, [], function(tx, rs) {
+            const nombreCategoria = rs.rows.item(0).nombre;
+          });
+        });
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        const modalTitle = modalDCategoria.querySelector('.modal-title')
+        modalTitle.textContent = 'Categoría ' + idCategoria + ', ' + nombreCategoria;
+      });
       document.addEventListener('deviceready', function() {
-        const db = window.sqlitePlugin.openDatabase({
-          name: 'gimnasiodb.db',
-          location: 'default',
-          androidDatabaseProvider: 'system'
-        });
-        db.transaction(function(tx){
-          tx.executeSql('CREATE TABLE IF NOT EXISTS `GRUPO_MUSCULAR` (ID INTEGER,nombre TEXT NOT NULL,dias_recuperacion INTEGER NOT NULL,color TEXT NOT NULL,imagen TEXT,PRIMARY KEY(ID AUTOINCREMENT))');
-        });
-        db.transaction(function(tx){
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (1,"Pecho",3,"00FF00","img/grupo_muscular/pecho.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (2,"Bíceps",2,"FF0000","img/grupo_muscular/biceps.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (3,"Espalda",3,"0000FF","img/grupo_muscular/espalda.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (4,"Piernas",3,"BAA204","img/grupo_muscular/pierna.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (5,"Hombros",2,"1D91AB","img/grupo_muscular/hombros.png")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (6,"Triceps",2,"C97600","img/grupo_muscular/biceps.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (7,"Abdominales",2,"9304CC","img/grupo_muscular/abs.jpg")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (8,"Cardio",1,"AB0325","img/grupo_muscular/cardio.png")');
-          tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (9,"Otros",1,"9C9C9C","img/grupo_muscular/pecho.jpg")');
-        });
+        const db = conexion();
+        crearCategorias();
         db.transaction(function(tx) {
           tx.executeSql('SELECT * FROM GRUPO_MUSCULAR', [], function(tx, rs) {
             for (let i = 0; i < rs.rows.length; i++) {
@@ -180,9 +181,12 @@
                 const button1 = document.createElement('button');
                 button1.classList.add('btn', 'btn-primary', 'm-1');
                 button1.id = grupo_muscular.ID;
+                const link = document.createElement('a');
+                link.href = `ejercicios.html?grupo_muscular=${grupo_muscular.ID}`;
                 const i1 = document.createElement('i');
                 i1.classList.add('fa-solid', 'fa-dumbbell');
-                button1.appendChild(i1);
+                link.appendChild(i1);
+                button1.appendChild(link);
 
                 const button2 = document.createElement('button');
                 button2.classList.add('btn', 'btn-secondary', 'm-1');
