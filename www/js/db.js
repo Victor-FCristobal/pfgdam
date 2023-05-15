@@ -152,3 +152,16 @@ function crearEjercicios(){
         tx.executeSql('INSERT INTO `EJERCICIO` VALUES (95,"Zancada con mancuernas",0,1,2,"img/ejercicios/zancada_mancuernas.gif",0,4)');
       });
 }
+function getCategorias(condicion = ""){
+  const db = conexion();
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx) {
+      tx.executeSql('SELECT * FROM GRUPO_MUSCULAR ' + condicion, [], function(tx, rs) {
+        resolve(rs);
+      },function(err){
+        reject(err);
+      });
+    });
+  });
+
+}
