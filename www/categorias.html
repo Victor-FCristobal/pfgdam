@@ -16,13 +16,19 @@
   </head>
   <body class="bg-light">
     <!-- Barra superior -->
-    <div class="sticky-top bg-primary d-flex p-2">
+    <div class="sticky-top bg-primary d-flex flex-wrap p-2">
       <div class="col-6">
         <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
       </div>
       <div class="text-end col-6">
-        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
+        <button id="buscar" class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
         <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+      <div id="busqueda" class="input-group sticky-top my-2 px-4" style="display:none">
+        <div class="input-group-prepend">
+          <span class="input-group-text bg-primary" id="basic-text1"><i class="fas fa-search text-white" aria-hidden="true"></i></span>
+        </div>
+        <input class="form-control py-1" id="search_text" type="text" placeholder="Buscar categoría" aria-label="Search">
       </div>
     </div>
     <!-- Fin barra superior -->
@@ -124,6 +130,8 @@
     <!-- <script src="js/index.js"></script> -->
     <script src="js/db.js"></script>
     <script src="js/bootstrap.js"></script>
+    <!-- <script src="js/jquery-3.7.0.slim.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         const db = conexion();
@@ -138,8 +146,9 @@
           const modalLink = modalDCategoria.querySelector('#eliminar')
           modalLink.href = "categorias.html?eliminar=" +idCategoria;
         });
+        const urlParams = new URLSearchParams(window.location.search);
+        borrarCategoria(urlParams.get('eliminar'));
         let grupos_musculares = await getCategorias();
-        console.log(grupos_musculares);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);
           const div1 = document.createElement('div');
@@ -201,6 +210,11 @@
           document.getElementById("categorias").appendChild(div1);
         }
       }, false);
+      $(document).ready(function(){
+        $("#buscar").on( "click", function() {
+          $("#busqueda").slideToggle("fast");
+        })
+      });
     </script>
   </body>
 </html>

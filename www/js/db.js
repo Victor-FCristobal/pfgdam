@@ -165,3 +165,11 @@ function getCategorias(condicion = ""){
   });
 
 }
+function borrarCategoria(categoria){
+  const db = conexion();
+  db.transaction(function(tx){
+    tx.executeSql('DELETE FROM GRUPO_MUSCULAR WHERE ID = ', [categoria],function(tx,rs){
+      
+    })
+  })
+}
