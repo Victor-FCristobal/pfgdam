@@ -135,12 +135,17 @@
     <script>
       document.addEventListener('deviceready', async function() {
         const db = conexion();
-        crearCategorias();
+        await crearTablas();
+        let grupos_musculares = await getCategorias();
+        if(grupos_musculares.rows.length == 0){
+          console.log('Inserto las categorías porque grupos_musculares.rows.length es: ' + grupos_musculares.rows.length);
+          insertarCategorias();
+        }
         const modalDCategoria = document.getElementById('modalDCategoria')
         modalDCategoria.addEventListener('show.bs.modal', async event => {
           const boton = event.relatedTarget
           const idCategoria = boton.getAttribute('data-bs-categoria')
-          const categoria = await getCategorias(` WHERE ID =  + ${idCategoria}`);
+          const categoria = await getCategorias(`WHERE ID =  + ${idCategoria}`);
           const modalTitle = modalDCategoria.querySelector('.modal-title')
           modalTitle.textContent = categoria.rows.item(0).nombre;
           const modalLink = modalDCategoria.querySelector('#eliminar')
@@ -148,7 +153,7 @@
         });
         const urlParams = new URLSearchParams(window.location.search);
         borrarCategoria(urlParams.get('eliminar'));
-        let grupos_musculares = await getCategorias();
+        grupos_musculares = await getCategorias();
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);
           const div1 = document.createElement('div');

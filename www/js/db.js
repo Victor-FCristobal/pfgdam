@@ -1,16 +1,22 @@
 function conexion(){
     const db = window.sqlitePlugin.openDatabase({
-        name: 'gimnasio.db',
+        name: 'gimnasiodb.db',
         location: 'default',
         androidDatabaseProvider: 'system'
       });
     return db;
 }
-function crearMetricas(){
+function crearTablas(){
   const db = conexion();
   db.transaction(function(tx){
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_TIPO` (ID INTEGER,tipo TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_METRICA` (ID INTEGER NOT NULL,metrica TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `GRUPO_MUSCULAR` (ID INTEGER,nombre TEXT NOT NULL,dias_recuperacion INTEGER NOT NULL,color TEXT NOT NULL,imagen TEXT,PRIMARY KEY(ID AUTOINCREMENT))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO` (ID INTEGER,nombre TEXT NOT NULL,favorito INTEGER NOT NULL DEFAULT 0,metrica INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_METRICA(ID),tipo INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_TIPO(ID),imagen TEXT,oculto INTEGER, grupo_muscular INTEGER NOT NULL REFERENCES GRUPO_MUSCULAR(ID), FOREIGN KEY(metrica) REFERENCES EJERCICIO_METRICA(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(tipo) REFERENCES EJERCICIO_TIPO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(grupo_muscular) REFERENCES GRUPO_MUSCULAR(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
   });
+}
+function insertarMetricas(){
+  const db = conexion();
   db.transaction(function(tx){
     tx.executeSql('INSERT INTO `EJERCICIO_METRICA` VALUES (1,"Peso y repeticiones")');
     tx.executeSql('INSERT INTO `EJERCICIO_METRICA` VALUES (2,"Tiempo y distancia")');
@@ -18,11 +24,8 @@ function crearMetricas(){
     tx.executeSql('INSERT INTO `EJERCICIO_METRICA` VALUES (4,"Tiempo y repeticiones")');
   });
 }
-function crearTipos(){
+function insertarTipos(){
   const db = conexion();
-  db.transaction(function(tx){
-    tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_TIPO` (ID INTEGER,tipo TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
-  });
   db.transaction(function(tx){
     tx.executeSql('INSERT INTO `EJERCICIO_TIPO` VALUES (1,"Propio peso")');
     tx.executeSql('INSERT INTO `EJERCICIO_TIPO` VALUES (2,"Barra")');
@@ -32,11 +35,8 @@ function crearTipos(){
     tx.executeSql('INSERT INTO `EJERCICIO_TIPO` VALUES (6,"Otro")');
   });
 }
-function crearCategorias(){
+function insertarCategorias(){
   const db = conexion();
-  db.transaction(function(tx){
-      tx.executeSql('CREATE TABLE IF NOT EXISTS `GRUPO_MUSCULAR` (ID INTEGER,nombre TEXT NOT NULL,dias_recuperacion INTEGER NOT NULL,color TEXT NOT NULL,imagen TEXT,PRIMARY KEY(ID AUTOINCREMENT))');
-    });
   db.transaction(function(tx){
       tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (1,"Pecho",3,"00FF00","img/grupo_muscular/pecho.jpg")');
       tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (2,"Bíceps",2,"FF0000","img/grupo_muscular/biceps.jpg")');
@@ -47,13 +47,36 @@ function crearCategorias(){
       tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (7,"Abdominales",2,"9304CC","img/grupo_muscular/abs.jpg")');
       tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (8,"Cardio",1,"AB0325","img/grupo_muscular/cardio.png")');
       tx.executeSql('INSERT INTO `GRUPO_MUSCULAR` VALUES (9,"Otros",1,"9C9C9C","img/grupo_muscular/pecho.jpg")');
-  });
+  })
 }
-function crearEjercicios(){
+async function crearCategorias1(){
+  const db = conexion();
+  let categorias = await getCategorias()
+  console.log(categorias);
+  if(categorias.rows.length == 0){
+    db.sqlBatch([
+      'CREATE TABLE IF NOT EXISTS `GRUPO_MUSCULAR` (ID INTEGER,nombre TEXT NOT NULL,dias_recuperacion INTEGER NOT NULL,color TEXT NOT NULL,imagen TEXT,PRIMARY KEY(ID AUTOINCREMENT))',
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (1,"Pecho",3,"00FF00","img/grupo_muscular/pecho.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (2,"Bíceps",2,"FF0000","img/grupo_muscular/biceps.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (3,"Espalda",3,"0000FF","img/grupo_muscular/espalda.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (4,"Piernas",3,"BAA204","img/grupo_muscular/pierna.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (5,"Hombros",2,"1D91AB","img/grupo_muscular/hombros.png")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (6,"Triceps",2,"C97600","img/grupo_muscular/biceps.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (7,"Abdominales",2,"9304CC","img/grupo_muscular/abs.jpg")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (8,"Cardio",1,"AB0325","img/grupo_muscular/cardio.png")'],
+      ['INSERT INTO `GRUPO_MUSCULAR` VALUES (9,"Otros",1,"9C9C9C","img/grupo_muscular/pecho.jpg")']
+    ],function(){
+      console.log('Tabla y registros creados correctamente');
+    },function(error){
+      console.log('Error' + error.message);
+    });
+  }
+  else{
+    console.log('Ya existen categorías');
+  }
+}
+function insertarEjercicios(){
     const db = conexion();
-    db.transaction(function(tx){
-        tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO` (ID INTEGER,nombre TEXT NOT NULL,favorito INTEGER NOT NULL DEFAULT 0,metrica INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_METRICA(ID),tipo INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_TIPO(ID),imagen TEXT,oculto INTEGER, grupo_muscular INTEGER NOT NULL REFERENCES GRUPO_MUSCULAR(ID), FOREIGN KEY(metrica) REFERENCES EJERCICIO_METRICA(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(tipo) REFERENCES EJERCICIO_TIPO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(grupo_muscular) REFERENCES GRUPO_MUSCULAR(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
-      });
     db.transaction(function(tx){
         tx.executeSql('INSERT INTO `EJERCICIO` VALUES (1,"Apertura abductores",0,1,2,"img/ejercicios/abductores.gif",0,4)');
         tx.executeSql('INSERT INTO `EJERCICIO` VALUES (2,"Apertura aductores",0,1,2,"img/ejercicios/aductores.gif",0,4)');
@@ -152,6 +175,18 @@ function crearEjercicios(){
         tx.executeSql('INSERT INTO `EJERCICIO` VALUES (95,"Zancada con mancuernas",0,1,2,"img/ejercicios/zancada_mancuernas.gif",0,4)');
       });
 }
+function getEjercicios(condicion = ""){
+  const db = conexion();
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM EJERCICIO ' + condicion, [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
 function getCategorias(condicion = ""){
   const db = conexion();
   return new Promise(function(resolve,reject){
@@ -163,13 +198,19 @@ function getCategorias(condicion = ""){
       });
     });
   });
-
 }
 function borrarCategoria(categoria){
   const db = conexion();
   db.transaction(function(tx){
-    tx.executeSql('DELETE FROM GRUPO_MUSCULAR WHERE ID = ', [categoria],function(tx,rs){
-      
-    })
+    tx.executeSql('DELETE FROM GRUPO_MUSCULAR WHERE ID = ?', [categoria],function (tx, res) {
+      console.log("removeId: " + res.insertId);
+      console.log("rowsAffected: " + res.rowsAffected);
+    },function (tx, error) {
+      console.log('DELETE error: ' + error.message);
+    });
+  }, function (error) {
+    console.log('transaction error: ' + error.message);
+  }, function () {
+    console.log('transaction ok');
   })
 }

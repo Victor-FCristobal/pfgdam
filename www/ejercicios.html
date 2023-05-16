@@ -113,93 +113,90 @@
     <script src="js/bootstrap.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
-      document.addEventListener('deviceready', function() {
+      document.addEventListener('deviceready', async function() {
         const db = conexion();
-        crearMetricas();
-        crearTipos();
-        crearCategorias();
-        crearEjercicios();
+        await crearTablas();
+        await insertarMetricas();
+        await insertarTipos();
+        await insertarEjercicios();
         const urlParams = new URLSearchParams(window.location.search);
         const grupo_muscular = urlParams.get('grupo_muscular');
-        db.transaction(function(tx) {
-          tx.executeSql('SELECT * FROM EJERCICIO WHERE GRUPO_MUSCULAR = ' + grupo_muscular, [], function(tx, rs) {
-            for (let i = 0; i < rs.rows.length; i++) {
-                let ejercicio = rs.rows.item(i);
-                const div1 = document.createElement("div");
-                div1.className = "px-4 my-2";
+        let ejercicios = await getEjercicios(`WHERE grupo_muscular = ${grupo_muscular}`);
+        for (let i = 0; i < ejercicios.rows.length; i++) {
+            let ejercicio = ejercicios.rows.item(i);
+            const div1 = document.createElement("div");
+            div1.className = "px-4 my-2";
 
-                const div2 = document.createElement("div");
-                div2.className = "bg-white rounded shadow-sm p-3 row align-items-center";
+            const div2 = document.createElement("div");
+            div2.className = "bg-white rounded shadow-sm p-3 row align-items-center";
 
-                const div3 = document.createElement("div");
-                div3.className = "col-4";
+            const div3 = document.createElement("div");
+            div3.className = "col-4";
 
-                const img = document.createElement("img");
-                img.className = "rounded-circle shadow img-fluid";
-                img.src = ejercicio.imagen;
+            const img = document.createElement("img");
+            img.className = "rounded-circle shadow img-fluid";
+            img.src = ejercicio.imagen;
 
-                const div4 = document.createElement("div");
-                div4.className = "col-8";
+            const div4 = document.createElement("div");
+            div4.className = "col-8";
 
-                const div5 = document.createElement("div");
-                div5.className = "row align-items-center";
+            const div5 = document.createElement("div");
+            div5.className = "row align-items-center";
 
-                const div6 = document.createElement("div");
-                div6.className = "col-12";
+            const div6 = document.createElement("div");
+            div6.className = "col-12";
 
-                const p = document.createElement("p");
-                p.innerHTML = "<strong><u>" + ejercicio.nombre + "</u></strong>";
+            const p = document.createElement("p");
+            p.innerHTML = "<strong><u>" + ejercicio.nombre + "</u></strong>";
 
-                const btn1 = document.createElement("button");
-                btn1.className = "btn m-1 btn-primary";
-                btn1.id = ejercicio.ID;
-                const i1 = document.createElement("i");
-                i1.className = "fa-solid fa-info-circle";
-                btn1.appendChild(i1);
+            const btn1 = document.createElement("button");
+            btn1.className = "btn m-1 btn-primary";
+            btn1.id = ejercicio.ID;
+            const i1 = document.createElement("i");
+            i1.className = "fa-solid fa-info-circle";
+            btn1.appendChild(i1);
 
-                const btn2 = document.createElement("button");
-                btn2.className = "btn m-1 btn-primary";
-                btn2.id = ejercicio.ID;
-                const i2 = document.createElement("i");
-                i2.className = "fa-solid fa-chart-line";
-                btn2.appendChild(i2);
+            const btn2 = document.createElement("button");
+            btn2.className = "btn m-1 btn-primary";
+            btn2.id = ejercicio.ID;
+            const i2 = document.createElement("i");
+            i2.className = "fa-solid fa-chart-line";
+            btn2.appendChild(i2);
 
-                const btn3 = document.createElement("button");
-                btn3.className = "btn m-1 btn-secondary";
-                btn3.id = ejercicio.ID;
-                btn3.dataset.bsToggle = "modal";
-                btn3.dataset.bsTarget = "#modalUEjercicio";
-                btn3.dataset.bsEjercicio = ejercicio.ID;
-                const i3 = document.createElement("i");
-                i3.className = "fa-solid fa-pencil";
-                btn3.appendChild(i3);
+            const btn3 = document.createElement("button");
+            btn3.className = "btn m-1 btn-secondary";
+            btn3.id = ejercicio.ID;
+            btn3.dataset.bsToggle = "modal";
+            btn3.dataset.bsTarget = "#modalUEjercicio";
+            btn3.dataset.bsEjercicio = ejercicio.ID;
+            const i3 = document.createElement("i");
+            i3.className = "fa-solid fa-pencil";
+            btn3.appendChild(i3);
 
-                const btn4 = document.createElement("button");
-                btn4.className = "btn m-1 btn-secondary";
-                btn4.id = ejercicio.ID;
-                btn4.dataset.bsToggle = "modal";
-                btn4.dataset.bsTarget = "#modalDEjercicio";
-                btn4.dataset.bsEjercicio = ejercicio.ID;
-                const i4 = document.createElement("i");
-                i4.className = "fa-solid fa-trash-can";
-                btn4.appendChild(i4);
+            const btn4 = document.createElement("button");
+            btn4.className = "btn m-1 btn-secondary";
+            btn4.id = ejercicio.ID;
+            btn4.dataset.bsToggle = "modal";
+            btn4.dataset.bsTarget = "#modalDEjercicio";
+            btn4.dataset.bsEjercicio = ejercicio.ID;
+            const i4 = document.createElement("i");
+            i4.className = "fa-solid fa-trash-can";
+            btn4.appendChild(i4);
 
-                div6.appendChild(p);
-                div6.appendChild(btn1);
-                div6.appendChild(btn2);
-                div6.appendChild(btn3);
-                div6.appendChild(btn4);
-                div5.appendChild(div6);
-                div4.appendChild(div5);
-                div3.appendChild(img);
-                div2.appendChild(div3);
-                div2.appendChild(div4);
-                div1.appendChild(div2);
-                document.getElementById("ejercicios").appendChild(div1);
-            }
-          });
-        });
-      }, false);
+            div6.appendChild(p);
+            div6.appendChild(btn1);
+            div6.appendChild(btn2);
+            div6.appendChild(btn3);
+            div6.appendChild(btn4);
+            div5.appendChild(div6);
+            div4.appendChild(div5);
+            div3.appendChild(img);
+            div2.appendChild(div3);
+            div2.appendChild(div4);
+            div1.appendChild(div2);
+            document.getElementById("ejercicios").appendChild(div1);
+        }
+      },false);
       $(document).ready(function(){
         $("#buscar").on( "click", function() {
           $("#busqueda").slideToggle("fast");
