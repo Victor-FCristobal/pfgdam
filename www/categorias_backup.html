@@ -26,83 +26,20 @@
     </div>
     <!-- Fin barra superior -->
 
-    <!-- Modal nueva categoría -->
-    <div class="modal fade" id="modalCCategoria" tabindex="-1" aria-labelledby="modalCCategoriaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalCCategoriaLabel">
-              Crear categoría
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
-            </div>
-            <div class="input-group flex-nowrap mb-2">
-              <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color" />
-            </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Fin modal nueva categoría -->
-
-    <!-- Modal editar categoría -->
-    <div class="modal fade" id="modalUCategoria" tabindex="-1" aria-labelledby="modalUCategoriaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalUCategoriaLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
-            </div>
-            <div class="input-group flex-nowrap mb-2">
-              <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color" />
-            </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Actualizar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Fin modal nueva categoría -->
-
     <!-- Categorías -->
     <div id="categorias" class="mb-5">
       <!-- Categoría -->
       <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row align-items-center">
-            <div class="col-4">
-                <img class="rounded-circle shadow img-fluid" src=grupo_muscular.imagen />
-            </div>
-            <div class="col-8">
-                <div class="row align-items-center">
-                    <div class="col-12">
-                        <p><strong><u>grupo_muscular.nombre</u></strong></p>
-                        <button class="btn btn-primary" id="grupo.muscular.ID"><a href="ejercicio.html?grupo_muscular=grupo_muscular.ID"><i class="fa-solid fa-dumbbell"></i></a></button>
-                        <button data-bs-toggle="modal" data-bs-target="#modalUCategoria" data-bs-categoria="grupo_muscular.ID" class="btn btn-secondary"><i class="fa-solid fa-pencil"></i></button>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDCategoria" data-bs-categoria="grupo_muscular.ID" class="btn btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a href="ejercicios.html?grupo_muscular=grupo_muscular.ID" class="enlaceNegro text-decoration-none fs-3">
+          <div class="bg-white rounded shadow-sm p-3 row align-items-center">
+              <div class="col-4">
+                  <img class="rounded-circle shadow img-fluid" src=grupo_muscular.imagen />
+              </div>
+              <div class="col-8">
+                <p>grupo_muscular.nombre</p>
+              </div>
+          </div>
+        </a>
       </div>
       <!-- Fin categoría -->
     </div>
@@ -128,16 +65,6 @@
             location: 'default',
             androidDatabaseProvider: 'system'
         });
-        const modalUCategoria = document.getElementById('modalUCategoria')
-        modalUCategoria.addEventListener('show.bs.modal', event => {
-            const boton = event.relatedTarget
-            const categoria = boton.getAttribute('data-bs-nCategoria')
-            db.transaction(function(tx) {
-                tx.executeSql('SELECT * FROM GRUPO_MUSCULAR WHERE ID = ' + categoria, [], function(tx, rs) {
-                    modalUCategoria.querySelector('.modal-title').textContent = rs.rows.item(0).nombre
-            });
-        });
-        })
     </script>
   </body>
 </html>

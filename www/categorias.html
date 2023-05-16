@@ -17,100 +17,9 @@
   <body class="bg-light">
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex flex-wrap p-2">
-      <div class="col-6">
-        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
-      </div>
-      <div class="text-end col-6">
-        <button id="buscar" class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
-      </div>
-      <div id="busqueda" class="input-group sticky-top my-2 px-4" style="display:none">
-        <div class="input-group-prepend">
-          <span class="input-group-text bg-primary" id="basic-text1"><i class="fas fa-search text-white" aria-hidden="true"></i></span>
-        </div>
-        <input class="form-control py-1" id="search_text" type="text" placeholder="Buscar categoría" aria-label="Search">
-      </div>
+      <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
     </div>
     <!-- Fin barra superior -->
-
-    <!-- Modal nueva categoría -->
-    <div class="modal fade" id="modalCCategoria" tabindex="-1" aria-labelledby="modalCCategoriaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalCCategoriaLabel">
-              Crear categoría
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
-            </div>
-            <div class="input-group flex-nowrap mb-2">
-              <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color" />
-            </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Fin modal nueva categoría -->
-
-    <!-- Modal editar categoría -->
-    <div class="modal fade" id="modalUCategoria" tabindex="-1" aria-labelledby="modalUCategoriaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalUCategoriaLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
-            </div>
-            <div class="input-group flex-nowrap mb-2">
-              <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color" />
-            </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Actualizar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Fin modal nueva categoría -->
-
-    <!-- Modal borrar categoría -->
-    <div class="modal fade" id="modalDCategoria" tabindex="-1" aria-labelledby="modalDCategoriaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalDCategoriaLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>¡Se eliminará la categoría y todos los ejercicios que pertenecen a ella!</p>
-            <p>Cuando se elimina un ejercicio también se eliminan sus entrenamientos.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary"><a class="text-decoration-none" id="eliminar">Eliminar</a></button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Fin modal borrar categoría -->
 
     <!-- Categorías -->
     <div id="categorias" class="mb-5"></div>
@@ -128,98 +37,43 @@
     <!-- Fin  barra inferior -->
 
     <!-- <script src="js/index.js"></script> -->
-    <script src="js/db.js"></script>
+    <script src="js/db.js" defer></script>
     <script src="js/bootstrap.js"></script>
     <!-- <script src="js/jquery-3.7.0.slim.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         const db = conexion();
-        await crearTablas();
-        let grupos_musculares = await getCategorias();
-        if(grupos_musculares.rows.length == 0){
-          console.log('Inserto las categorías porque grupos_musculares.rows.length es: ' + grupos_musculares.rows.length);
-          insertarCategorias();
-        }
-        const modalDCategoria = document.getElementById('modalDCategoria')
-        modalDCategoria.addEventListener('show.bs.modal', async event => {
-          const boton = event.relatedTarget
-          const idCategoria = boton.getAttribute('data-bs-categoria')
-          const categoria = await getCategorias(`WHERE ID =  + ${idCategoria}`);
-          const modalTitle = modalDCategoria.querySelector('.modal-title')
-          modalTitle.textContent = categoria.rows.item(0).nombre;
-          const modalLink = modalDCategoria.querySelector('#eliminar')
-          modalLink.href = "categorias.html?eliminar=" +idCategoria;
-        });
-        const urlParams = new URLSearchParams(window.location.search);
-        borrarCategoria(urlParams.get('eliminar'));
-        grupos_musculares = await getCategorias();
+        await insertarCategorias(db);
+        grupos_musculares = await getCategorias(db);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);
-          const div1 = document.createElement('div');
-          div1.classList.add('px-4', 'my-2');
-          const div2 = document.createElement('div');
-          div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-          const div3 = document.createElement('div');
-          div3.classList.add('col-4');
-          const img = document.createElement('img');
-          img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-          img.src = grupo_muscular.imagen;
-          const div4 = document.createElement('div');
-          div4.classList.add('col-8');
-          const div5 = document.createElement('div');
-          div5.classList.add('row', 'align-items-center');
-          const div6 = document.createElement('div');
-          div6.classList.add('col-12');
-          const p = document.createElement('p');
-          const strong = document.createElement('strong');
-          const u = document.createElement('u');
-          u.textContent = grupo_muscular.nombre;
-          strong.appendChild(u);
-          p.appendChild(strong);
-          const button1 = document.createElement('button');
-          button1.classList.add('btn', 'btn-primary', 'm-1');
-          button1.id = grupo_muscular.ID;
-          const link = document.createElement('a');
-          link.href = `ejercicios.html?grupo_muscular=${grupo_muscular.ID}`;
-          const i1 = document.createElement('i');
-          i1.classList.add('fa-solid', 'fa-dumbbell');
-          link.appendChild(i1);
-          button1.appendChild(link);
-          const button2 = document.createElement('button');
-          button2.classList.add('btn', 'btn-secondary', 'm-1');
-          button2.setAttribute('data-bs-toggle', 'modal');
-          button2.setAttribute('data-bs-target', '#modalUCategoria');
-          button2.setAttribute('data-bs-categoria', grupo_muscular.ID);
-          const i2 = document.createElement('i');
-          i2.classList.add('fa-solid', 'fa-pencil');
-          button2.appendChild(i2);
-          const button3 = document.createElement('button');
-          button3.classList.add('btn', 'btn-secondary', 'm-1');
-          button3.setAttribute('data-bs-toggle', 'modal');
-          button3.setAttribute('data-bs-target', '#modalDCategoria');
-          button3.setAttribute('data-bs-categoria', grupo_muscular.ID);
-          const i3 = document.createElement('i');
-          i3.classList.add('fa-solid', 'fa-trash-can');
-          button3.appendChild(i3);
-          div6.appendChild(p);
-          div6.appendChild(button1);
-          div6.appendChild(button2);
-          div6.appendChild(button3);
-          div5.appendChild(div6);
-          div4.appendChild(div5);
-          div3.appendChild(img);
-          div2.appendChild(div3);
-          div2.appendChild(div4);
-          div1.appendChild(div2);
-          document.getElementById("categorias").appendChild(div1);
+          let divPrincipal = document.createElement("div");
+          divPrincipal.classList.add("px-4", "my-2");
+          let enlace = document.createElement("a");
+          enlace.href = "ejercicios.html?grupo_muscular=" + grupo_muscular.ID;
+          enlace.classList.add("enlaceNegro", "text-decoration-none", "fs-3");
+          let divInterno = document.createElement("div");
+          divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
+          let columna1 = document.createElement("div");
+          columna1.classList.add("col-4");
+          let imagen = document.createElement("img");
+          imagen.classList.add("rounded-circle", "shadow", "img-fluid");
+          imagen.src = grupo_muscular.imagen;
+          columna1.appendChild(imagen);
+          divInterno.appendChild(columna1);
+          let columna2 = document.createElement("div");
+          columna2.classList.add("col-8");
+          let parrafo = document.createElement("p");
+          let textoParrafo = document.createTextNode(grupo_muscular.nombre);
+          parrafo.appendChild(textoParrafo);
+          columna2.appendChild(parrafo);
+          divInterno.appendChild(columna2);
+          enlace.appendChild(divInterno);
+          divPrincipal.appendChild(enlace);
+          document.getElementById("categorias").appendChild(divPrincipal);
         }
       }, false);
-      $(document).ready(function(){
-        $("#buscar").on( "click", function() {
-          $("#busqueda").slideToggle("fast");
-        })
-      });
     </script>
   </body>
 </html>

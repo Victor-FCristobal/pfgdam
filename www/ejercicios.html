@@ -15,7 +15,7 @@
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex flex-wrap p-2">
       <div class="col-6">
-        <p class="m-2 h4"><a href="categorias.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
+        <p class="m-2 h4"><a href="categorias.html"><i class="fa-solid fa-arrow-left"></i></a><span id="titulo"></span></p>
       </div>
       <div class="text-end col-6">
         <button id="buscar" class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
@@ -91,11 +91,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>¡Se eliminará el ejercicio!</p>
+            <p>¡Se eliminará el ejercicio y todos sus entrenamientos!</p>
+            <p>Si sólo quieres que no te aparezca en pantalla, puedes ocultarlo.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Eliminar</button>
+            <button type="button" class="btn btn-primary"><a class="text-decoration-none" id="eliminar">Eliminar</a></button>
           </div>
         </div>
       </div>
@@ -112,89 +113,154 @@
     <script src="js/db.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
+        // Conexión, insertar metricas, tipos y ejercicios
         const db = conexion();
-        await crearTablas();
-        await insertarMetricas();
-        await insertarTipos();
-        await insertarEjercicios();
+        await insertarMetricas(db);
+        await insertarTipos(db);
+        await insertarEjercicios(db);
+        const modalDEjercicio = document.getElementById('modalDEjercicio')
+        // Obtengo el parámetro get grupo_muscular para hacer la consulta de los ejercicios correspondientes
         const urlParams = new URLSearchParams(window.location.search);
-        const grupo_muscular = urlParams.get('grupo_muscular');
-        let ejercicios = await getEjercicios(`WHERE grupo_muscular = ${grupo_muscular}`);
+        const grupo_muscular_id = urlParams.get('grupo_muscular');
+        modalDEjercicio.addEventListener('show.bs.modal', async event => {
+          const boton = event.relatedTarget
+          const idEjercicio = boton.getAttribute('data-bs-ejercicio')
+          const ejercicio = await getEjercicios(db,`WHERE ID =  + ${idEjercicio}`);
+          const modalTitle = modalDEjercicio.querySelector('.modal-title')
+          modalTitle.textContent = ejercicio.rows.item(0).nombre;
+          const modalLink = modalDEjercicio.querySelector('#eliminar')
+          modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
+        });
+        if(urlParams.get('eliminar') != null){
+          borrarEjercicio(db,urlParams.get('eliminar'));
+        }
+        // Cojo el nombre del grupo muscular para cambiar el título de la ventana
+        const grupo_muscular = await getCategorias(db,`WHERE ID = ${grupo_muscular_id}`);
+        const nombre_grupo_muscular = grupo_muscular.rows.item(0).nombre;
+        $('#titulo').text(" " + nombre_grupo_muscular);
+        // Consulto todos los ejercicios de esa categoría
+        const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
         for (let i = 0; i < ejercicios.rows.length; i++) {
             let ejercicio = ejercicios.rows.item(i);
-            const div1 = document.createElement("div");
-            div1.className = "px-4 my-2";
+            // Crear el div principal
+            let divPrincipal = document.createElement("div");
+            divPrincipal.classList.add("px-4", "my-2");
 
-            const div2 = document.createElement("div");
-            div2.className = "bg-white rounded shadow-sm p-3 row align-items-center";
+            // Crear el div interno
+            let divInterno = document.createElement("div");
+            divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
 
-            const div3 = document.createElement("div");
-            div3.className = "col-4";
+            // Crear la columna 1
+            let columna1 = document.createElement("div");
+            columna1.classList.add("col-4");
 
-            const img = document.createElement("img");
-            img.className = "rounded-circle shadow img-fluid";
-            img.src = ejercicio.imagen;
+            // Crear la imagen
+            let imagen = document.createElement("img");
+            imagen.classList.add("rounded-circle", "shadow", "img-fluid");
+            imagen.src = ejercicio.imagen;
+            columna1.appendChild(imagen);
 
-            const div4 = document.createElement("div");
-            div4.className = "col-8";
+            // Añadir la columna 1 al div interno
+            divInterno.appendChild(columna1);
 
-            const div5 = document.createElement("div");
-            div5.className = "row align-items-center";
+            // Crear la columna 2
+            let columna2 = document.createElement("div");
+            columna2.classList.add("col-8");
 
-            const div6 = document.createElement("div");
-            div6.className = "col-12";
+            // Crear la fila interna
+            let filaInterna = document.createElement("div");
+            filaInterna.classList.add("row");
 
-            const p = document.createElement("p");
-            p.innerHTML = "<strong><u>" + ejercicio.nombre + "</u></strong>";
+            // Crear la columna 1 de la fila interna
+            let columna1FilaInterna = document.createElement("div");
+            columna1FilaInterna.classList.add("col-10");
 
-            const btn1 = document.createElement("button");
-            btn1.className = "btn m-1 btn-primary";
-            btn1.id = ejercicio.ID;
-            const i1 = document.createElement("i");
-            i1.className = "fa-solid fa-info-circle";
-            btn1.appendChild(i1);
+            // Crear el párrafo
+            let parrafo = document.createElement("p");
+            let strong = document.createElement("strong");
+            let u = document.createElement("u");
+            let textoParrafo = document.createTextNode(ejercicio.nombre);
+            u.appendChild(textoParrafo);
+            strong.appendChild(u);
+            parrafo.appendChild(strong);
 
-            const btn2 = document.createElement("button");
-            btn2.className = "btn m-1 btn-primary";
-            btn2.id = ejercicio.ID;
-            const i2 = document.createElement("i");
-            i2.className = "fa-solid fa-chart-line";
-            btn2.appendChild(i2);
+            // Añadir el párrafo a la columna 1 de la fila interna
+            columna1FilaInterna.appendChild(parrafo);
 
-            const btn3 = document.createElement("button");
-            btn3.className = "btn m-1 btn-secondary";
-            btn3.id = ejercicio.ID;
-            btn3.dataset.bsToggle = "modal";
-            btn3.dataset.bsTarget = "#modalUEjercicio";
-            btn3.dataset.bsEjercicio = ejercicio.ID;
-            const i3 = document.createElement("i");
-            i3.className = "fa-solid fa-pencil";
-            btn3.appendChild(i3);
+            // Añadir la columna 1 de la fila interna a la fila interna
+            filaInterna.appendChild(columna1FilaInterna);
 
-            const btn4 = document.createElement("button");
-            btn4.className = "btn m-1 btn-secondary";
-            btn4.id = ejercicio.ID;
-            btn4.dataset.bsToggle = "modal";
-            btn4.dataset.bsTarget = "#modalDEjercicio";
-            btn4.dataset.bsEjercicio = ejercicio.ID;
-            const i4 = document.createElement("i");
-            i4.className = "fa-solid fa-trash-can";
-            btn4.appendChild(i4);
+            // Crear la columna 2 de la fila interna
+            let columna2FilaInterna = document.createElement("div");
+            columna2FilaInterna.classList.add("col-2");
 
-            div6.appendChild(p);
-            div6.appendChild(btn1);
-            div6.appendChild(btn2);
-            div6.appendChild(btn3);
-            div6.appendChild(btn4);
-            div5.appendChild(div6);
-            div4.appendChild(div5);
-            div3.appendChild(img);
-            div2.appendChild(div3);
-            div2.appendChild(div4);
-            div1.appendChild(div2);
-            document.getElementById("ejercicios").appendChild(div1);
+            // Crear el contenedor del menú desplegable
+            let dropdown = document.createElement("div");
+            dropdown.classList.add("dropdown");
+
+            // Crear el ícono del menú desplegable
+            let icono = document.createElement("i");
+            icono.classList.add("fa-solid", "fa-ellipsis-vertical");
+            icono.setAttribute("type", "button");
+            icono.setAttribute("data-bs-toggle", "dropdown");
+            icono.setAttribute("aria-expanded", "false");
+
+            // Añadir el ícono al contenedor del menú desplegable
+            dropdown.appendChild(icono);
+
+            // Crear la lista del menú desplegable
+            let lista = document.createElement("ul");
+            lista.classList.add("dropdown-menu");
+
+            // Crear los elementos de la lista
+            let elementosLista = [
+                { href: `ejercicios.html?ejercicio=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-info-circle", texto: "Información" },
+                { href: `estadisticas.html?ejercicio=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-chart-line", texto: "Estadísticas" },
+                { clase: "dropdown-item", icono: "fa-pencil", texto: "Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.id },
+                { clase: "dropdown-item", icono: "fa-trash-can", texto: "Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.id },
+                { href: `ejercicios.html?ocultar=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-eye-slash", texto: "Ocultar" }
+            ];
+
+            elementosLista.forEach(function(elemento) {
+            let itemLista = document.createElement("li");
+            let enlace = document.createElement("a");
+            enlace.href = elemento.href || "#";
+            enlace.classList.add(elemento.clase);
+            let iconoLista = document.createElement("i");
+            iconoLista.classList.add("fa-solid", elemento.icono);
+            let textoEnlace = document.createTextNode(elemento.texto);
+            enlace.appendChild(iconoLista);
+            enlace.appendChild(textoEnlace);
+            itemLista.appendChild(enlace);
+            lista.appendChild(itemLista);
+            if (elemento.modal) {
+                enlace.setAttribute("data-bs-toggle", "modal");
+                enlace.setAttribute("data-bs-target", "#" + elemento.modal);
+                enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+            }
+            });
+
+            // Añadir la lista al contenedor del menú desplegable
+            dropdown.appendChild(lista);
+
+            // Añadir el contenedor del menú desplegable a la columna 2 de la fila interna
+            columna2FilaInterna.appendChild(dropdown);
+
+            // Añadir la columna 2 de la fila interna a la fila interna
+            filaInterna.appendChild(columna2FilaInterna);
+
+            // Añadir la fila interna a la columna 2
+            columna2.appendChild(filaInterna);
+
+            // Añadir la columna 2 al div interno
+            divInterno.appendChild(columna2);
+
+            // Añadir el div interno al div principal
+            divPrincipal.appendChild(divInterno);
+            document.getElementById("ejercicios").appendChild(divPrincipal);
         }
       },false);
       $(document).ready(function(){

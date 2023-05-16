@@ -1,20 +1,78 @@
-<!-- Ejercicio -->
-<div class="px-4 my-2">
-    <div class="bg-white rounded shadow-sm p-3 row align-items-center">
-        <div class="col-4">
-            <img class="rounded-circle shadow img-fluid" src=ejercicio.imagen />
-        </div>
-        <div class="col-8">
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <p><strong><u>ejercicio.nombre</u></strong></p>
-                    <button id="ejercicio.id" class="btn btn-primary"><i class="fa-solid fa-info-circle"></i></button>
-                    <button id="ejercicio.id" class="btn btn-primary"><i class="fa-solid fa-chart-line"></i></button>
-                    <button id="ejercicio.id" data-bs-toggle="modal" data-bs-target="#modalUEjercicio" data-bs-ejercicio="ejercicio.id" class="btn btn-secondary"><i class="fa-solid fa-pencil"></i></button>
-                    <button id="ejercicio.id" data-bs-toggle="modal" data-bs-target="#modalDEjercicio" data-bs-ejercicio="ejercicio.id" class="btn btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+
+    <!-- Categorías -->
+    <div id="categorias" class="mb-5">
+        <!-- Ejercicio -->
+        <div class="px-4 my-2">
+            <div class="bg-white rounded shadow-sm p-3 row align-items-center">
+                <div class="col-4">
+                    <img class="rounded-circle shadow img-fluid" src=ejercicio.imagen />
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-10">
+                            <p><strong><u>ejercicio.nombre</u></strong></p>
+                        </div>
+                        <div class="col-2">
+                            <div class="dropdown">
+                                <i class="fa-solid fa-ellipsis-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                    <li><a href="ejercicios.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-info-circle"></i> Información</a></li>
+                                    <li><a href="estadisticas.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-chart-line"></i> Estadísticas</a></li>
+                                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalUEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-pencil"></i> Editar</button></li>
+                                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-trash-can"></i> Eliminar</button></li>
+                                    <li><a href="ejercicios.html?ocultar=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-eye-slash"></i> Ocultar</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Fin ejercicio -->
     </div>
-</div>
-<!-- Fin ejercicio -->
+    <!-- Fin de categorías -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script src="js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script src="js/index.js"></script> -->
+    <!-- <script src="js/db.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+  </body>
+</html>

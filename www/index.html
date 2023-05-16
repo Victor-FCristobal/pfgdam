@@ -298,7 +298,14 @@
                         <p><strong><u>Sentadilla libre</u></strong></p>
                     </div>
                     <div class="col-2">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <div class="dropdown">
+                            <i class="fa-solid fa-ellipsis-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                              <li><button class="dropdown-item" type="button">Dropdown item</button></li>
+                              <li><button class="dropdown-item" type="button">Dropdown item</button></li>
+                              <li><button class="dropdown-item" type="button">Dropdown item</button></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="row text-center">
@@ -340,12 +347,13 @@
     <!-- Fin  barra inferior -->
   
     <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/db.js"></script>
     <script>
         document.addEventListener('deviceready', async function() {
             const db = conexion();
-            await crearTablas();
+            await crearTablas(db);
         })
     </script>
   </body>
