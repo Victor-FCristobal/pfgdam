@@ -114,6 +114,7 @@
     <script src="js/bootstrap.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         // Conexión, insertar metricas, tipos y ejercicios
@@ -128,7 +129,7 @@
         modalDEjercicio.addEventListener('show.bs.modal', async event => {
           const boton = event.relatedTarget
           const idEjercicio = boton.getAttribute('data-bs-ejercicio')
-          const ejercicio = await getEjercicios(db,`WHERE ID =  + ${idEjercicio}`);
+          const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
           const modalTitle = modalDEjercicio.querySelector('.modal-title')
           modalTitle.textContent = ejercicio.rows.item(0).nombre;
           const modalLink = modalDEjercicio.querySelector('#eliminar')
@@ -137,12 +138,15 @@
         if(urlParams.get('eliminar') != null){
           borrarEjercicio(db,urlParams.get('eliminar'));
         }
+        if(urlParams.get('ocultar') != null){
+          ocultarEjercicio(db,urlParams.get('ocultar'));
+        }
         // Cojo el nombre del grupo muscular para cambiar el título de la ventana
         const grupo_muscular = await getCategorias(db,`WHERE ID = ${grupo_muscular_id}`);
         const nombre_grupo_muscular = grupo_muscular.rows.item(0).nombre;
         $('#titulo').text(" " + nombre_grupo_muscular);
         // Consulto todos los ejercicios de esa categoría
-        const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
+        const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
         for (let i = 0; i < ejercicios.rows.length; i++) {
             let ejercicio = ejercicios.rows.item(i);
             // Crear el div principal
@@ -201,15 +205,18 @@
             let dropdown = document.createElement("div");
             dropdown.classList.add("dropdown");
 
+            let boton = document.createElement("button");
+            boton.classList.add("btn");
+            boton.setAttribute("type", "button");
+            boton.setAttribute("data-bs-toggle", "dropdown");
+            boton.setAttribute("aria-expanded", "false");
             // Crear el ícono del menú desplegable
             let icono = document.createElement("i");
             icono.classList.add("fa-solid", "fa-ellipsis-vertical");
-            icono.setAttribute("type", "button");
-            icono.setAttribute("data-bs-toggle", "dropdown");
-            icono.setAttribute("aria-expanded", "false");
 
             // Añadir el ícono al contenedor del menú desplegable
-            dropdown.appendChild(icono);
+            boton.appendChild(icono);
+            dropdown.appendChild(boton);
 
             // Crear la lista del menú desplegable
             let lista = document.createElement("ul");
@@ -217,30 +224,30 @@
 
             // Crear los elementos de la lista
             let elementosLista = [
-                { href: `ejercicios.html?ejercicio=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-info-circle", texto: "Información" },
-                { href: `estadisticas.html?ejercicio=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-chart-line", texto: "Estadísticas" },
-                { clase: "dropdown-item", icono: "fa-pencil", texto: "Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.id },
-                { clase: "dropdown-item", icono: "fa-trash-can", texto: "Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.id },
-                { href: `ejercicios.html?ocultar=${ejercicio.id}`, clase: "dropdown-item", icono: "fa-eye-slash", texto: "Ocultar" }
+                { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-info-circle", texto: " Información" },
+                { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-chart-line", texto: " Estadísticas" },
+                { clase: "dropdown-item", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { clase: "dropdown-item", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-eye-slash", texto: " Ocultar" }
             ];
 
             elementosLista.forEach(function(elemento) {
-            let itemLista = document.createElement("li");
-            let enlace = document.createElement("a");
-            enlace.href = elemento.href || "#";
-            enlace.classList.add(elemento.clase);
-            let iconoLista = document.createElement("i");
-            iconoLista.classList.add("fa-solid", elemento.icono);
-            let textoEnlace = document.createTextNode(elemento.texto);
-            enlace.appendChild(iconoLista);
-            enlace.appendChild(textoEnlace);
-            itemLista.appendChild(enlace);
-            lista.appendChild(itemLista);
-            if (elemento.modal) {
-                enlace.setAttribute("data-bs-toggle", "modal");
-                enlace.setAttribute("data-bs-target", "#" + elemento.modal);
-                enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
-            }
+              let itemLista = document.createElement("li");
+              let enlace = document.createElement("a");
+              enlace.href = elemento.href || "#";
+              enlace.classList.add(elemento.clase);
+              let iconoLista = document.createElement("i");
+              iconoLista.classList.add("fa-solid", elemento.icono);
+              let textoEnlace = document.createTextNode(elemento.texto);
+              enlace.appendChild(iconoLista);
+              enlace.appendChild(textoEnlace);
+              itemLista.appendChild(enlace);
+              lista.appendChild(itemLista);
+              if (elemento.modal) {
+                  enlace.setAttribute("data-bs-toggle", "modal");
+                  enlace.setAttribute("data-bs-target", "#" + elemento.modal);
+                  enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+              }
             });
 
             // Añadir la lista al contenedor del menú desplegable

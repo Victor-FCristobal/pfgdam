@@ -41,12 +41,18 @@
                         </div>
                         <div class="col-2">
                             <div class="dropdown">
-                                <i class="fa-solid fa-ellipsis-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                <ul class="dropdown-menu">
+                              <button class="btn" type="button" data-bs-toggle="dropdown" id="dropdownMenuClickableInside" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical" ></i>
+                              </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                                     <li><a href="ejercicios.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-info-circle"></i> Información</a></li>
+                                    <hr class="dropdown-divider">
                                     <li><a href="estadisticas.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-chart-line"></i> Estadísticas</a></li>
+                                    <hr class="dropdown-divider">
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalUEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-pencil"></i> Editar</button></li>
+                                    <hr class="dropdown-divider">
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-trash-can"></i> Eliminar</button></li>
+                                    <hr class="dropdown-divider">
                                     <li><a href="ejercicios.html?ocultar=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-eye-slash"></i> Ocultar</a></li>
                                 </ul>
                             </div>
@@ -74,5 +80,6 @@
     <!-- <script src="js/db.js"></script> -->
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
   </body>
 </html>

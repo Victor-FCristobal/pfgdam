@@ -267,6 +267,18 @@ function getEjercicios(db,condicion = ""){
   });
 }
 
+/**
+ * 
+ * @param {SQLitePlugin.Database} db
+ * @param {number} ejercicio
+ * @returns void
+ */
+function ocultarEjercicio(db, ejercicio){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE EJERCICIO SET oculto = 1 WHERE ID = ?', [ejercicio]);
+  })
+}
+
 // BORRADO DE DATOS EN TABLAS
 
 /**
