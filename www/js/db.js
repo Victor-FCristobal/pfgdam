@@ -279,6 +279,42 @@ function ocultarEjercicio(db, ejercicio){
   })
 }
 
+/**
+ * 
+ * @param {SQLitePlugin.Database} db
+ * @param {number} ejercicio
+ * @returns void
+ */
+function mostrarEjercicio(db, ejercicio){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE EJERCICIO SET oculto = 0 WHERE ID = ?', [ejercicio]);
+  })
+}
+
+/**
+ * 
+ * @param {SQLitePlugin.Database} db
+ * @param {number} ejercicio
+ * @returns void
+ */
+function aFavoritoEjercicio(db, ejercicio){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE EJERCICIO SET favorito = 1 WHERE ID = ?', [ejercicio]);
+  })
+}
+
+/**
+ * 
+ * @param {SQLitePlugin.Database} db
+ * @param {number} ejercicio
+ * @returns void
+ */
+function qFavoritoEjercicio(db, ejercicio){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE EJERCICIO SET favorito = 0 WHERE ID = ?', [ejercicio]);
+  })
+}
+
 // BORRADO DE DATOS EN TABLAS
 
 /**

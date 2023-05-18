@@ -18,16 +18,51 @@
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex p-2">
       <div class="col-6">
-        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
       </div>
       <div class="text-end col-6">
+        <button class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
         <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
       </div>
     </div>
     <!-- Fin barra superior -->
 
-    <!-- Categorías -->
-    <div id="categorias" class="mb-5">
+    <!-- Ejercicios -->
+    <div class="px-4 my-2 row flex-row flex-nowrap">
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+      <div class="w-auto p-1">
+        <input type="checkbox" class="btn-check" id="btn-check">
+        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+      </div>
+    </div>
+    <div id="ejercicios" class="mb-5">
         <!-- Ejercicio -->
         <div class="px-4 my-2">
             <div class="bg-white rounded shadow-sm p-3 row align-items-center">
@@ -46,14 +81,11 @@
                               </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                                     <li><a href="ejercicios.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-info-circle"></i> Información</a></li>
-                                    <hr class="dropdown-divider">
                                     <li><a href="estadisticas.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-chart-line"></i> Estadísticas</a></li>
-                                    <hr class="dropdown-divider">
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalUEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-pencil"></i> Editar</button></li>
-                                    <hr class="dropdown-divider">
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-trash-can"></i> Eliminar</button></li>
-                                    <hr class="dropdown-divider">
                                     <li><a href="ejercicios.html?ocultar=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-eye-slash"></i> Ocultar</a></li>
+                                    <li><a href="ejercicios.html?aFavorito=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-star"></i> Añadir a favoritos</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -63,7 +95,7 @@
         </div>
         <!-- Fin ejercicio -->
     </div>
-    <!-- Fin de categorías -->
+    <!-- Fin de ejercicios -->
     
     <!-- Barra inferior -->
     <div
