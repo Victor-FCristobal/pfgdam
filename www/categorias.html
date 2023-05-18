@@ -44,7 +44,6 @@
     <script>
       document.addEventListener('deviceready', async function() {
         const db = conexion();
-        await insertarCategorias(db);
         grupos_musculares = await getCategorias(db);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);
