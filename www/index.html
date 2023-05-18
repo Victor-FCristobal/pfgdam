@@ -268,7 +268,7 @@
             const calendario = await getCalendario(db);
             let nombre_calendario = calendario.rows.item(0).nombre;
             let color_calendario = calendario.rows.item(0).color;
-            $("#calendario").text = nombre_calendario;
+            $("#calendario").text(nombre_calendario);
             const modalCSet = document.getElementById('modalCSet')
             modalCSet.addEventListener('show.bs.modal', async event => {
                 const boton = event.relatedTarget
