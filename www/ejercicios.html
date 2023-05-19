@@ -31,7 +31,7 @@
     <!-- Fin barra superior -->
 
     <!-- Filtrado -->
-    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
+    <!-- <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
       <div class="w-auto p-1">
         <input type="checkbox" class="btn-check" id="btn-favorito">
         <label class="btn btn-primary" for="btn-favorito"><i class="fa-solid fa-star"></i></label>
@@ -40,7 +40,7 @@
         <input type="checkbox" class="btn-check" id="btn-oculto">
         <label class="btn btn-primary" for="btn-oculto"><i class="fa-solid fa-eye-slash"></i></label>
       </div>
-    </div>
+    </div> -->
     <!-- Fin filtrado -->
 
     <div id="ejercicios" class="mb-5"></div>
@@ -57,9 +57,26 @@
             <div class="input-group mb-2">
               <input type="text" class="form-control" autofocus placeholder="Nombre del ejercicio:" name="nombre" id="nombre" />
             </div>
+            <div class="input-group mb-2">
+              <select class="form-select" id="tipo" name="tipo">
+                <option selected value="tipo">Tipo</option>
+                <option value="tipo.ID">tipo.tipo</option>
+              </select>
+              <select class="form-select" id="metrica" name="metrica">
+                <option selected value="metrica">Métrica</option>
+                <option value="metrica.ID">metrica.metrica</option>
+              </select>
+            </div>
+            <div class="input-group mb-2">
+              <select class="form-select" id="categoria" name="categoria">
+                <option value="categoria">Grupo muscular</option>
+                <option value="grupo_muscular.ID">grupo_muscular.nombre</option>
+              </select>
+              <button class="btn btn-primary">Músculos</button>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="cEjercicio()" data-bs-dismiss="modal">Guardar</button>
           </div>
           </div>
         </div>
@@ -72,23 +89,31 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalUEjercicioLabel"></h1>
+            <div>
+              <h1 id="titulo"class="modal-title fs-5">Editar ejercicio</h1>
+              <p id="subtitulo" class="fst-italic modal-title"></p>
+            </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre de la categoría:" name="nombre" id="nombre" />
+              <input type="text" class="form-control" autofocus placeholder="Nombre del ejercicio:" name="nombre" id="nombre" />
             </div>
-            <div class="input-group flex-nowrap mb-2">
-              <span class="input-group-text">Color</span>
-              <input type="color" class="form-control form-control-color" name="color" id="color" />
+            <div class="input-group mb-2">
+              <select class="form-select" id="tipo" name="tipo">
+              </select>
+              <select class="form-select" id="metrica" name="metrica">
+              </select>
             </div>
-            <p class="text-center">Días de recuperación: <output id="num">2</output></p>
-            <input type="range" class="form-range" min="0" max="7" id="recuperacion" name="recuperacion" oninput="num.value = this.value" value="2" />
+            <div class="input-group mb-2">
+              <select class="form-select" id="categoria" name="categoria">
+              </select>
+              <button class="btn btn-primary">Músculos</button>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Actualizar</button>
+            <button type="button" class="btn btn-primary" onclick="uEjercicio()" data-bs-dismiss="modal">Actualizar</button>
           </div>
         </div>
       </div>
@@ -132,14 +157,74 @@
       document.addEventListener('deviceready', async function() {
         // Conexión, insertar metricas, tipos y ejercicios
         const db = conexion();
-        const modalDEjercicio = document.getElementById('modalDEjercicio')
+
+        const musculos = await getMusculos(db);
+        const tipos = await getTipos(db);
+        const metricas = await getMetricas(db);
+        const categorias = await getCategorias(db);
         // Obtengo el parámetro get grupo_muscular para hacer la consulta de los ejercicios correspondientes
         const urlParams = new URLSearchParams(window.location.search);
         const grupo_muscular_id = urlParams.get('grupo_muscular');
-        modalDEjercicio.addEventListener('show.bs.modal', async event => {
+
+        // Modales y su lógica
+        // const modalCEjercicio = document.getElementById('modalCEjercicio')
+        // modalCEjercicio.addEventListener('show.bs.modal', async event => {
+        //   const boton = event.relatedTarget
+        //   const idEjercicio = boton.getAttribute('data-bs-ejercicio')
+        //   const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
+        //   const modalTitle = modalUEjercicio.querySelector('.modal-title')
+        //   modalTitle.textContent = ejercicio.rows.item(0).nombre;
+        //   const modalLink = modalUEjercicio.querySelector('#eliminar')
+        //   modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
+        // });
+        const modalUEjercicio = document.getElementById('modalUEjercicio')
+        modalUEjercicio.addEventListener('show.bs.modal', async event => {
           const boton = event.relatedTarget
           const idEjercicio = boton.getAttribute('data-bs-ejercicio')
           const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
+          const subtitulo = modalUEjercicio.querySelector('#subtitulo')
+          subtitulo.textContent = ejercicio.rows.item(0).nombre;
+          const inputNombre = modalUEjercicio.querySelector('#nombre')
+          inputNombre.value = ejercicio.rows.item(0).nombre;
+          const inputTipo = modalUEjercicio.querySelector('#tipo')
+          for (let i = 0; i < tipos.rows.length; i++) {
+            let tipo_id = tipos.rows.item(i).ID
+            let tipo = tipos.rows.item(i).tipo
+            opcionTipo = document.createElement("option")
+            opcionTipo.value = tipo_id
+            opcionTipo.textContent = tipo
+            if(ejercicio.rows.item(0).tipo = tipo_id)
+              opcionTipo.setAttribute = "selected"
+            inputTipo.appendChild(opcionTipo)
+          }
+          const inputMetrica = modalUEjercicio.querySelector('#metrica')
+          for (let i = 0; i < metricas.rows.length; i++) {
+            let metrica_id = metricas.rows.item(i).ID
+            let metrica = metricas.rows.item(i).metrica
+            opcionMetrica = document.createElement("option")
+            opcionMetrica.value = metrica_id
+            opcionMetrica.textContent = metrica
+            if(ejercicio.rows.item(0).metrica = metrica_id)
+              opcionMetrica.setAttribute = "selected"
+            inputMetrica.appendChild(opcionMetrica)
+          }
+          const inputCategoria = modalUEjercicio.querySelector('#categoria')
+          for (let i = 0; i < categorias.rows.length; i++) {
+            let categoria_id = categorias.rows.item(i).ID
+            let categoria = categorias.rows.item(i).nombre
+            opcionCategoria = document.createElement("option")
+            opcionCategoria.value = categoria_id
+            opcionCategoria.textContent = categoria
+            if(ejercicio.rows.item(0).grupo_muscular = categoria_id)
+              opcionCategoria.setAttribute = "selected"
+            inputCategoria.appendChild(opcionCategoria)
+          }
+        });
+        const modalDEjercicio = document.getElementById('modalDEjercicio')
+        modalDEjercicio.addEventListener('show.bs.modal', async event => {
+          const boton = event.relatedTarget
+          const idEjercicio = boton.getAttribute('data-bs-ejercicio')
+          const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`)
           const modalTitle = modalDEjercicio.querySelector('.modal-title')
           modalTitle.textContent = ejercicio.rows.item(0).nombre;
           const modalLink = modalDEjercicio.querySelector('#eliminar')
@@ -157,44 +242,42 @@
         const nombre_grupo_muscular = grupo_muscular.rows.item(0).nombre;
         $('#titulo').text(" " + nombre_grupo_muscular);
 
-        // Consulto todos los músculos de esa categoría
-        const musculos = await getMusculos(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
-        for (let i = 0; i < musculos.rows.length; i++) {
-          let musculo = musculos.rows.item(i);
-          let divFiltrado = document.createElement('div');
-          divFiltrado.classList.add('w-auto', 'p-1');
-          let inputFiltrado = document.createElement('input');
-          inputFiltrado.type = 'checkbox';
-          inputFiltrado.classList.add('btn-check');
-          inputFiltrado.id = 'btn-' + musculo.nombre;
-          let labelFiltrado = document.createElement('label');
-          labelFiltrado.classList.add('btn', 'btn-primary');
-          labelFiltrado.htmlFor = 'btn-' + musculo.nombre;
-          labelFiltrado.textContent = musculo.nombre;
-          divFiltrado.appendChild(inputFiltrado);
-          divFiltrado.appendChild(labelFiltrado);
-          document.getElementById("filtrado").appendChild(divFiltrado);
-        }
-        
-        // Consultos todos los tipos de ejercicios que hay
-        const tipos = await getTipos(db);
-        for(let i = 0; i < tipos.rows.length; i++){
-          let tipo = tipos.rows.item(i);
-          let divTipos = document.createElement('div');
-          divTipos.classList.add('w-auto', 'p-1');
-          let inputTipos = document.createElement('input');
-          inputTipos.type = 'checkbox';
-          inputTipos.classList.add('btn-check');
-          inputTipos.id = 'btnTipo-' + i;
-          let labelTipos = document.createElement('label');
-          labelTipos.classList.add('btn', 'btn-tipos', 'btn-secondary');
-          labelTipos.htmlFor = 'btnTipo-' + i;
-          labelTipos.textContent = tipo.tipo;
-          divTipos.appendChild(inputTipos);
-          divTipos.appendChild(labelTipos);
-          document.getElementById("filtrado").appendChild(divTipos);
-        }
-        // Consulto todos los ejercicios de esa categoría
+        // Filtrado
+        // const musculosCategoria = await getMusculos(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
+        // for (let i = 0; i < musculosCategoria.rows.length; i++) {
+        //   let musculo = musculosCategoriaCategoria.rows.item(i);
+        //   let divFiltrado = document.createElement('div');
+        //   divFiltrado.classList.add('w-auto', 'p-1');
+        //   let inputFiltrado = document.createElement('input');
+        //   inputFiltrado.type = 'checkbox';
+        //   inputFiltrado.classList.add('btn-check');
+        //   inputFiltrado.id = 'btn-' + musculo.nombre;
+        //   let labelFiltrado = document.createElement('label');
+        //   labelFiltrado.classList.add('btn', 'btn-primary');
+        //   labelFiltrado.htmlFor = 'btn-' + musculo.nombre;
+        //   labelFiltrado.textContent = musculo.nombre;
+        //   divFiltrado.appendChild(inputFiltrado);
+        //   divFiltrado.appendChild(labelFiltrado);
+        //   document.getElementById("filtrado").appendChild(divFiltrado);
+        // }
+        // for(let i = 0; i < tipos.rows.length; i++){
+        //   let tipo = tipos.rows.item(i);
+        //   let divTipos = document.createElement('div');
+        //   divTipos.classList.add('w-auto', 'p-1');
+        //   let inputTipos = document.createElement('input');
+        //   inputTipos.type = 'checkbox';
+        //   inputTipos.classList.add('btn-check');
+        //   inputTipos.id = 'btnTipo-' + i;
+        //   let labelTipos = document.createElement('label');
+        //   labelTipos.classList.add('btn', 'btn-tipos', 'btn-secondary');
+        //   labelTipos.htmlFor = 'btnTipo-' + i;
+        //   labelTipos.textContent = tipo.tipo;
+        //   divTipos.appendChild(inputTipos);
+        //   divTipos.appendChild(labelTipos);
+        //   document.getElementById("filtrado").appendChild(divTipos);
+        // }
+
+        // Lista de ejercicios
         const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
         for (let i = 0; i < ejercicios.rows.length; i++) {
             let ejercicio = ejercicios.rows.item(i);
@@ -278,6 +361,12 @@
           $("#busqueda").slideToggle("fast");
         })
       });
+      function uEjercicio(){
+        console.log('Actualizamos el ejercicio')
+      }
+      function cEjercicio(){
+        console.log('Creamos un ejercicio')
+      }
     </script>
   </body>
 </html>
