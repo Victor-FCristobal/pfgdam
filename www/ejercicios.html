@@ -97,16 +97,16 @@
           </div>
           <div class="modal-body">
             <div class="input-group mb-2">
-              <input type="text" class="form-control" autofocus placeholder="Nombre del ejercicio:" name="nombre" id="nombre" />
+              <input type="text" class="form-control" autofocus placeholder="Nombre del ejercicio:" name="nombre" id="nombreE" />
             </div>
             <div class="input-group mb-2">
-              <select class="form-select" id="tipo" name="tipo">
+              <select class="form-select" id="tipoE" name="tipo">
               </select>
-              <select class="form-select" id="metrica" name="metrica">
+              <select class="form-select" id="metricaE" name="metrica">
               </select>
             </div>
             <div class="input-group mb-2">
-              <select class="form-select" id="categoria" name="categoria">
+              <select class="form-select" id="categoriaE" name="categoria">
               </select>
               <button class="btn btn-primary">Músculos</button>
             </div>
@@ -178,48 +178,51 @@
         //   modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
         // });
         const modalUEjercicio = document.getElementById('modalUEjercicio')
-        modalUEjercicio.addEventListener('show.bs.modal', async event => {
+        const inputTipo = modalUEjercicio.querySelector('#tipoE')
+          for (let i = 0; i < tipos.rows.length; i++) {
+            let tipo_id = tipos.rows.item(i).ID
+            let tipo = tipos.rows.item(i).tipo
+            opcionTipo = document.createElement("option")
+            opcionTipo.id = "tipo"+tipo_id
+            opcionTipo.value = tipo_id
+            opcionTipo.textContent = tipo
+            inputTipo.appendChild(opcionTipo)
+          }
+        const inputMetrica = modalUEjercicio.querySelector('#metricaE')
+        for (let i = 0; i < metricas.rows.length; i++) {
+          let metrica_id = metricas.rows.item(i).ID
+          let metrica = metricas.rows.item(i).metrica
+          opcionMetrica = document.createElement("option")
+          opcionMetrica.id = "metrica"+metrica_id
+          opcionMetrica.value = metrica_id
+          opcionMetrica.textContent = metrica
+          inputMetrica.appendChild(opcionMetrica)
+        }
+        const inputCategoria = modalUEjercicio.querySelector('#categoriaE')
+        for (let i = 0; i < categorias.rows.length; i++) {
+          let categoria_id = categorias.rows.item(i).ID
+          let categoria = categorias.rows.item(i).nombre
+          opcionCategoria = document.createElement("option")
+          opcionCategoria.id = "categoria"+categoria_id
+          opcionCategoria.value = categoria_id
+          opcionCategoria.textContent = categoria
+          inputCategoria.appendChild(opcionCategoria)
+        }
+
+        modalUEjercicio.addEventListener('shown.bs.modal', async event => {
+          console.log(this);
           const boton = event.relatedTarget
           const idEjercicio = boton.getAttribute('data-bs-ejercicio')
           const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
           const subtitulo = modalUEjercicio.querySelector('#subtitulo')
           subtitulo.textContent = ejercicio.rows.item(0).nombre;
-          const inputNombre = modalUEjercicio.querySelector('#nombre')
+          const inputNombre = modalUEjercicio.querySelector('#nombreE')
           inputNombre.value = ejercicio.rows.item(0).nombre;
-          const inputTipo = modalUEjercicio.querySelector('#tipo')
-          for (let i = 0; i < tipos.rows.length; i++) {
-            let tipo_id = tipos.rows.item(i).ID
-            let tipo = tipos.rows.item(i).tipo
-            opcionTipo = document.createElement("option")
-            opcionTipo.value = tipo_id
-            opcionTipo.textContent = tipo
-            if(ejercicio.rows.item(0).tipo = tipo_id)
-              opcionTipo.setAttribute = "selected"
-            inputTipo.appendChild(opcionTipo)
-          }
-          const inputMetrica = modalUEjercicio.querySelector('#metrica')
-          for (let i = 0; i < metricas.rows.length; i++) {
-            let metrica_id = metricas.rows.item(i).ID
-            let metrica = metricas.rows.item(i).metrica
-            opcionMetrica = document.createElement("option")
-            opcionMetrica.value = metrica_id
-            opcionMetrica.textContent = metrica
-            if(ejercicio.rows.item(0).metrica = metrica_id)
-              opcionMetrica.setAttribute = "selected"
-            inputMetrica.appendChild(opcionMetrica)
-          }
-          const inputCategoria = modalUEjercicio.querySelector('#categoria')
-          for (let i = 0; i < categorias.rows.length; i++) {
-            let categoria_id = categorias.rows.item(i).ID
-            let categoria = categorias.rows.item(i).nombre
-            opcionCategoria = document.createElement("option")
-            opcionCategoria.value = categoria_id
-            opcionCategoria.textContent = categoria
-            if(ejercicio.rows.item(0).grupo_muscular = categoria_id)
-              opcionCategoria.setAttribute = "selected"
-            inputCategoria.appendChild(opcionCategoria)
-          }
+          $("#categoria"+ejercicio.rows.item(0).tipo).attr("selected","selected");
+          $("#tipo"+ejercicio.rows.item(0).tipo).attr("selected","selected");
+          $("#metrica"+ejercicio.rows.item(0).metrica).attr("selected","selected");
         });
+
         const modalDEjercicio = document.getElementById('modalDEjercicio')
         modalDEjercicio.addEventListener('show.bs.modal', async event => {
           const boton = event.relatedTarget
@@ -323,17 +326,17 @@
             let lista = document.createElement("ul");
             lista.classList.add("dropdown-menu");
             let elementosLista = [
-                { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-info-circle", texto: " Información" },
-                { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-chart-line", texto: " Estadísticas" },
-                { clase: "dropdown-item", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-                { clase: "dropdown-item", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-                { href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "dropdown-item", icono: "fa-eye-slash", texto: " Ocultar" }
+                { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
+                { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
+                { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" }
             ];
             elementosLista.forEach(function(elemento) {
               let itemLista = document.createElement("li");
               let enlace = document.createElement("a");
               enlace.href = elemento.href || "#";
-              enlace.classList.add(elemento.clase);
+              enlace.classList.add("dropdown-item", elemento.clase);
               let iconoLista = document.createElement("i");
               iconoLista.classList.add("fa-solid", elemento.icono);
               let textoEnlace = document.createTextNode(elemento.texto);
@@ -362,7 +365,13 @@
         })
       });
       function uEjercicio(){
-        console.log('Actualizamos el ejercicio')
+        let datos = [{
+          "nombre": $("#nombreE").val(),
+          "tipo": $("#tipoE").val(),
+          "metrica": $("#metricaE").val(),
+          "categoria": $("#categoriaE").val()
+        }]
+        actualizarEjercicio(db,datos)
       }
       function cEjercicio(){
         console.log('Creamos un ejercicio')

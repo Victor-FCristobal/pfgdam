@@ -606,3 +606,12 @@ function borrarEjercicio(db, ejercicio){
     tx.executeSql('DELETE FROM EJERCICIO WHERE ID = ?', [ejercicio]);
   })
 }
+
+
+function actualizarEjercicio(db,datos){
+  const tratados = JSON.parse(datos);
+  
+  // db.transaction(function(tx){
+  //   tx.executeSql('UPDATE EJERCICIO SET ')
+  // })
+}
