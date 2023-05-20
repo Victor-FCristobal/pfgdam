@@ -25,10 +25,12 @@ async function crearTablas(db){
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_METRICA` (ID INTEGER NOT NULL,metrica TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO` (ID INTEGER,nombre TEXT NOT NULL,favorito INTEGER NOT NULL DEFAULT 0,metrica INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_METRICA(ID),tipo INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_TIPO(ID),imagen TEXT,oculto INTEGER, grupo_muscular INTEGER NOT NULL REFERENCES GRUPO_MUSCULAR(ID), FOREIGN KEY(metrica) REFERENCES EJERCICIO_METRICA(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(tipo) REFERENCES EJERCICIO_TIPO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(grupo_muscular) REFERENCES GRUPO_MUSCULAR(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_MUSCULO` (ejercicio_id INTEGER NOT NULL,musculo_id INTEGER NOT NULL,grupo_muscular_id INTEGER NOT NULL,FOREIGN KEY(grupo_muscular_id) REFERENCES MUSCULO(grupo_muscular_id) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(musculo_id) REFERENCES MUSCULO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(ejercicio_id) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,PRIMARY KEY(ejercicio_id,musculo_id,grupo_muscular_id))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `ENTRENAMIENTO` (ID INTEGER NOT NULL,comentario TEXT,fecha TEXT NOT NULL,calendario INTEGER NOT NULL,ejercicio INTEGER NOT NULL,FOREIGN KEY(calendario) REFERENCES CALENDARIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(ejercicio) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE_DIFICULTAD` (ID INTEGER,dificultad TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE` (ID INTEGER NOT NULL,numero INTEGER NOT NULL,dificultad INTEGER,valor1 TEXT NOT NULL,valor2 TEXT NOT NULL,entrenamiento INTEGER NOT NULL,FOREIGN KEY(entrenamiento)REFERENCES ENTRENAMIENTO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(dificultad) REFERENCES SERIE_DIFICULTAD(ID) ON DELETE SET NULL ON UPDATE NO ACTION,PRIMARY KEY(ID AUTOINCREMENT))');
   });
   // Inserto los datos iniciales
-  await insertarCalendario(db,"Yo");
+  insertarCalendario(db, "Yo");
   await insertarCategorias(db);
   await insertarMusculos(db);
   await insertarTipos(db);
@@ -36,8 +38,11 @@ async function crearTablas(db){
   await insertarEjercicios(db);
   // await insertarEjerciciosMusculos(db);
   await insertarDificultades(db);
+  let datosEntrenamiento = ["","20/05/2023",1,1]
+  crearEntrenamiento(db,datosEntrenamiento);
+  let datosSerie = [1,1,50,10,1]
+  crearSerie(db,datosSerie);
 }
-
 // INSERCIÓN DE DATOS EN TABLAS
 
 /**
@@ -472,6 +477,30 @@ function getMusculos(db,condicion = ""){
   });
 }
 
+function getEntrenamientos(db,condicion = ""){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO ' + condicion, [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
+function getSeries(db,ejercicio){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM SERIE WHERE entrenamiento = ?', [ejercicio], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
 /**
  * 
  * @param {SQLitePlugin.Database} db 
@@ -609,9 +638,27 @@ function borrarEjercicio(db, ejercicio){
 
 
 function actualizarEjercicio(db,datos){
-  const tratados = JSON.parse(datos);
-  
-  // db.transaction(function(tx){
-  //   tx.executeSql('UPDATE EJERCICIO SET ')
-  // })
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE EJERCICIO SET nombre=?,tipo=?,metrica=?,grupo_muscular=? WHERE ID=?',
+    [datos[1],datos[2],datos[3],datos[4],datos[0]])
+  })
+}
+
+function crearEjercicio(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto,grupo_muscular) VALUES (?,?,?,?,?,?,?)',
+    [datos[0],0,datos[2],datos[1],"img/ejercicios/noimg.png",0,datos[3]]);
+  })
+}
+function crearEntrenamiento(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('INSERT INTO ENTRENAMIENTO(comentario,fecha,calendario,ejercicio) values(?,?,?,?)',
+    [datos[0],datos[1],datos[2],datos[3]]);
+  })
+}
+function crearSerie(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('INSERT INTO SERIE(numero,dificultad,valor1,valor2,entrenamiento) VALUES(?,?,?,?,?)',
+    [datos[0],datos[1],datos[2],datos[3],datos[4]]);
+  })
 }

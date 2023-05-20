@@ -113,54 +113,39 @@
         </div>
         <!-- Fin modal -->
 
-    <!-- Ejercicios -->
-    <div id="ejercicios" class="mb-5">
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
+    <!-- Entrenamientos -->
+    <div id="entrenamientos" class="mb-5">
+      <!-- Entrenamiento -->
+      <!-- <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
             <div class="col-4">
-                <img class="rounded-circle shadow img-fluid" src="img/ejercicios/sentadilla_libre.gif" />
+                <img class="rounded-circle shadow img-fluid" src="ejercicio.imagen" />
             </div>
             <div class="col-8">
                 <div class="row">
                     <div class="col-10">
-                        <p><strong><u>Sentadilla libre</u></strong></p>
+                        <p><strong><u>ejercicio.nombre</u></strong></p>
                     </div>
                     <div class="col-2">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
                 </div>
-                <div class="row text-center">
-                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="1" data-bs-nset="1"class="col-3 d-flex flex-column justify-content-center">
-                        <div class="h-25 bg-calentamiento rounded-pill"></div>
-                        <p>20KG</p>
-                        <p>12REP</p>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="1" data-bs-nset="2"class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                        <p>60KG</p>
-                        <p>10REP</p>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="1" data-bs-nset="3"class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                        <p>80KG</p>
-                        <p>8REP</p>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="1" data-bs-nset="4" class="col-3 d-flex flex-column justify-content-center">
+                <div id ="series" class="row text-center">
+                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="entrenamiento.ejercicio" data-bs-nset="i" class="col-3 d-flex flex-column justify-content-center">
                         <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                        <p>100KG</p>
-                        <p>8REP</p>
+                        <p>set.valor1</p>
+                        <p>set.valor2</p>
                     </div>
                     <div class="col-3 d-flex flex-column justify-content-center">
-                        <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="1" data-bs-nset="1" class="btn"><i class="fas fa-plus"></i></button>
+                        <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="entrenamiento.ejercicio" data-bs-nset="1" class="btn"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
+      </div> -->
+      <!-- Fin entrenamiento -->
+      <!-- Entrenamiento -->
+      <!-- <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
             <div class="col-4">
                 <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
@@ -201,10 +186,10 @@
                 </div>
             </div>
         </div>
-      </div>
-      <!-- Fin ejercicio -->
-      <!-- Ejercicio -->
-      <div class="px-4 my-2">
+      </div> -->
+      <!-- Fin entrenamiento -->
+      <!-- Entrenamiento -->
+      <!-- <div class="px-4 my-2">
         <div class="bg-white rounded shadow-sm p-3 row">
             <div class="col-4">
                 <img class="rounded-circle shadow img-fluid" src="img/ejercicios/press_banca_barra.gif" />
@@ -225,30 +210,15 @@
                         <p>12REP</p>
                     </div>
                     <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                        <p>60KG</p>
-                        <p>10REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                        <p>80KG</p>
-                        <p>8REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                        <p>100KG</p>
-                        <p>8REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
                         <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="3" data-bs-nset="5" class="btn"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
+      </div> -->
       <!-- Fin ejercicio -->                             
     </div>
-    <!-- Fin de ejercicios -->
+    <!-- Fin de entrenamientos -->
 
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
@@ -291,6 +261,91 @@
                 titulo.textContent = 'Edición set Nº ' + nset
                 subtitulo.textContent = ejercicio.rows.item(0).nombre;
             })
+            const entrenamientos = await getEntrenamientos(db);
+            // if(entrenamientos.rows.length > 0){
+                for (let i = 0; i < entrenamientos.rows.length; i++) {
+                    let entrenamiento = entrenamientos.rows.item(i);
+                    let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
+                    ejercicio = ejercicio.rows.item(0);
+                    let div1 = document.createElement('div');
+                    div1.classList.add('px-4', 'my-2');
+                    let div2 = document.createElement('div');
+                    div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row');
+                    let div3 = document.createElement('div');
+                    div3.classList.add('col-4');
+                    let img = document.createElement('img');
+                    img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+                    img.src = ejercicio.imagen;
+                    div3.appendChild(img);
+                    div2.appendChild(div3);
+                    let div4 = document.createElement('div');
+                    div4.classList.add('col-8');
+                    let div5 = document.createElement('div');
+                    div5.classList.add('row');
+                    let div6 = document.createElement('div');
+                    div6.classList.add('col-10');
+                    let p = document.createElement('p');
+                    let strong = document.createElement('strong');
+                    let u = document.createElement('u');
+                    u.textContent = ejercicio.nombre;
+                    strong.appendChild(u);
+                    p.appendChild(strong);
+                    div6.appendChild(p);
+                    div5.appendChild(div6);
+                    let div7 = document.createElement('div');
+                    div7.classList.add('col-2');
+                    let i = document.createElement('i');
+                    i.classList.add('fa-solid', 'fa-ellipsis-vertical');
+                    div7.appendChild(i);
+                    div5.appendChild(div7);
+                    div4.appendChild(div5);
+                    let div8 = document.createElement('div');
+                    div8.id = 'series';
+                    div8.classList.add('row', 'text-center');
+                    const series = await getSeries(db,entrenamiento.ID);
+                    for (let j = 0; j < series.rows.length; j++) {
+                        let serie = series.rows.item(j);
+                        let div9 = document.createElement('div');
+                        div9.setAttribute('data-bs-toggle', 'modal');
+                        div9.setAttribute('data-bs-target', '#modalUSet');
+                        div9.setAttribute('data-bs-ejercicio', entrenamiento.ID);
+                        div9.setAttribute('data-bs-nset', j);
+                        div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                        let div10 = document.createElement('div');
+                        div10.classList.add('py-1', 'h-25', 'bg-dificil', 'rounded-pill');
+                        let p1 = document.createElement('p');
+                        p1.textContent = serie.valor1;
+                        let p2 = document.createElement('p');
+                        p2.textContent = serie.valor2;
+                        div9.appendChild(div10);
+                        div9.appendChild(p1);
+                        div9.appendChild(p2);
+                        div8.appendChild(div9);
+                    }
+                    let div11 = document.createElement('div');
+                    div11.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                    let button = document.createElement('button');
+                    button.setAttribute('data-bs-toggle', 'modal');
+                    button.setAttribute('data-bs-target', '#modalCSet');
+                    button.setAttribute('data-bs-ejercicio', entrenamiento.ID);
+                    button.setAttribute('data-bs-nset', series.length);
+                    button.classList.add('btn');
+                    let icon = document.createElement('i');
+                    icon.classList.add('fas', 'fa-plus');
+                    button.appendChild(icon);
+                    div11.appendChild(button);
+                    div8.appendChild(div11);
+                    div4.appendChild(div8);
+                    div2.appendChild(div4);
+                    div1.appendChild(div2);
+                    document.getElementById("entrenamientos").appendChild(div1);
+                }
+            // }
+            // else{
+            //     let h1 = document.createElement('h1');
+            //     h1.textContent = "No hay entrenamientos";
+            //     document.getElementById("entrenamientos").appendChild(h1);
+            // }
         })
         function crearSet(){
             let valor1 = $("#valor1").val()

@@ -31,16 +31,16 @@
     <!-- Fin barra superior -->
 
     <!-- Filtrado -->
-    <!-- <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
+    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
       <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-favorito">
-        <label class="btn btn-primary" for="btn-favorito"><i class="fa-solid fa-star"></i></label>
+        <input type="checkbox" class="btn-check" id="btn-favoritos">
+        <label class="btn btn-primary" for="btn-favoritos"><i class="fa-solid fa-star"></i></label>
       </div>
       <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-oculto">
-        <label class="btn btn-primary" for="btn-oculto"><i class="fa-solid fa-eye-slash"></i></label>
+        <input type="checkbox" class="btn-check" id="btn-ocultos">
+        <label class="btn btn-primary" for="btn-ocultos"><i class="fa-solid fa-eye-slash"></i></label>
       </div>
-    </div> -->
+    </div>
     <!-- Fin filtrado -->
 
     <div id="ejercicios" class="mb-5"></div>
@@ -59,20 +59,14 @@
             </div>
             <div class="input-group mb-2">
               <select class="form-select" id="tipo" name="tipo">
-                <option selected value="tipo">Tipo</option>
-                <option value="tipo.ID">tipo.tipo</option>
               </select>
               <select class="form-select" id="metrica" name="metrica">
-                <option selected value="metrica">Métrica</option>
-                <option value="metrica.ID">metrica.metrica</option>
               </select>
             </div>
             <div class="input-group mb-2">
               <select class="form-select" id="categoria" name="categoria">
-                <option value="categoria">Grupo muscular</option>
-                <option value="grupo_muscular.ID">grupo_muscular.nombre</option>
               </select>
-              <button class="btn btn-primary">Músculos</button>
+              <button id="btn-musculos" class="btn btn-primary">Músculos</button>
             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -167,28 +161,26 @@
         const grupo_muscular_id = urlParams.get('grupo_muscular');
 
         // Modales y su lógica
-        // const modalCEjercicio = document.getElementById('modalCEjercicio')
-        // modalCEjercicio.addEventListener('show.bs.modal', async event => {
-        //   const boton = event.relatedTarget
-        //   const idEjercicio = boton.getAttribute('data-bs-ejercicio')
-        //   const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
-        //   const modalTitle = modalUEjercicio.querySelector('.modal-title')
-        //   modalTitle.textContent = ejercicio.rows.item(0).nombre;
-        //   const modalLink = modalUEjercicio.querySelector('#eliminar')
-        //   modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
-        // });
+        const modalCEjercicio = document.getElementById('modalCEjercicio')
         const modalUEjercicio = document.getElementById('modalUEjercicio')
-        const inputTipo = modalUEjercicio.querySelector('#tipoE')
+        const inputTipoC = modalCEjercicio.querySelector('#tipo')
+        const inputTipoE = modalUEjercicio.querySelector('#tipoE')
           for (let i = 0; i < tipos.rows.length; i++) {
             let tipo_id = tipos.rows.item(i).ID
             let tipo = tipos.rows.item(i).tipo
-            opcionTipo = document.createElement("option")
-            opcionTipo.id = "tipo"+tipo_id
-            opcionTipo.value = tipo_id
-            opcionTipo.textContent = tipo
-            inputTipo.appendChild(opcionTipo)
+            opcionTipoC = document.createElement("option")
+            opcionTipoC.id = "tipo"+tipo_id
+            opcionTipoC.value = tipo_id
+            opcionTipoC.textContent = tipo
+            opcionTipoE = document.createElement("option")
+            opcionTipoE.id = "tipo"+tipo_id
+            opcionTipoE.value = tipo_id
+            opcionTipoE.textContent = tipo
+            inputTipoC.appendChild(opcionTipoC)
+            inputTipoE.appendChild(opcionTipoE)
           }
-        const inputMetrica = modalUEjercicio.querySelector('#metricaE')
+          const inputMetricaC = modalCEjercicio.querySelector('#metrica')
+        const inputMetricaE = modalUEjercicio.querySelector('#metricaE')
         for (let i = 0; i < metricas.rows.length; i++) {
           let metrica_id = metricas.rows.item(i).ID
           let metrica = metricas.rows.item(i).metrica
@@ -196,9 +188,11 @@
           opcionMetrica.id = "metrica"+metrica_id
           opcionMetrica.value = metrica_id
           opcionMetrica.textContent = metrica
-          inputMetrica.appendChild(opcionMetrica)
+          inputMetricaC.appendChild(opcionMetrica)
+          inputMetricaE.appendChild(opcionMetrica)
         }
-        const inputCategoria = modalUEjercicio.querySelector('#categoriaE')
+        const inputCategoriaC = modalCEjercicio.querySelector('#categoria')
+        const inputCategoriaE = modalUEjercicio.querySelector('#categoriaE')
         for (let i = 0; i < categorias.rows.length; i++) {
           let categoria_id = categorias.rows.item(i).ID
           let categoria = categorias.rows.item(i).nombre
@@ -206,21 +200,26 @@
           opcionCategoria.id = "categoria"+categoria_id
           opcionCategoria.value = categoria_id
           opcionCategoria.textContent = categoria
-          inputCategoria.appendChild(opcionCategoria)
+          inputCategoriaC.appendChild(opcionCategoria)
+          inputCategoriaE.appendChild(opcionCategoria)
         }
+        modalCEjercicio.addEventListener('show.bs.modal', async event => {
+          const boton = event.relatedTarget
+          $("#categoria"+grupo_muscular_id).attr("selected","selected");
+        });
 
         modalUEjercicio.addEventListener('shown.bs.modal', async event => {
-          console.log(this);
           const boton = event.relatedTarget
           const idEjercicio = boton.getAttribute('data-bs-ejercicio')
-          const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
+          let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
           const subtitulo = modalUEjercicio.querySelector('#subtitulo')
           subtitulo.textContent = ejercicio.rows.item(0).nombre;
           const inputNombre = modalUEjercicio.querySelector('#nombreE')
           inputNombre.value = ejercicio.rows.item(0).nombre;
-          $("#categoria"+ejercicio.rows.item(0).tipo).attr("selected","selected");
-          $("#tipo"+ejercicio.rows.item(0).tipo).attr("selected","selected");
-          $("#metrica"+ejercicio.rows.item(0).metrica).attr("selected","selected");
+          inputNombre.setAttribute("ejercicio",ejercicio.rows.item(0).ID);
+          $("#categoriaE"+ejercicio.rows.item(0).grupo_muscular).attr("selected","selected");
+          $("#tipoE"+ejercicio.rows.item(0).tipo).attr("selected","selected");
+          $("#metricaE"+ejercicio.rows.item(0).metrica).attr("selected","selected");
         });
 
         const modalDEjercicio = document.getElementById('modalDEjercicio')
@@ -239,6 +238,12 @@
         if(urlParams.get('ocultar') != null){
           ocultarEjercicio(db,urlParams.get('ocultar'));
         }
+        if(urlParams.get('favoritoS') != null){
+          aFavoritoEjercicio(db,urlParams.get('favoritoS'));
+        }
+        if(urlParams.get('favoritoN') != null){
+          qFavoritoEjercicio(db,urlParams.get('favoritoN'));
+        }
 
         // Cojo el nombre del grupo muscular para cambiar el título de la ventana
         const grupo_muscular = await getCategorias(db,`WHERE ID = ${grupo_muscular_id}`);
@@ -248,7 +253,7 @@
         // Filtrado
         // const musculosCategoria = await getMusculos(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
         // for (let i = 0; i < musculosCategoria.rows.length; i++) {
-        //   let musculo = musculosCategoriaCategoria.rows.item(i);
+        //   let musculo = musculosCategoria.rows.item(i);
         //   let divFiltrado = document.createElement('div');
         //   divFiltrado.classList.add('w-auto', 'p-1');
         //   let inputFiltrado = document.createElement('input');
@@ -329,9 +334,20 @@
                 { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
                 { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
                 { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-                { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-                { href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" }
-            ];
+                { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
+              ];
+            if(ejercicio.oculto == 0){
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
+            }
+            else{
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
+            }
+            if(ejercicio.favorito == 0){
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
+            }
+            else{
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
+            }
             elementosLista.forEach(function(elemento) {
               let itemLista = document.createElement("li");
               let enlace = document.createElement("a");
@@ -365,17 +381,31 @@
         })
       });
       function uEjercicio(){
-        let datos = [{
-          "nombre": $("#nombreE").val(),
-          "tipo": $("#tipoE").val(),
-          "metrica": $("#metricaE").val(),
-          "categoria": $("#categoriaE").val()
-        }]
+        let datos = [$("#nombreE").attr("ejercicio"),$("#nombreE").val(),$("#tipoE").val(),$("#metricaE").val(),$("#categoriaE").val()]
         actualizarEjercicio(db,datos)
+        location.reload()
       }
       function cEjercicio(){
-        console.log('Creamos un ejercicio')
+        let datos = [$("#nombre").val(),$("#tipo").val(),$("#metrica").val(),$("#categoria").val()]
+        crearEjercicio(db,datos)
+        location.reload()
       }
+      $("#btn-favoritos").change(function(){
+        if(this.checked){
+          console.log('Filtro por favoritos')
+        }
+        else{
+          console.log('Favorito: Muestro todos');
+        }
+      })
+      $("#btn-ocultos").change(function(){
+        if(this.checked){
+          console.log('Filtro por ocultos')
+        }
+        else{
+          console.log('Oculto: Muestro todos');
+        }
+      })
     </script>
   </body>
 </html>
