@@ -163,23 +163,26 @@
         // Modales y su lógica
         const modalCEjercicio = document.getElementById('modalCEjercicio')
         const modalUEjercicio = document.getElementById('modalUEjercicio')
+        const modalDEjercicio = document.getElementById('modalDEjercicio')
+
         const inputTipoC = modalCEjercicio.querySelector('#tipo')
         const inputTipoE = modalUEjercicio.querySelector('#tipoE')
-          for (let i = 0; i < tipos.rows.length; i++) {
-            let tipo_id = tipos.rows.item(i).ID
-            let tipo = tipos.rows.item(i).tipo
-            opcionTipoC = document.createElement("option")
-            opcionTipoC.id = "tipo"+tipo_id
-            opcionTipoC.value = tipo_id
-            opcionTipoC.textContent = tipo
-            opcionTipoE = document.createElement("option")
-            opcionTipoE.id = "tipo"+tipo_id
-            opcionTipoE.value = tipo_id
-            opcionTipoE.textContent = tipo
-            inputTipoC.appendChild(opcionTipoC)
-            inputTipoE.appendChild(opcionTipoE)
-          }
-          const inputMetricaC = modalCEjercicio.querySelector('#metrica')
+        for (let i = 0; i < tipos.rows.length; i++) {
+          let tipo_id = tipos.rows.item(i).ID
+          let tipo = tipos.rows.item(i).tipo
+          opcionTipoC = document.createElement("option")
+          opcionTipoC.id = "tipo"+tipo_id
+          opcionTipoC.value = tipo_id
+          opcionTipoC.textContent = tipo
+          opcionTipoE = document.createElement("option")
+          opcionTipoE.id = "tipo"+tipo_id
+          opcionTipoE.value = tipo_id
+          opcionTipoE.textContent = tipo
+          inputTipoC.appendChild(opcionTipoC)
+          inputTipoE.appendChild(opcionTipoE)
+        }
+
+        const inputMetricaC = modalCEjercicio.querySelector('#metrica')
         const inputMetricaE = modalUEjercicio.querySelector('#metricaE')
         for (let i = 0; i < metricas.rows.length; i++) {
           let metrica_id = metricas.rows.item(i).ID
@@ -191,6 +194,7 @@
           inputMetricaC.appendChild(opcionMetrica)
           inputMetricaE.appendChild(opcionMetrica)
         }
+
         const inputCategoriaC = modalCEjercicio.querySelector('#categoria')
         const inputCategoriaE = modalUEjercicio.querySelector('#categoriaE')
         for (let i = 0; i < categorias.rows.length; i++) {
@@ -203,18 +207,19 @@
           inputCategoriaC.appendChild(opcionCategoria)
           inputCategoriaE.appendChild(opcionCategoria)
         }
+
         modalCEjercicio.addEventListener('show.bs.modal', async event => {
-          const boton = event.relatedTarget
+          let boton = event.relatedTarget
           $("#categoria"+grupo_muscular_id).attr("selected","selected");
         });
 
         modalUEjercicio.addEventListener('shown.bs.modal', async event => {
-          const boton = event.relatedTarget
-          const idEjercicio = boton.getAttribute('data-bs-ejercicio')
+          let boton = event.relatedTarget
+          let idEjercicio = boton.getAttribute('data-bs-ejercicio')
           let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
-          const subtitulo = modalUEjercicio.querySelector('#subtitulo')
+          let subtitulo = modalUEjercicio.querySelector('#subtitulo')
           subtitulo.textContent = ejercicio.rows.item(0).nombre;
-          const inputNombre = modalUEjercicio.querySelector('#nombreE')
+          let inputNombre = modalUEjercicio.querySelector('#nombreE')
           inputNombre.value = ejercicio.rows.item(0).nombre;
           inputNombre.setAttribute("ejercicio",ejercicio.rows.item(0).ID);
           $("#categoriaE"+ejercicio.rows.item(0).grupo_muscular).attr("selected","selected");
@@ -222,16 +227,16 @@
           $("#metricaE"+ejercicio.rows.item(0).metrica).attr("selected","selected");
         });
 
-        const modalDEjercicio = document.getElementById('modalDEjercicio')
         modalDEjercicio.addEventListener('show.bs.modal', async event => {
-          const boton = event.relatedTarget
-          const idEjercicio = boton.getAttribute('data-bs-ejercicio')
-          const ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`)
-          const modalTitle = modalDEjercicio.querySelector('.modal-title')
+          let boton = event.relatedTarget
+          let idEjercicio = boton.getAttribute('data-bs-ejercicio')
+          let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`)
+          let modalTitle = modalDEjercicio.querySelector('.modal-title')
           modalTitle.textContent = ejercicio.rows.item(0).nombre;
-          const modalLink = modalDEjercicio.querySelector('#eliminar')
+          let modalLink = modalDEjercicio.querySelector('#eliminar')
           modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
         });
+
         if(urlParams.get('eliminar') != null){
           borrarEjercicio(db,urlParams.get('eliminar'));
         }
@@ -288,91 +293,91 @@
         // Lista de ejercicios
         const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
         for (let i = 0; i < ejercicios.rows.length; i++) {
-            let ejercicio = ejercicios.rows.item(i);
-            let divPrincipal = document.createElement("div");
-            divPrincipal.classList.add("px-4", "my-2");
-            let divInterno = document.createElement("div");
-            divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
-            let columna1 = document.createElement("div");
-            columna1.classList.add("col-4");
-            let imagen = document.createElement("img");
-            imagen.classList.add("rounded-circle", "shadow", "img-fluid");
-            imagen.src = ejercicio.imagen;
-            columna1.appendChild(imagen);
-            divInterno.appendChild(columna1);
-            let columna2 = document.createElement("div");
-            columna2.classList.add("col-8");
-            let filaInterna = document.createElement("div");
-            filaInterna.classList.add("row");
-            let columna1FilaInterna = document.createElement("div");
-            columna1FilaInterna.classList.add("col-10");
-            let parrafo = document.createElement("p");
-            let strong = document.createElement("strong");
-            let u = document.createElement("u");
-            let textoParrafo = document.createTextNode(ejercicio.nombre);
-            u.appendChild(textoParrafo);
-            strong.appendChild(u);
-            parrafo.appendChild(strong);
-            columna1FilaInterna.appendChild(parrafo);
-            filaInterna.appendChild(columna1FilaInterna);
-            let columna2FilaInterna = document.createElement("div");
-            columna2FilaInterna.classList.add("col-2");
-            let dropdown = document.createElement("div");
-            dropdown.classList.add("dropdown");
-            let boton = document.createElement("button");
-            boton.classList.add("btn");
-            boton.setAttribute("type", "button");
-            boton.setAttribute("data-bs-toggle", "dropdown");
-            boton.setAttribute("aria-expanded", "false");
-            let icono = document.createElement("i");
-            icono.classList.add("fa-solid", "fa-ellipsis-vertical");
-            boton.appendChild(icono);
-            dropdown.appendChild(boton);
-            let lista = document.createElement("ul");
-            lista.classList.add("dropdown-menu");
-            let elementosLista = [
-                { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
-                { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
-                { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-                { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
-              ];
-            if(ejercicio.oculto == 0){
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
+          let ejercicio = ejercicios.rows.item(i);
+          let divPrincipal = document.createElement("div");
+          divPrincipal.classList.add("px-4", "my-2");
+          let divInterno = document.createElement("div");
+          divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
+          let columna1 = document.createElement("div");
+          columna1.classList.add("col-4");
+          let imagen = document.createElement("img");
+          imagen.classList.add("rounded-circle", "shadow", "img-fluid");
+          imagen.src = ejercicio.imagen;
+          columna1.appendChild(imagen);
+          divInterno.appendChild(columna1);
+          let columna2 = document.createElement("div");
+          columna2.classList.add("col-8");
+          let filaInterna = document.createElement("div");
+          filaInterna.classList.add("row");
+          let columna1FilaInterna = document.createElement("div");
+          columna1FilaInterna.classList.add("col-10");
+          let parrafo = document.createElement("p");
+          let strong = document.createElement("strong");
+          let u = document.createElement("u");
+          let textoParrafo = document.createTextNode(ejercicio.nombre);
+          u.appendChild(textoParrafo);
+          strong.appendChild(u);
+          parrafo.appendChild(strong);
+          columna1FilaInterna.appendChild(parrafo);
+          filaInterna.appendChild(columna1FilaInterna);
+          let columna2FilaInterna = document.createElement("div");
+          columna2FilaInterna.classList.add("col-2");
+          let dropdown = document.createElement("div");
+          dropdown.classList.add("dropdown");
+          let boton = document.createElement("button");
+          boton.classList.add("btn");
+          boton.setAttribute("type", "button");
+          boton.setAttribute("data-bs-toggle", "dropdown");
+          boton.setAttribute("aria-expanded", "false");
+          let icono = document.createElement("i");
+          icono.classList.add("fa-solid", "fa-ellipsis-vertical");
+          boton.appendChild(icono);
+          dropdown.appendChild(boton);
+          let lista = document.createElement("ul");
+          lista.classList.add("dropdown-menu");
+          let elementosLista = [
+            { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
+            { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
+            { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+            { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
+          ];
+          if(ejercicio.oculto == 0){
+            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
+          }
+          else{
+            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
+          }
+          if(ejercicio.favorito == 0){
+            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
+          }
+          else{
+            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
+          }
+          elementosLista.forEach(function(elemento) {
+            let itemLista = document.createElement("li");
+            let enlace = document.createElement("a");
+            enlace.href = elemento.href || "#";
+            enlace.classList.add("dropdown-item", elemento.clase);
+            let iconoLista = document.createElement("i");
+            iconoLista.classList.add("fa-solid", elemento.icono);
+            let textoEnlace = document.createTextNode(elemento.texto);
+            enlace.appendChild(iconoLista);
+            enlace.appendChild(textoEnlace);
+            itemLista.appendChild(enlace);
+            lista.appendChild(itemLista);
+            if (elemento.modal) {
+              enlace.setAttribute("data-bs-toggle", "modal");
+              enlace.setAttribute("data-bs-target", "#" + elemento.modal);
+              enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
             }
-            else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
-            }
-            if(ejercicio.favorito == 0){
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
-            }
-            else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
-            }
-            elementosLista.forEach(function(elemento) {
-              let itemLista = document.createElement("li");
-              let enlace = document.createElement("a");
-              enlace.href = elemento.href || "#";
-              enlace.classList.add("dropdown-item", elemento.clase);
-              let iconoLista = document.createElement("i");
-              iconoLista.classList.add("fa-solid", elemento.icono);
-              let textoEnlace = document.createTextNode(elemento.texto);
-              enlace.appendChild(iconoLista);
-              enlace.appendChild(textoEnlace);
-              itemLista.appendChild(enlace);
-              lista.appendChild(itemLista);
-              if (elemento.modal) {
-                  enlace.setAttribute("data-bs-toggle", "modal");
-                  enlace.setAttribute("data-bs-target", "#" + elemento.modal);
-                  enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
-              }
-            });
-            dropdown.appendChild(lista);
-            columna2FilaInterna.appendChild(dropdown);
-            filaInterna.appendChild(columna2FilaInterna);
-            columna2.appendChild(filaInterna);
-            divInterno.appendChild(columna2);
-            divPrincipal.appendChild(divInterno);
-            document.getElementById("ejercicios").appendChild(divPrincipal);
+          });
+          dropdown.appendChild(lista);
+          columna2FilaInterna.appendChild(dropdown);
+          filaInterna.appendChild(columna2FilaInterna);
+          columna2.appendChild(filaInterna);
+          divInterno.appendChild(columna2);
+          divPrincipal.appendChild(divInterno);
+          document.getElementById("ejercicios").appendChild(divPrincipal);
         }
       },false);
       $(document).ready(function(){

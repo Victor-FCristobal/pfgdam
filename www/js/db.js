@@ -40,8 +40,10 @@ async function crearTablas(db){
   await insertarDificultades(db);
   let datosEntrenamiento = ["","20/05/2023",1,1]
   crearEntrenamiento(db,datosEntrenamiento);
-  let datosSerie = [1,1,50,10,1]
-  crearSerie(db,datosSerie);
+  let datosSerie1 = [1,1,50,10,1]
+  let datosSerie2 = [2,2,70,8,1]
+  crearSerie(db,datosSerie1);
+  crearSerie(db,datosSerie2);
 }
 // INSERCIÓN DE DATOS EN TABLAS
 
@@ -477,10 +479,22 @@ function getMusculos(db,condicion = ""){
   });
 }
 
-function getEntrenamientos(db,condicion = ""){
+function getEntrenamientos(db,calendario,fecha){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
-      tx.executeSql('SELECT * FROM ENTRENAMIENTO ' + condicion, [], function(tx,rs){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO WHERE calendario = ? AND fecha = ?', [calendario,fecha], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
+function getEntrenamiento(db,id){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO WHERE ID = ?', [id], function(tx,rs){
         resolve(rs);
       },function(error){
         reject(error);

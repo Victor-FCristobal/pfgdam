@@ -37,30 +37,27 @@
           </div>
           <div class="modal-body">
             <div class="input-group flex-nowrap mb-3">
-              <span class="input-group-text">KG</span>
-              <input type="number" class="form-control" id="valor1">
+                <span class="input-group-text">KG</span>
+                <input type="number" class="form-control" id="valor1">
             </div>
             <div class="input-group flex-nowrap mb-3">
-              <span class="input-group-text">REP</span>
-              <input type="number" class="form-control" id="valor2">
+                <span class="input-group-text">REP</span>
+                <input type="number" class="form-control" id="valor2">
             </div>
             <div class="btn-group-sm text-center form-group">
-              <input type="radio" class="btn-check btn-calentamiento" name="dificultad" id="calentamiento" value="1">
-              <label class="btn btn-calentamiento" for="calentamiento">Calentamiento</label>
-  
-              <input type="radio" class="btn-check btn-facil" name="dificultad" id="facil" value="2">
-              <label class="btn btn-facil" for="facil">Fácil</label>
-  
-              <input type="radio" class="btn-check btn-normal" name="dificultad" id="normal" value="3">
-              <label class="btn btn-normal" for="normal">Normal</label>
-  
-              <input type="radio" class="btn-check btn-dificil" name="dificultad" id="dificil" value="4">
-              <label class="btn btn-dificil" for="dificil">Difícil</label>
+                <input type="radio" class="btn-check btn-calentamiento" name="dificultad" id="calentamiento" value="1">
+                <label class="btn btn-calentamiento" for="calentamiento">Calentamiento</label>
+                <input type="radio" class="btn-check btn-facil" name="dificultad" id="facil" value="2">
+                <label class="btn btn-facil" for="facil">Fácil</label>
+                <input type="radio" class="btn-check btn-normal" name="dificultad" id="normal" value="3">
+                <label class="btn btn-normal" for="normal">Normal</label>
+                <input type="radio" class="btn-check btn-dificil" name="dificultad" id="dificil" value="4">
+                <label class="btn btn-dificil" for="dificil">Difícil</label>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="btnSubmit" onclick="crearSet()" data-bs-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-primary" id="btn-crearSerie" data-bs-dismiss="modal">Guardar</button>
           </div>
         </div>
       </div>
@@ -71,153 +68,47 @@
     <div class="modal fade" id="modalUSet" tabindex="-1" aria-labelledby="modalUSetLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h1 id="titulo" class="modal-title fs-5"></h1>
-                    <p id="subtitulo" class="modal-title fst-italic"></p>
+                <div class="modal-header">
+                    <div>
+                        <h1 id="titulo" class="modal-title fs-5"></h1>
+                        <p id="subtitulo" class="modal-title fst-italic"></p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text">KG</span>
-                <input type="number" class="form-control" id="valor1">
+                <div class="modal-body">
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text">KG</span>
+                        <input type="number" class="form-control" id="valor1E">
+                    </div>
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text">REP</span>
+                        <input type="number" class="form-control" id="valor2E">
+                    </div>
+                    <div class="btn-group-sm text-center form-group">
+                        <input type="radio" class="btn-check btn-calentamiento" name="dificultadE" id="calentamientoE" value="1">
+                        <label class="btn btn-calentamiento" for="calentamientoE">Calentamiento</label>
+                        <input type="radio" class="btn-check btn-facil" name="dificultadE" id="facilE" value="2">
+                        <label class="btn btn-facil" for="facilE">Fácil</label>
+                        <input type="radio" class="btn-check btn-normal" name="dificultadE" id="normalE" value="3">
+                        <label class="btn btn-normal" for="normalE">Normal</label>
+                        <input type="radio" class="btn-check btn-dificil" name="dificultadE" id="dificilE" value="4">
+                        <label class="btn btn-dificil" for="dificilE">Difícil</label>
+                    </div>
                 </div>
-                <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text">REP</span>
-                <input type="number" class="form-control" id="valor2">
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-primary"><i class="fas fa-trash-can"></i></button>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="btn-editarSerie" onclick="editarSerie()" data-bs-dismiss="modal">Actualizar</button>
+                    </div>
                 </div>
-                <div class="btn-group-sm text-center form-group">
-                <input type="radio" class="btn-check btn-calentamiento" name="dificultad" id="calentamientoE" value="1">
-                <label class="btn btn-calentamiento" for="calentamientoE">Calentamiento</label>
-
-                <input type="radio" class="btn-check btn-facil" name="dificultad" id="facilE" value="2">
-                <label class="btn btn-facil" for="facilE">Fácil</label>
-
-                <input type="radio" class="btn-check btn-normal" name="dificultad" id="normalE" value="3">
-                <label class="btn btn-normal" for="normalE">Normal</label>
-
-                <input type="radio" class="btn-check btn-dificil" name="dificultad" id="dificilE" value="4">
-                <label class="btn btn-dificil" for="dificilE">Difícil</label>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-primary"><i class="fas fa-trash-can"></i></button>
-                <div>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnSubmit" onclick="editarSet()" data-bs-dismiss="modal">Actualizar</button>
-                </div>
-            </div>
             </div>
         </div>
-        </div>
-        <!-- Fin modal -->
+    </div>
+    <!-- Fin modal -->
 
     <!-- Entrenamientos -->
-    <div id="entrenamientos" class="mb-5">
-      <!-- Entrenamiento -->
-      <!-- <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-            <div class="col-4">
-                <img class="rounded-circle shadow img-fluid" src="ejercicio.imagen" />
-            </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-10">
-                        <p><strong><u>ejercicio.nombre</u></strong></p>
-                    </div>
-                    <div class="col-2">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-                </div>
-                <div id ="series" class="row text-center">
-                    <div data-bs-toggle="modal" data-bs-target="#modalUSet" data-bs-ejercicio="entrenamiento.ejercicio" data-bs-nset="i" class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                        <p>set.valor1</p>
-                        <p>set.valor2</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="entrenamiento.ejercicio" data-bs-nset="1" class="btn"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div> -->
-      <!-- Fin entrenamiento -->
-      <!-- Entrenamiento -->
-      <!-- <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-            <div class="col-4">
-                <img class="rounded-circle shadow img-fluid" src="img/ejercicios/peso_muerto.gif" />
-            </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-10">
-                        <p><strong><u>Peso muerto</u></strong></p>
-                    </div>
-                    <div class="col-2">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="h-25 bg-calentamiento rounded-pill"></div>
-                        <p>20KG</p>
-                        <p>12REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-facil rounded-pill"></div>
-                        <p>60KG</p>
-                        <p>10REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-normal rounded-pill"></div>
-                        <p>80KG</p>
-                        <p>8REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="py-1 h-25 bg-dificil rounded-pill"></div>
-                        <p>100KG</p>
-                        <p>8REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="2" data-bs-nset="3" class="btn"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div> -->
-      <!-- Fin entrenamiento -->
-      <!-- Entrenamiento -->
-      <!-- <div class="px-4 my-2">
-        <div class="bg-white rounded shadow-sm p-3 row">
-            <div class="col-4">
-                <img class="rounded-circle shadow img-fluid" src="img/ejercicios/press_banca_barra.gif" />
-            </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-10">
-                        <p><strong><u>Press banca</u></strong></p>
-                    </div>
-                    <div class="col-2">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <div class="h-25 bg-calentamiento rounded-pill"></div>
-                        <p>20KG</p>
-                        <p>12REP</p>
-                    </div>
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <button data-bs-toggle="modal" data-bs-target="#modalCSet" data-bs-ejercicio="3" data-bs-nset="5" class="btn"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div> -->
-      <!-- Fin ejercicio -->                             
-    </div>
+    <div id="entrenamientos" class="mb-5"></div>
     <!-- Fin de entrenamientos -->
 
     <!-- Barra inferior -->
@@ -235,34 +126,45 @@
         document.addEventListener('deviceready', async function() {
             const db = conexion();
             await crearTablas(db);
-            const calendario = await getCalendario(db);
+
+            // Calendario
+            let calendario = await getCalendario(db);
+            let id_calendario = calendario.rows.item(0).ID;
             let nombre_calendario = calendario.rows.item(0).nombre;
             let color_calendario = calendario.rows.item(0).color;
             $("#calendario").text(nombre_calendario);
             const modalCSet = document.getElementById('modalCSet')
             modalCSet.addEventListener('show.bs.modal', async event => {
-                const boton = event.relatedTarget
+                let boton = event.relatedTarget
                 let nset = boton.getAttribute('data-bs-nset')
-                let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
-                let ejercicio = await getEjercicios(db,`WHERE ID = ${id_ejercicio}`);
-                const titulo = modalCSet.querySelector('#titulo')
-                const subtitulo = modalCSet.querySelector('#subtitulo')
+                let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
+                let entrenamiento = rs_entrenamiento.rows.item(0)
+                let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
+                let titulo = modalCSet.querySelector('#titulo')
+                let subtitulo = modalCSet.querySelector('#subtitulo')
                 titulo.textContent = 'Set Nº ' + nset
                 subtitulo.textContent = ejercicio.rows.item(0).nombre;
+                let guardar = modalCSet.querySelector('#btn-crearSerie')
+                guardar.setAttribute('onclick',`crearSet(${entrenamiento.ID},${nset})`)
+                $("#valor1").val("")
+                $("#valor2").val("")
+                $("input[name='dificultad']:checked").attr("checked",false)
             })
             const modalUSet = document.getElementById('modalUSet')
             modalUSet.addEventListener('show.bs.modal', async event => {
-                const boton = event.relatedTarget
+                let boton = event.relatedTarget
                 let nset = boton.getAttribute('data-bs-nset')
-                let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+                let id_ejercicio = boton.getAttribute('data-bs-entrenamiento')
                 let ejercicio = await getEjercicios(db,`WHERE ID = ${id_ejercicio}`);
-                const titulo = modalUSet.querySelector('#titulo')
-                const subtitulo = modalUSet.querySelector('#subtitulo')
+                let titulo = modalUSet.querySelector('#titulo')
+                let subtitulo = modalUSet.querySelector('#subtitulo')
                 titulo.textContent = 'Edición set Nº ' + nset
                 subtitulo.textContent = ejercicio.rows.item(0).nombre;
             })
-            const entrenamientos = await getEntrenamientos(db);
-            // if(entrenamientos.rows.length > 0){
+
+            const entrenamientos = await getEntrenamientos(db,id_calendario,"20/05/2023");
+            if(entrenamientos.rows.length > 0){
                 for (let i = 0; i < entrenamientos.rows.length; i++) {
                     let entrenamiento = entrenamientos.rows.item(i);
                     let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
@@ -294,9 +196,9 @@
                     div5.appendChild(div6);
                     let div7 = document.createElement('div');
                     div7.classList.add('col-2');
-                    let i = document.createElement('i');
-                    i.classList.add('fa-solid', 'fa-ellipsis-vertical');
-                    div7.appendChild(i);
+                    let icono = document.createElement('i');
+                    icono.classList.add('fa-solid', 'fa-ellipsis-vertical');
+                    div7.appendChild(icono);
                     div5.appendChild(div7);
                     div4.appendChild(div5);
                     let div8 = document.createElement('div');
@@ -308,11 +210,19 @@
                         let div9 = document.createElement('div');
                         div9.setAttribute('data-bs-toggle', 'modal');
                         div9.setAttribute('data-bs-target', '#modalUSet');
-                        div9.setAttribute('data-bs-ejercicio', entrenamiento.ID);
-                        div9.setAttribute('data-bs-nset', j);
+                        div9.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                        div9.setAttribute('data-bs-nset', serie.numero);
                         div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
                         let div10 = document.createElement('div');
-                        div10.classList.add('py-1', 'h-25', 'bg-dificil', 'rounded-pill');
+                        div10.classList.add('py-1', 'h-25', 'rounded-pill');
+                        if(serie.dificultad == 1)
+                            div10.classList.add('bg-calentamiento');
+                        if(serie.dificultad == 2)
+                            div10.classList.add('bg-facil');
+                        if(serie.dificultad == 3)
+                            div10.classList.add('bg-normal');
+                        if(serie.dificultad == 4)
+                            div10.classList.add('bg-dificil');
                         let p1 = document.createElement('p');
                         p1.textContent = serie.valor1;
                         let p2 = document.createElement('p');
@@ -327,8 +237,8 @@
                     let button = document.createElement('button');
                     button.setAttribute('data-bs-toggle', 'modal');
                     button.setAttribute('data-bs-target', '#modalCSet');
-                    button.setAttribute('data-bs-ejercicio', entrenamiento.ID);
-                    button.setAttribute('data-bs-nset', series.length);
+                    button.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                    button.setAttribute('data-bs-nset', series.rows.length+1);
                     button.classList.add('btn');
                     let icon = document.createElement('i');
                     icon.classList.add('fas', 'fa-plus');
@@ -340,17 +250,28 @@
                     div1.appendChild(div2);
                     document.getElementById("entrenamientos").appendChild(div1);
                 }
-            // }
-            // else{
-            //     let h1 = document.createElement('h1');
-            //     h1.textContent = "No hay entrenamientos";
-            //     document.getElementById("entrenamientos").appendChild(h1);
-            // }
+            }
+            else{
+                let h1 = document.createElement('h1');
+                h1.textContent = "No hay entrenamientos en la fecha seleccionada";
+                h1.classList.add('text-center');
+                document.getElementById("entrenamientos").appendChild(h1);
+            }
         })
-        function crearSet(){
+        function crearSet(entrenamiento,numero){
             let valor1 = $("#valor1").val()
             let valor2 = $("#valor2").val()
             let dificultad = $("input[name='dificultad']:checked").val()
+            console.log("Insertamos la serie "+numero+" en el entrenamiento "+entrenamiento);
+            console.log("KGS: " + valor1)
+            console.log("Repes: " + valor2)
+            console.log("Dificultad: " + dificultad)
+        }
+        function editarSet(entrenamiento,numero){
+            let valor1 = $("#valor1E").val()
+            let valor2 = $("#valor2E").val()
+            let dificultad = $("input[name='dificultadE']:checked").val()
+            console.log("Editamos la serie "+numero+" en el entrenamiento "+entrenamiento);
             console.log("KGS: " + valor1)
             console.log("Repes: " + valor2)
             console.log("Dificultad: " + dificultad)
