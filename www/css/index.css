@@ -119,16 +119,16 @@ a#menu-share:hover + ul{
   color: #424242; 
 }
 
-.bg-calentamiento{
+.bg-1{
   background-color: #cfcfcf !important;
 }
-.bg-facil{
+.bg-2{
   background-color: green !important;
 }
-.bg-normal{
+.bg-3{
   background-color: orange !important;
 }
-.bg-dificil{
+.bg-4{
   background-color: red !important;
 }
 .mh-45px{
@@ -137,32 +137,32 @@ a#menu-share:hover + ul{
 body{
   background-image: unset;
 }
-.btn-check:checked + .btn-calentamiento {
+.btn-check:checked + .btn-1 {
   background-color: #cfcfcf !important;
   color: white;
 }
-.btn-check:checked + .btn-facil {
+.btn-check:checked + .btn-2 {
   background-color: green !important;
   color: white;
 }
-.btn-check:checked + .btn-normal {
+.btn-check:checked + .btn-3 {
   background-color: orange !important;
   color: white;
 }
-.btn-check:checked + .btn-dificil {
+.btn-check:checked + .btn-4 {
   background-color: red !important;
   color: white;
 }
 
-.btn-check:active + .btn-calentamiento {
+.btn-check:active + .btn-1 {
   border-color:none;
 }
-.btn-check:active + .btn-facil {
+.btn-check:active + .btn-2 {
   border-color:none;
 }
-.btn-check:active + .btn-normal {
+.btn-check:active + .btn-3 {
   border-color:none;
 }
-.btn-check:active + .btn-dificil {
+.btn-check:active + .btn-4 {
   border-color:none;
 }

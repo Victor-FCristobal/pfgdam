@@ -9,7 +9,68 @@ function conexion(){
   db = window.sqlitePlugin.openDatabase({name: 'gimnasiodb.db', location: 'default'});
   return db;
 }
-
+async function getEjerciciosModal(){
+  const modalEjercicios = document.getElementById('modalEjercicios')
+  let ejerciciosNuevoEntrenamiento = await getEjercicios(db);
+  $("#btn-nuevoEntrenamiento").on("click",async function(){
+  for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
+      let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
+      const div1 = document.createElement('div');
+      div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "20/05/2023", 1, ${ejercicio.ID}])`);
+      const div2 = document.createElement('div');
+      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+      const div3 = document.createElement('div');
+      div3.classList.add('col-4');
+      const img = document.createElement('img');
+      img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+      img.src = ejercicio.imagen;
+      div3.appendChild(img);
+      div2.appendChild(div3);
+      const div4 = document.createElement('div');
+      div4.classList.add('col-8');
+      const div5 = document.createElement('div');
+      div5.classList.add('row');
+      const p = document.createElement('p');
+      p.textContent = ejercicio.nombre;
+      div5.appendChild(p);
+      div4.appendChild(div5);
+      div2.appendChild(div4);
+      div1.appendChild(div2);
+      document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+    }
+  })
+  $("#lupa").on("click",async function(){
+    console.log('Has hecho click en la lupa')
+    let texto_input = $('#buscar_ejercicio').val()
+    $("#ejerciciosNuevoEntrenamiento").empty()
+    let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+    for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
+        let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
+        const div1 = document.createElement('div');
+        div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "20/05/2023", 1, ${ejercicio.ID}])`);
+        const div2 = document.createElement('div');
+        div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+        const div3 = document.createElement('div');
+        div3.classList.add('col-4');
+        const img = document.createElement('img');
+        img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+        img.src = ejercicio.imagen;
+        div3.appendChild(img);
+        div2.appendChild(div3);
+        const div4 = document.createElement('div');
+        div4.classList.add('col-8');
+        const div5 = document.createElement('div');
+        div5.classList.add('row');
+        const p = document.createElement('p');
+        p.textContent = ejercicio.nombre;
+        div5.appendChild(p);
+        div4.appendChild(div5);
+        div2.appendChild(div4);
+        div1.appendChild(div2);
+        document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+    }
+  });
+}
 /**
  * 
  * @param {SQLitePlugin.Database} db 
@@ -38,8 +99,6 @@ async function crearTablas(db){
   await insertarEjercicios(db);
   // await insertarEjerciciosMusculos(db);
   await insertarDificultades(db);
-  let datosEntrenamiento = ["","20/05/2023",1,1]
-  crearEntrenamiento(db,datosEntrenamiento);
 }
 // INSERCIÓN DE DATOS EN TABLAS
 
@@ -149,7 +208,7 @@ async function insertarCategorias(db){
         ["Cardio",1,"AB0325","img/grupo_muscular/cardio.png"]);
 
         tx.executeSql('INSERT INTO `GRUPO_MUSCULAR`(nombre,dias_recuperacion,color,imagen) VALUES (?,?,?,?)',
-        ["Otros",1,"9C9C9C","img/grupo_muscular/pecho.jpg"]);
+        ["Otros",1,"9C9C9C","img/grupo_muscular/otros.png"]);
     })
   }
 }
@@ -657,7 +716,12 @@ function borrarEjercicio(db, ejercicio){
     tx.executeSql('DELETE FROM EJERCICIO WHERE ID = ?', [ejercicio]);
   })
 }
-
+function borrarEntrenamiento(db,entrenamiento){
+  db.transaction(function(tx){
+    tx.executeSql('DELETE FROM ENTRENAMIENTO WHERE ID = ?', [entrenamiento]);
+    location.href = "index.html"
+  })
+}
 
 function editarEjercicio(db,datos){
   db.transaction(function(tx){
@@ -677,6 +741,7 @@ function crearEntrenamiento(db,datos){
     tx.executeSql('INSERT INTO ENTRENAMIENTO(comentario,fecha,calendario,ejercicio) values(?,?,?,?)',
     [datos[0],datos[1],datos[2],datos[3]]);
   })
+  location.href = "index.html"
 }
 function crearSerie(db,datos){
   db.transaction(function(tx){

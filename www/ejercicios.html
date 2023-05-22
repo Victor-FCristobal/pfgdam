@@ -22,13 +22,16 @@
         <button data-bs-toggle="modal" data-bs-target="#modalCEjercicio" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
       </div>
       <div id="busqueda" class="input-group sticky-top my-2 px-4" style="display:none">
+        <input class="form-control py-1" id="buscar_ejercicio" type="text" placeholder="Buscar ejercicio">
         <div class="input-group-prepend">
           <span class="input-group-text bg-primary" id="basic-text1"><i class="fas fa-search text-white" aria-hidden="true"></i></span>
         </div>
-        <input class="form-control py-1" id="search_text" type="text" placeholder="Buscar ejercicio" aria-label="Search">
       </div>
     </div>
     <!-- Fin barra superior -->
+    <div w3-include-html="header.html"></div>
+    <script src="js/footer.js"></script>
+    <script>includeHTML();</script>
 
     <!-- Filtrado -->
     <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
@@ -151,6 +154,7 @@
       document.addEventListener('deviceready', async function() {
         // Conexión, insertar metricas, tipos y ejercicios
         const db = conexion();
+        getEjerciciosModal();
 
         const musculos = await getMusculos(db);
         const tipos = await getTipos(db);
@@ -170,12 +174,12 @@
         for (let i = 0; i < tipos.rows.length; i++) {
           let tipo_id = tipos.rows.item(i).ID
           let tipo = tipos.rows.item(i).tipo
-          opcionTipoC = document.createElement("option")
+          let opcionTipoC = document.createElement("option")
           opcionTipoC.id = "tipo"+tipo_id
           opcionTipoC.value = tipo_id
           opcionTipoC.textContent = tipo
-          opcionTipoE = document.createElement("option")
-          opcionTipoE.id = "tipo"+tipo_id
+          let opcionTipoE = document.createElement("option")
+          opcionTipoE.id = "tipoE"+tipo_id
           opcionTipoE.value = tipo_id
           opcionTipoE.textContent = tipo
           inputTipoC.appendChild(opcionTipoC)
@@ -187,12 +191,16 @@
         for (let i = 0; i < metricas.rows.length; i++) {
           let metrica_id = metricas.rows.item(i).ID
           let metrica = metricas.rows.item(i).metrica
-          opcionMetrica = document.createElement("option")
-          opcionMetrica.id = "metrica"+metrica_id
-          opcionMetrica.value = metrica_id
-          opcionMetrica.textContent = metrica
-          inputMetricaC.appendChild(opcionMetrica)
-          inputMetricaE.appendChild(opcionMetrica)
+          let opcionMetricaC = document.createElement("option")
+          opcionMetricaC.id = "metrica"+metrica_id
+          opcionMetricaC.value = metrica_id
+          opcionMetricaC.textContent = metrica
+          let opcionMetricaE = document.createElement("option")
+          opcionMetricaE.id = "metricaE"+metrica_id
+          opcionMetricaE.value = metrica_id
+          opcionMetricaE.textContent = metrica
+          inputMetricaC.appendChild(opcionMetricaC)
+          inputMetricaE.appendChild(opcionMetricaE)
         }
 
         const inputCategoriaC = modalCEjercicio.querySelector('#categoria')
@@ -200,12 +208,16 @@
         for (let i = 0; i < categorias.rows.length; i++) {
           let categoria_id = categorias.rows.item(i).ID
           let categoria = categorias.rows.item(i).nombre
-          opcionCategoria = document.createElement("option")
-          opcionCategoria.id = "categoria"+categoria_id
-          opcionCategoria.value = categoria_id
-          opcionCategoria.textContent = categoria
-          inputCategoriaC.appendChild(opcionCategoria)
-          inputCategoriaE.appendChild(opcionCategoria)
+          let opcionCategoriaC = document.createElement("option")
+          opcionCategoriaC.id = "categoria"+categoria_id
+          opcionCategoriaC.value = categoria_id
+          opcionCategoriaC.textContent = categoria
+          let opcionCategoriaE = document.createElement("option")
+          opcionCategoriaE.id = "categoriaE"+categoria_id
+          opcionCategoriaE.value = categoria_id
+          opcionCategoriaE.textContent = categoria
+          inputCategoriaC.appendChild(opcionCategoriaC)
+          inputCategoriaE.appendChild(opcionCategoriaE)
         }
 
         modalCEjercicio.addEventListener('show.bs.modal', async event => {

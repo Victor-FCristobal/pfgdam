@@ -20,6 +20,9 @@
       <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
     </div>
     <!-- Fin barra superior -->
+    <div w3-include-html="header.html"></div>
+    <script src="js/footer.js"></script>
+    <script>includeHTML();</script>
 
     <!-- Categorías -->
     <div id="categorias" class="mb-5"></div>
@@ -44,6 +47,8 @@
     <script>
       document.addEventListener('deviceready', async function() {
         const db = conexion();
+        getEjerciciosModal();
+        getEjerciciosModal();
         grupos_musculares = await getCategorias(db);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);
