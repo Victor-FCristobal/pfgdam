@@ -215,14 +215,22 @@
                         div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
                         let div10 = document.createElement('div');
                         div10.classList.add('py-1', 'h-25', 'rounded-pill');
-                        if(serie.dificultad == 1)
-                            div10.classList.add('bg-calentamiento');
-                        if(serie.dificultad == 2)
-                            div10.classList.add('bg-facil');
-                        if(serie.dificultad == 3)
-                            div10.classList.add('bg-normal');
-                        if(serie.dificultad == 4)
-                            div10.classList.add('bg-dificil');
+                        switch(serie.dificultad){
+                            case 1:
+                                div10.classList.add('bg-calentamiento');
+                                break;
+                            case 2:
+                                div10.classList.add('bg-facil');
+                                break;
+                            case 3:
+                                div10.classList.add('bg-normal');
+                                break;
+                            case 4:
+                                div10.classList.add('bg-dificil');
+                                break;
+                            default:
+                                div10.classList.add('');
+                        }
                         let p1 = document.createElement('p');
                         p1.textContent = serie.valor1;
                         let p2 = document.createElement('p');
@@ -262,10 +270,9 @@
             let valor1 = $("#valor1").val()
             let valor2 = $("#valor2").val()
             let dificultad = $("input[name='dificultad']:checked").val()
-            console.log("Insertamos la serie "+numero+" en el entrenamiento "+entrenamiento);
-            console.log("KGS: " + valor1)
-            console.log("Repes: " + valor2)
-            console.log("Dificultad: " + dificultad)
+            let datos = [numero,dificultad,valor1,valor2,entrenamiento]
+            crearSerie(db,datos);
+            location.reload();       
         }
         function editarSet(entrenamiento,numero){
             let valor1 = $("#valor1E").val()

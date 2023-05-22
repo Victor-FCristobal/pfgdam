@@ -40,10 +40,6 @@ async function crearTablas(db){
   await insertarDificultades(db);
   let datosEntrenamiento = ["","20/05/2023",1,1]
   crearEntrenamiento(db,datosEntrenamiento);
-  let datosSerie1 = [1,1,50,10,1]
-  let datosSerie2 = [2,2,70,8,1]
-  crearSerie(db,datosSerie1);
-  crearSerie(db,datosSerie2);
 }
 // INSERCIÓN DE DATOS EN TABLAS
 
