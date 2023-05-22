@@ -96,10 +96,10 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-primary"><i class="fas fa-trash-can"></i></button>
+                    <button type="button" class="btn btn-primary" id="btn-borrarSerie" data-bs-dismiss="modal"><i class="fas fa-trash-can"></i></button>
                     <div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="btn-editarSerie" onclick="editarSerie()" data-bs-dismiss="modal">Actualizar</button>
+                        <button type="button" class="btn btn-primary" id="btn-editarSerie">Actualizar</button>
                     </div>
                 </div>
             </div>
@@ -155,12 +155,32 @@
             modalUSet.addEventListener('show.bs.modal', async event => {
                 let boton = event.relatedTarget
                 let nset = boton.getAttribute('data-bs-nset')
-                let id_ejercicio = boton.getAttribute('data-bs-entrenamiento')
-                let ejercicio = await getEjercicios(db,`WHERE ID = ${id_ejercicio}`);
+                let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                let entrenamiento = await getEntrenamiento(db,id_entrenamiento)
+                entrenamiento = entrenamiento.rows.item(0);
+                let serie = await getSerie(db,entrenamiento.ID,nset)
+                serie = serie.rows.item(0)
+                $("#valor1E").val(serie.valor1)
+                $("#valor2E").val(serie.valor2)
+                let radios = document.getElementsByName("dificultadE")
+                for(let i = 0; i < radios.length; i++ ) {
+                    if(radios[i].value == serie.dificultad )
+                        radios[i].checked = true
+                    else
+                        radios[i].checked = false
+                }
+                if ($("input[name='dificultadE']").val() == serie.dificultad)
+                    $("input[name='dificultadE']").attr("checked","checked")
+                let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`)
+                ejercicio = ejercicio.rows.item(0)
                 let titulo = modalUSet.querySelector('#titulo')
                 let subtitulo = modalUSet.querySelector('#subtitulo')
                 titulo.textContent = 'Edición set Nº ' + nset
-                subtitulo.textContent = ejercicio.rows.item(0).nombre;
+                subtitulo.textContent = ejercicio.nombre;
+                let actualizar = modalUSet.querySelector('#btn-editarSerie')
+                actualizar.setAttribute('onclick',`editarSet(${entrenamiento.ID},${nset})`)
+                let borrar = modalUSet.querySelector('#btn-borrarSerie')
+                borrar.setAttribute('onclick',`borrarSerie(${db},${entrenamiento.ID},${nset})`)
             })
 
             const entrenamientos = await getEntrenamientos(db,id_calendario,"20/05/2023");
@@ -229,12 +249,28 @@
                                 div10.classList.add('bg-dificil');
                                 break;
                             default:
-                                div10.classList.add('');
+                                // div10.classList.add('');
                         }
                         let p1 = document.createElement('p');
-                        p1.textContent = serie.valor1;
                         let p2 = document.createElement('p');
-                        p2.textContent = serie.valor2;
+                        switch(ejercicio.metrica){
+                            case 1:
+                                p1.textContent = serie.valor1 + "KG";
+                                p2.textContent = serie.valor2 + "REP";
+                                break;
+                            case 2:
+                                p1.textContent = serie.valor1 + "MIN";
+                                p2.textContent = serie.valor2 + "KM";
+                                break;
+                            case 3:
+                                p1.textContent = serie.valor1 + "MIN";
+                                p2.textContent = serie.valor2 + "KG";
+                                break;
+                            case 4:
+                                p1.textContent = serie.valor1 + "MIN";
+                                p2.textContent = serie.valor2 + "REP";
+                                break;
+                        }
                         div9.appendChild(div10);
                         div9.appendChild(p1);
                         div9.appendChild(p2);
@@ -278,10 +314,9 @@
             let valor1 = $("#valor1E").val()
             let valor2 = $("#valor2E").val()
             let dificultad = $("input[name='dificultadE']:checked").val()
-            console.log("Editamos la serie "+numero+" en el entrenamiento "+entrenamiento);
-            console.log("KGS: " + valor1)
-            console.log("Repes: " + valor2)
-            console.log("Dificultad: " + dificultad)
+            let datos = [numero,dificultad,valor1,valor2,entrenamiento]
+            editarSerie(db,datos)
+            location.reload()
         }
     </script>
   </body>

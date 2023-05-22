@@ -499,10 +499,22 @@ function getEntrenamiento(db,id){
   });
 }
 
-function getSeries(db,ejercicio){
+function getSeries(db,entrenamiento){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
-      tx.executeSql('SELECT * FROM SERIE WHERE entrenamiento = ?', [ejercicio], function(tx,rs){
+      tx.executeSql('SELECT * FROM SERIE WHERE entrenamiento = ?', [entrenamiento], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
+function getSerie(db,entrenamiento,numero){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM SERIE WHERE entrenamiento = ? AND numero = ?', [entrenamiento,numero], function(tx,rs){
         resolve(rs);
       },function(error){
         reject(error);
@@ -647,7 +659,7 @@ function borrarEjercicio(db, ejercicio){
 }
 
 
-function actualizarEjercicio(db,datos){
+function editarEjercicio(db,datos){
   db.transaction(function(tx){
     tx.executeSql('UPDATE EJERCICIO SET nombre=?,tipo=?,metrica=?,grupo_muscular=? WHERE ID=?',
     [datos[1],datos[2],datos[3],datos[4],datos[0]])
@@ -671,4 +683,17 @@ function crearSerie(db,datos){
     tx.executeSql('INSERT INTO SERIE(numero,dificultad,valor1,valor2,entrenamiento) VALUES(?,?,?,?,?)',
     [datos[0],datos[1],datos[2],datos[3],datos[4]]);
   })
+}
+function editarSerie(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE SERIE SET valor1=?,valor2=?,dificultad=? WHERE entrenamiento=? AND numero=?',
+    [datos[2],datos[3],datos[1],datos[4],datos[0]]);
+  })
+}
+function borrarSerie(db,entrenamiento,numero){
+  db.transaction(function(tx){
+    tx.executeSql('DELETE FROM SERIE WHERE entrenamiento=? AND numero=?',
+    [entrenamiento,numero]);
+  })
+  location.reload();
 }
