@@ -14,7 +14,7 @@
   <body class="bg-light">
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex p-2">
-      <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Métricas</p>
+      <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Medidas</p>
     </div>
     <!-- Fin barra superior -->
 
@@ -36,12 +36,11 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
-        $("#metricas").hide();
-        setTimeout(ocultarPreLoader, 250);
-        function ocultarPreLoader(){
-            $("#preloader").remove();
-            $("#metricas").show();
-        }
+        $("#medidas").hide();
+        setTimeout(function(){
+          $("#preloader").remove();
+          $("#medidas").show();
+        }, 250);
         const db = conexion();
         getEjerciciosModal();
       })

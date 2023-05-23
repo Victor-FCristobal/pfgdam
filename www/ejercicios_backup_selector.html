@@ -30,22 +30,25 @@
     <!-- Ejercicios -->
     <div id="ejercicios" class="mb-5">
         <!-- Ejercicio -->
-        <div onclick='crearEntrenamiento(db,["","20/05/2023",1,ejercicio.ID])' class="px-4 my-2">
-            <div class="bg-white rounded shadow-sm p-3 row align-items-center">
-                <div class="col-4">
-                    <img class="rounded-circle shadow img-fluid" src=ejercicio.imagen />
+        <div class="px-4 my-2">
+          <div class="bg-white rounded shadow-sm p-3 row align-items-center">
+            <input class="btn-check" type="checkbox" id=ejercicio.ID name="ejercicios" value=ejercicio.ID>
+            <label for=ejercicio.ID>
+              <div class="col-4">
+                  <img class="rounded-circle shadow img-fluid" src=ejercicio.imagen />
+              </div>
+              <div class="col-8">
+                  <div class="row">
+                    <p>ejercicio.nombre</p>
+                  </div>
                 </div>
-                <div class="col-8">
-                    <div class="row">
-                      <p>ejercicio.nombre</p>
-                    </div>
-                </div>
+              </label>
             </div>
         </div>
         <!-- Fin ejercicio -->
     </div>
     <!-- Fin de ejercicios -->
-    
+    <h1 id="comprobar">Comprueba</h1>
     <!-- Barra inferior -->
     <div
       class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
@@ -61,5 +64,14 @@
     <script src="js/bootstrap.bundle.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script>
+      $("input[name='ejercicios']:checked").on("click",function(){
+        // alert("Pincho en uno checkeado")
+        $(this).closest("div").removeClass('bg-principal')
+      })
+      $("input[name='ejercicios']:not(:checked)").on("click",function(){
+        $(this).closest("div").addClass('bg-principal')
+      })
+    </script>
   </body>
 </html>

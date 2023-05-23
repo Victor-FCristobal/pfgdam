@@ -29,6 +29,7 @@
     </div>
     </div>
     <!-- Fin barra superior -->
+
     <div w3-include-html="header.html"></div>
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
@@ -40,7 +41,7 @@
     <div id="ejercicios" class="mb-5"></div>
 
     <!-- Modal nuevo ejercicio -->
-    <div class="modal fade" id="modalCEjercicio" tabindex="-1" aria-labelledby="modalCEjercicioLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -73,12 +74,12 @@
     <!-- Fin modal nuevo ejercicio -->
 
     <!-- Modal editar ejercicio -->
-    <div class="modal fade" id="modalUEjercicio" tabindex="-1" aria-labelledby="modalUEjercicioLabel" aria-hidden="true">
+    <div class="modal fade" id="modalUEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <div>
-              <h1 id="titulo"class="modal-title fs-5">Editar ejercicio</h1>
+              <h1 id="titulo" class="modal-title fs-5">Editar ejercicio</h1>
               <p id="subtitulo" class="fst-italic modal-title"></p>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -109,7 +110,7 @@
     <!-- Fin modal editar ejercicio -->
 
     <!-- Modal borrar ejercicio -->
-    <div class="modal fade" id="modalDEjercicio" tabindex="-1" aria-labelledby="modalDEjercicioLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -143,11 +144,10 @@
     <script>
       document.addEventListener('deviceready', async function() {
         $("#ejercicios").hide();
-        setTimeout(ocultarPreLoader, 250);
-        function ocultarPreLoader(){
-            $("#preloader").remove();
-            $("#ejercicios").show();
-        }
+        setTimeout(function(){
+          $("#preloader").remove();
+          $("#ejercicios").show();
+        }, 250);
         // Conexión, insertar metricas, tipos y ejercicios
         const db = conexion();
         getEjerciciosModal();
@@ -393,7 +393,7 @@
               elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
             }
             else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-x", texto: " Quitar favorito" });
             }
             elementosLista.forEach(function(elemento) {
               let itemLista = document.createElement("li");
@@ -423,13 +423,13 @@
           }
         }
         else{
-                let div1 = document.createElement('div');
-                div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
-                let h1 = document.createElement('h1');
-                h1.textContent = "No hay ejercicios en esta categoría";
-                h1.classList.add('text-center','text-black-50');
-                div1.appendChild(h1);
-                document.getElementById("ejercicios").appendChild(div1);
+          let div1 = document.createElement('div');
+          div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
+          let h1 = document.createElement('h1');
+          h1.textContent = "No hay ejercicios en esta categoría";
+          h1.classList.add('text-center','text-black-50');
+          div1.appendChild(h1);
+          document.getElementById("ejercicios").appendChild(div1);
         }
         $("#lupaBusqueda").on("click",async function(){
           let texto_input = $('#buscar_ejercicioBusqueda').val()
@@ -494,7 +494,7 @@
               elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
             }
             else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-x", texto: " Quitar favorito" });
             }
             elementosLista.forEach(function(elemento) {
               let itemLista = document.createElement("li");

@@ -45,11 +45,10 @@
     <script>
       document.addEventListener('deviceready', async function() {
         $("#categorias").hide();
-        setTimeout(ocultarPreLoader, 250);
-        function ocultarPreLoader(){
-            $("#preloader").remove();
-            $("#categorias").show();
-        }
+        setTimeout(function(){
+          $("#preloader").remove();
+          $("#categorias").show();
+        }, 250);
         const db = conexion();
         getEjerciciosModal();
         grupos_musculares = await getCategorias(db);

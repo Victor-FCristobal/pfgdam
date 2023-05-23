@@ -37,11 +37,10 @@
     <script>
       document.addEventListener('deviceready', async function() {
         $("#estadisticas").hide();
-          setTimeout(ocultarPreLoader, 250);
-          function ocultarPreLoader(){
-              $("#preloader").remove();
-              $("#estadisticas").show();
-          }
+        setTimeout(function(){
+          $("#preloader").remove();
+          $("#estadisticas").show();
+        }, 250);
         const db = conexion();
         getEjerciciosModal();
       })

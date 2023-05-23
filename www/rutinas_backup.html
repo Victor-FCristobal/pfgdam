@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCRutina" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+    <!-- Modal nueva rutina -->
+    <div class="modal fade" id="modalCRutina" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 id="tituloC" class="modal-title fs-5">Crear rutina</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-list"></i></span>
+              <input type="text" onClick="this.select();" class="form-control mb-2" autofocus placeholder="Nombre de la rutina" name="nombre" id="nombre" />
+            </div>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
+                <select class="form-select" id="dia_preferido" name="dia_preferido">
+                  <option id="lunes" value="lunes">lunes</option>
+                  <option id="martes" value="martes">martes</option>
+                  <option id="miercoles" value="miercoles">miercoles</option>
+                  <option id="jueves" value="jueves">jueves</option>
+                  <option id="viernes" value="viernes">viernes</option>
+                  <option id="sabado" value="sabado">sabado</option>
+                  <option id="domingo" value="domingo">domingo</option>
+                </select>
+              </div>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="cRutina()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal nueva rutina -->
+
+    <!-- Modal editar rutina -->
+    <div class="modal fade" id="modalURutina" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <h1 id="tituloE" class="modal-title fs-5">Editar rutina</h1>
+              <p id="subtituloE" class="fst-italic modal-title"></p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-list"></i></span>
+              <input type="text" onClick="this.select();" class="form-control mb-2" autofocus placeholder="Nombre de la rutina" name="nombre" id="nombre" />
+            </div>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
+              <select class="form-select" id="dia_preferido" name="dia_preferido">
+                <option id="lunes" value="lunes">lunes</option>
+                <option id="martes" value="martes">martes</option>
+                <option id="miercoles" value="miercoles">miercoles</option>
+                <option id="jueves" value="jueves">jueves</option>
+                <option id="viernes" value="viernes">viernes</option>
+                <option id="sabado" value="sabado">sabado</option>
+                <option id="domingo" value="domingo">domingo</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-primary" id="btn-borrarRutina" data-bs-dismiss="modal"><i class="fas fa-trash-can"></i></button>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" onclick="eRutina()" data-bs-dismiss="modal">Actualizar</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal editar rutina -->
+
+    <!-- Modal borrar rutina -->
+    <div class="modal fade" id="modalDRutina" tabindex="-1" aria-labelledby="modalDRutinaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <h1 id="tituloD" class="modal-title fs-5">Eliminar rutina</h1>
+              <p id="subtituloD" class="fst-italic modal-title"></p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>¡Se eliminará la rutina!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary"><a class="text-decoration-none" id="eliminar">Eliminar</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal borrar rutina -->
+    
+    <!-- Rutinas -->
+    <div id="rutinas" class="mb-5">
+      <!-- Rutina -->
+      <div class="px-4 my-2">
+        <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center">
+          <a href="rutinas.html?rutina=rutina.ID" class="enlaceNegro text-decoration-none">
+            <div>
+              <h1 class="modal-title fs-5">rutina.nombre</h1>
+              <p class="fst-italic modal-title">rutina.dia_preferido</p>
+            </div>
+          </a>
+            <div class="text-end">
+              <button data-bs-toggle="modal" data-bs-target="#modalURutina" data-bs-rutina="rutina.ID" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></button>
+              <button data-bs-toggle="modal" data-bs-target="#modalDRutina" data-bs-rutina="rutina.ID" class="btn btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+      </div>
+      <!-- Fin rutina -->
+    </div>
+    <!-- Fin de rutinas -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script src="js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script src="js/db.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+    <script>
+        const db = window.sqlitePlugin.openDatabase({
+            name: 'gimnasio.db',
+            location: 'default',
+            androidDatabaseProvider: 'system'
+        });
+    </script>
+  </body>
+</html>

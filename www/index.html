@@ -31,7 +31,7 @@
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
     <!-- Modal agregar serie -->
-    <div class="modal fade" id="modalCSet" tabindex="-1" aria-labelledby="modalCSetLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -71,7 +71,7 @@
     <!-- Fin modal agregar serie-->
 
     <!-- Modal editar serie -->
-    <div class="modal fade" id="modalUSet" tabindex="-1" aria-labelledby="modalUSetLabel" aria-hidden="true">
+    <div class="modal fade" id="modalUSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,7 +114,7 @@
     <!-- Fin modal editar serie -->
 
     <!-- Modal borrar entrenamiento -->
-    <div class="modal fade" id="modalDEntrenamiento" tabindex="-1" aria-labelledby="modalDEntrenamientoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDEntrenamiento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
@@ -150,11 +150,10 @@
     <script>
         document.addEventListener('deviceready', async function() {
             $("#entrenamientos").hide();
-            setTimeout(ocultarPreLoader, 250);
-            function ocultarPreLoader(){
-                $("#preloader").remove();
-                $("#entrenamientos").show();
-            }
+            setTimeout(function(){
+            $("#preloader").remove();
+            $("#entrenamientos").show();
+            }, 250);
             $("#btn-calendario").on("click",function(){
                 $("#calendar").toggle();
                 $("#entrenamientos").toggle();

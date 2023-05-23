@@ -1,12 +1,11 @@
-/**
- * 
- * @returns {SQLitePlugin.Database} db
- */
 let hoy = new Date();
 let anio = hoy.getFullYear();
 let dia = hoy.getDate();
 let dia_hoy = dia + "/" + (hoy.getMonth()+1) + "/" + anio;
-console.log(dia_hoy)
+/**
+ * 
+ * @returns {SQLitePlugin.Database} db
+ */
 function conexion(){
   if (window.cordova.platformId === 'browser')
   db = window.openDatabase('GimnasioDB', '1.0', 'Data', 2*1024*1024);
@@ -45,7 +44,6 @@ async function getEjerciciosModal(){
     }
   })
   $("#lupa").on("click",async function(){
-    console.log('Has hecho click en la lupa')
     let texto_input = $('#buscar_ejercicio').val()
     $("#ejerciciosNuevoEntrenamiento").empty()
     let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
@@ -94,6 +92,8 @@ async function crearTablas(db){
     tx.executeSql('CREATE TABLE IF NOT EXISTS `ENTRENAMIENTO` (ID INTEGER NOT NULL,comentario TEXT,fecha TEXT NOT NULL,calendario INTEGER NOT NULL,ejercicio INTEGER NOT NULL,FOREIGN KEY(calendario) REFERENCES CALENDARIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(ejercicio) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE_DIFICULTAD` (ID INTEGER,dificultad TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE` (ID INTEGER NOT NULL,numero INTEGER NOT NULL,dificultad INTEGER,valor1 TEXT NOT NULL,valor2 TEXT NOT NULL,entrenamiento INTEGER NOT NULL,FOREIGN KEY(entrenamiento)REFERENCES ENTRENAMIENTO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(dificultad) REFERENCES SERIE_DIFICULTAD(ID) ON DELETE SET NULL ON UPDATE NO ACTION,PRIMARY KEY(ID AUTOINCREMENT))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `RUTINA` (ID INTEGER NOT NULL,nombre TEXT NOT NULL,dia_preferido TEXT,PRIMARY KEY(ID AUTOINCREMENT))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS `RUTINA_EJERCICIO` (rutina INTEGER NOT NULL, ejercicio INTEGER NOT NULL, FOREIGN KEY(rutina) REFERENCES RUTINA(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(ejercicio) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(rutina,ejercicio))');
   });
   // Inserto los datos iniciales
   insertarCalendario(db, "Yo");
@@ -105,6 +105,7 @@ async function crearTablas(db){
   // await insertarEjerciciosMusculos(db);
   await insertarDificultades(db);
 }
+
 // INSERCIÓN DE DATOS EN TABLAS
 
 /**
@@ -587,7 +588,7 @@ async function insertarEjercicios(db){
       ["Correr en cinta",0,2,5,"img/ejercicios/correr.gif",0,7]);
 
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
-      ["Elíptica",0,2,5,"img/ejercicios/andar.gif",0,7]);
+      ["Elíptica",0,2,5,"img/ejercicios/eliptica.gif",0,7]);
 
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Saltos burpees",0,2,1,"img/ejercicios/burpees.gif",0,7]);
@@ -596,7 +597,7 @@ async function insertarEjercicios(db){
       ["Saltar a la comba",0,2,1,"img/ejercicios/saltar_comba.gif",0,7]);
 
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
-      ["Saltar a la caja",0,2,1,"img/ejercicios/salto_caja.gif",0,7]);
+      ["Salto a caja",0,2,1,"img/ejercicios/salto_caja.gif",0,7]);
       // EJERCICIOS OTROS
 
     });
@@ -779,7 +780,23 @@ function getEjercicios(db,condicion = ""){
     });
   });
 }
-
+/**
+ * 
+ * @param {SQLitePlugin.Database} db 
+ * @param {string} condicion
+ * @returns Promise
+ */
+function getRutinas(db,condicion = ""){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM RUTINA ' + condicion, [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
 /**
  * 
  * @param {SQLitePlugin.Database} db
@@ -844,17 +861,33 @@ function borrarEjercicio(db, ejercicio){
 function borrarEntrenamiento(db,entrenamiento){
   db.transaction(function(tx){
     tx.executeSql('DELETE FROM ENTRENAMIENTO WHERE ID = ?', [entrenamiento]);
-    location.href = "index.html"
   })
+  location.href = "index.html"
 }
-
+function borrarRutina(db,rutina){
+  db.transaction(function(tx){
+    tx.executeSql('DELETE FROM RUTINA WHERE ID = ?', [rutina]);
+  })
+  location.href = "rutinas.html"
+}
 function editarEjercicio(db,datos){
   db.transaction(function(tx){
     tx.executeSql('UPDATE EJERCICIO SET nombre=?,tipo=?,metrica=?,grupo_muscular=? WHERE ID=?',
     [datos[1],datos[2],datos[3],datos[4],datos[0]])
   })
 }
-
+function editarRutina(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE RUTINA SET nombre=?,dia_preferido=? WHERE ID=?',
+    [datos[1],datos[2],datos[0]])
+  })
+}
+function crearRutina(db,datos){
+  db.transaction(function(tx){
+    tx.executeSql('INSERT INTO `RUTINA`(nombre,dia_preferido) VALUES (?,?)',
+    [datos[0],datos[1]]);
+  })
+}
 function crearEjercicio(db,datos){
   db.transaction(function(tx){
     tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto,grupo_muscular) VALUES (?,?,?,?,?,?,?)',
@@ -863,7 +896,7 @@ function crearEjercicio(db,datos){
 }
 function crearEntrenamiento(db,datos){
   db.transaction(function(tx){
-    tx.executeSql('INSERT INTO ENTRENAMIENTO(comentario,fecha,calendario,ejercicio) values(?,?,?,?)',
+    tx.executeSql('INSERT INTO ENTRENAMIENTO(comentario,fecha,calendario,ejercicio) VALUES(?,?,?,?)',
     [datos[0],datos[1],datos[2],datos[3]]);
   })
   location.href = "index.html"
@@ -886,4 +919,26 @@ function borrarSerie(db,entrenamiento,numero){
     [entrenamiento,numero]);
   })
   location.reload();
+}
+function insertarEjercicioaRutina(db,ejercicio,rutina){
+  db.transaction(function(tx){
+    tx.executeSql('INSERT INTO RUTINA_EJERCICIO(rutina,ejercicio) VALUES(?,?)',
+    [rutina,ejercicio]);
+  })
+}
+function borrarEjerciciosaRutina(db,rutina){
+  db.transaction(function(tx){
+    tx.executeSql('DELETE FROM RUTINA_EJERCICIO WHERE rutina = ?',[rutina]);
+  })
+}
+function getEjerciciosRutina(db,rutina){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM RUTINA_EJERCICIO WHERE rutina = ? ', [rutina], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
 }

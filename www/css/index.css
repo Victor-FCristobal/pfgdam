@@ -131,6 +131,10 @@ a#menu-share:hover + ul{
 .bg-4{
   background-color: red !important;
 }
+.bg-principal{
+  background-color: #963a45 !important;
+  color: #FFF !important;
+}
 .mh-45px{
   max-height: 45px;
 }
