@@ -153,12 +153,20 @@
             const db = conexion();
             getEjerciciosModal();
             await crearTablas(db);
+
+            // Fecha
+            const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+            let hoy = new Date();
+            let mes = meses[hoy.getMonth()];
+            let dia = hoy.getDate();
+            let dia_hoy = dia + " " + mes;
             // Calendario
             let calendario = await getCalendario(db);
             let id_calendario = calendario.rows.item(0).ID;
             let nombre_calendario = calendario.rows.item(0).nombre;
             let color_calendario = calendario.rows.item(0).color;
-            $("#calendario").text(nombre_calendario);
+            // $("#calendario").text(nombre_calendario);
+            $("#calendario").text(dia_hoy);
             const modalCSet = document.getElementById('modalCSet')
             modalCSet.addEventListener('show.bs.modal', async event => {
                 let boton = event.relatedTarget
@@ -254,8 +262,6 @@
                     div5.appendChild(div6);
                     let div7 = document.createElement('div');
                     div7.classList.add('col-2');
-                    // let icono = document.createElement('i');
-                    // icono.classList.add('fa-solid', 'fa-ellipsis-vertical');
                     let divDD = document.createElement('div');
                     divDD.classList.add('dropdown');
                     let botonPuntitos = document.createElement('button');
@@ -367,10 +373,13 @@
                 }
             }
             else{
+                let div1 = document.createElement('div');
+                div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
                 let h1 = document.createElement('h1');
-                h1.textContent = "No hay entrenamientos en la fecha seleccionada";
-                h1.classList.add('text-center');
-                document.getElementById("entrenamientos").appendChild(h1);
+                h1.textContent = "Día sin entrenamientos";
+                h1.classList.add('text-center','text-black-50');
+                div1.appendChild(h1);
+                document.getElementById("entrenamientos").appendChild(div1);
             }
             const modalDEntrenamiento = document.getElementById('modalDEntrenamiento')
             modalDEntrenamiento.addEventListener('show.bs.modal', async event => {

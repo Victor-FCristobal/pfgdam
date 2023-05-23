@@ -10,7 +10,7 @@ function conexion(){
   return db;
 }
 async function getEjerciciosModal(){
-  const modalEjercicios = document.getElementById('modalEjercicios')
+  // const modalEjercicios = document.getElementById('modalEjercicios')
   let ejerciciosNuevoEntrenamiento = await getEjercicios(db);
   $("#btn-nuevoEntrenamiento").on("click",async function(){
   for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {

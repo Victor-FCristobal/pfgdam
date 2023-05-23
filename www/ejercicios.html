@@ -34,16 +34,7 @@
     <script>includeHTML();</script>
 
     <!-- Filtrado -->
-    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100">
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-favoritos">
-        <label class="btn btn-primary" for="btn-favoritos"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-ocultos">
-        <label class="btn btn-primary" for="btn-ocultos"><i class="fa-solid fa-eye-slash"></i></label>
-      </div>
-    </div>
+    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100"></div>
     <!-- Fin filtrado -->
 
     <div id="ejercicios" class="mb-5"></div>
@@ -267,129 +258,173 @@
         const nombre_grupo_muscular = grupo_muscular.rows.item(0).nombre;
         $('#titulo').text(" " + nombre_grupo_muscular);
 
-        // Filtrado
-        // const musculosCategoria = await getMusculos(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
-        // for (let i = 0; i < musculosCategoria.rows.length; i++) {
-        //   let musculo = musculosCategoria.rows.item(i);
-        //   let divFiltrado = document.createElement('div');
-        //   divFiltrado.classList.add('w-auto', 'p-1');
-        //   let inputFiltrado = document.createElement('input');
-        //   inputFiltrado.type = 'checkbox';
-        //   inputFiltrado.classList.add('btn-check');
-        //   inputFiltrado.id = 'btn-' + musculo.nombre;
-        //   let labelFiltrado = document.createElement('label');
-        //   labelFiltrado.classList.add('btn', 'btn-primary');
-        //   labelFiltrado.htmlFor = 'btn-' + musculo.nombre;
-        //   labelFiltrado.textContent = musculo.nombre;
-        //   divFiltrado.appendChild(inputFiltrado);
-        //   divFiltrado.appendChild(labelFiltrado);
-        //   document.getElementById("filtrado").appendChild(divFiltrado);
-        // }
-        // for(let i = 0; i < tipos.rows.length; i++){
-        //   let tipo = tipos.rows.item(i);
-        //   let divTipos = document.createElement('div');
-        //   divTipos.classList.add('w-auto', 'p-1');
-        //   let inputTipos = document.createElement('input');
-        //   inputTipos.type = 'checkbox';
-        //   inputTipos.classList.add('btn-check');
-        //   inputTipos.id = 'btnTipo-' + i;
-        //   let labelTipos = document.createElement('label');
-        //   labelTipos.classList.add('btn', 'btn-tipos', 'btn-secondary');
-        //   labelTipos.htmlFor = 'btnTipo-' + i;
-        //   labelTipos.textContent = tipo.tipo;
-        //   divTipos.appendChild(inputTipos);
-        //   divTipos.appendChild(labelTipos);
-        //   document.getElementById("filtrado").appendChild(divTipos);
-        // }
-
+        
         // Lista de ejercicios
         const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
-        for (let i = 0; i < ejercicios.rows.length; i++) {
-          let ejercicio = ejercicios.rows.item(i);
-          let divPrincipal = document.createElement("div");
-          divPrincipal.classList.add("px-4", "my-2");
-          let divInterno = document.createElement("div");
-          divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
-          let columna1 = document.createElement("div");
-          columna1.classList.add("col-4");
-          let imagen = document.createElement("img");
-          imagen.classList.add("rounded-circle", "shadow", "img-fluid");
-          imagen.src = ejercicio.imagen;
-          columna1.appendChild(imagen);
-          divInterno.appendChild(columna1);
-          let columna2 = document.createElement("div");
-          columna2.classList.add("col-8");
-          let filaInterna = document.createElement("div");
-          filaInterna.classList.add("row");
-          let columna1FilaInterna = document.createElement("div");
-          columna1FilaInterna.classList.add("col-10");
-          let parrafo = document.createElement("p");
-          let strong = document.createElement("strong");
-          let u = document.createElement("u");
-          let textoParrafo = document.createTextNode(ejercicio.nombre);
-          u.appendChild(textoParrafo);
-          strong.appendChild(u);
-          parrafo.appendChild(strong);
-          columna1FilaInterna.appendChild(parrafo);
-          filaInterna.appendChild(columna1FilaInterna);
-          let columna2FilaInterna = document.createElement("div");
-          columna2FilaInterna.classList.add("col-2");
-          let dropdown = document.createElement("div");
-          dropdown.classList.add("dropdown");
-          let boton = document.createElement("button");
-          boton.classList.add("btn");
-          boton.setAttribute("type", "button");
-          boton.setAttribute("data-bs-toggle", "dropdown");
-          boton.setAttribute("aria-expanded", "false");
-          let icono = document.createElement("i");
-          icono.classList.add("fa-solid", "fa-ellipsis-vertical");
-          boton.appendChild(icono);
-          dropdown.appendChild(boton);
-          let lista = document.createElement("ul");
-          lista.classList.add("dropdown-menu");
-          let elementosLista = [
-            { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
-            { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
-            { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-            { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
-          ];
-          if(ejercicio.oculto == 0){
-            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
-          }
-          else{
-            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
-          }
-          if(ejercicio.favorito == 0){
-            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
-          }
-          else{
-            elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
-          }
-          elementosLista.forEach(function(elemento) {
-            let itemLista = document.createElement("li");
-            let enlace = document.createElement("a");
-            enlace.href = elemento.href || "#";
-            enlace.classList.add("dropdown-item", elemento.clase);
-            let iconoLista = document.createElement("i");
-            iconoLista.classList.add("fa-solid", elemento.icono);
-            let textoEnlace = document.createTextNode(elemento.texto);
-            enlace.appendChild(iconoLista);
-            enlace.appendChild(textoEnlace);
-            itemLista.appendChild(enlace);
-            lista.appendChild(itemLista);
-            if (elemento.modal) {
-              enlace.setAttribute("data-bs-toggle", "modal");
-              enlace.setAttribute("data-bs-target", "#" + elemento.modal);
-              enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+        if(ejercicios.rows.length > 0){
+          // Filtrado
+          let divFavoritos = document.createElement('div');
+          divFavoritos.classList.add('w-auto', 'p-1');
+          let inputFavoritos = document.createElement('input');
+          inputFavoritos.type = 'checkbox';
+          inputFavoritos.classList.add('btn-check');
+          inputFavoritos.id = 'btn-favoritos';
+          let labelFavoritos = document.createElement('label');
+          labelFavoritos.classList.add('btn', 'btn-primary');
+          labelFavoritos.htmlFor = 'btn-favoritos';
+          let iconoFavoritos = document.createElement('i');
+          iconoFavoritos.classList.add('fa-solid', 'fa-star');
+          labelFavoritos.appendChild(iconoFavoritos);
+          divFavoritos.appendChild(inputFavoritos);
+          divFavoritos.appendChild(labelFavoritos);
+          document.getElementById("filtrado").appendChild(divFavoritos)
+          
+          let divOcultos = document.createElement('div');
+          divOcultos.classList.add('w-auto', 'p-1');
+          let inputOcultos = document.createElement('input');
+          inputOcultos.type = 'checkbox';
+          inputOcultos.classList.add('btn-check');
+          inputOcultos.id = 'btn-ocultos';
+          let labelOcultos = document.createElement('label');
+          labelOcultos.classList.add('btn', 'btn-primary');
+          labelOcultos.htmlFor = 'btn-ocultos';
+          let iconoOcultos = document.createElement('i');
+          iconoOcultos.classList.add('fa-solid', 'fa-eye-slash');
+          labelOcultos.appendChild(iconoOcultos);
+          divOcultos.appendChild(inputOcultos);
+          divOcultos.appendChild(labelOcultos);
+          document.getElementById("filtrado").appendChild(divOcultos)
+
+          // const musculosCategoria = await getMusculos(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
+          // for (let i = 0; i < musculosCategoria.rows.length; i++) {
+          //   let musculo = musculosCategoria.rows.item(i);
+          //   let divFiltrado = document.createElement('div');
+          //   divFiltrado.classList.add('w-auto', 'p-1');
+          //   let inputFiltrado = document.createElement('input');
+          //   inputFiltrado.type = 'checkbox';
+          //   inputFiltrado.classList.add('btn-check');
+          //   inputFiltrado.id = 'btn-' + musculo.nombre;
+          //   let labelFiltrado = document.createElement('label');
+          //   labelFiltrado.classList.add('btn', 'btn-primary');
+          //   labelFiltrado.htmlFor = 'btn-' + musculo.nombre;
+          //   labelFiltrado.textContent = musculo.nombre;
+          //   divFiltrado.appendChild(inputFiltrado);
+          //   divFiltrado.appendChild(labelFiltrado);
+          //   document.getElementById("filtrado").appendChild(divFiltrado);
+          // }
+          // for(let i = 0; i < tipos.rows.length; i++){
+          //   let tipo = tipos.rows.item(i);
+          //   let divTipos = document.createElement('div');
+          //   divTipos.classList.add('w-auto', 'p-1');
+          //   let inputTipos = document.createElement('input');
+          //   inputTipos.type = 'checkbox';
+          //   inputTipos.classList.add('btn-check');
+          //   inputTipos.id = 'btnTipo-' + i;
+          //   let labelTipos = document.createElement('label');
+          //   labelTipos.classList.add('btn', 'btn-tipos', 'btn-secondary');
+          //   labelTipos.htmlFor = 'btnTipo-' + i;
+          //   labelTipos.textContent = tipo.tipo;
+          //   divTipos.appendChild(inputTipos);
+          //   divTipos.appendChild(labelTipos);
+          //   document.getElementById("filtrado").appendChild(divTipos);
+          // }
+
+          for (let i = 0; i < ejercicios.rows.length; i++) {
+            let ejercicio = ejercicios.rows.item(i);
+            let divPrincipal = document.createElement("div");
+            divPrincipal.classList.add("px-4", "my-2");
+            let divInterno = document.createElement("div");
+            divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
+            let columna1 = document.createElement("div");
+            columna1.classList.add("col-4");
+            let imagen = document.createElement("img");
+            imagen.classList.add("rounded-circle", "shadow", "img-fluid");
+            imagen.src = ejercicio.imagen;
+            columna1.appendChild(imagen);
+            divInterno.appendChild(columna1);
+            let columna2 = document.createElement("div");
+            columna2.classList.add("col-8");
+            let filaInterna = document.createElement("div");
+            filaInterna.classList.add("row");
+            let columna1FilaInterna = document.createElement("div");
+            columna1FilaInterna.classList.add("col-10");
+            let parrafo = document.createElement("p");
+            let strong = document.createElement("strong");
+            let u = document.createElement("u");
+            let textoParrafo = document.createTextNode(ejercicio.nombre);
+            u.appendChild(textoParrafo);
+            strong.appendChild(u);
+            parrafo.appendChild(strong);
+            columna1FilaInterna.appendChild(parrafo);
+            filaInterna.appendChild(columna1FilaInterna);
+            let columna2FilaInterna = document.createElement("div");
+            columna2FilaInterna.classList.add("col-2");
+            let dropdown = document.createElement("div");
+            dropdown.classList.add("dropdown");
+            let boton = document.createElement("button");
+            boton.classList.add("btn");
+            boton.setAttribute("type", "button");
+            boton.setAttribute("data-bs-toggle", "dropdown");
+            boton.setAttribute("aria-expanded", "false");
+            let icono = document.createElement("i");
+            icono.classList.add("fa-solid", "fa-ellipsis-vertical");
+            boton.appendChild(icono);
+            dropdown.appendChild(boton);
+            let lista = document.createElement("ul");
+            lista.classList.add("dropdown-menu");
+            let elementosLista = [
+              { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
+              { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
+              { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+              { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
+            ];
+            if(ejercicio.oculto == 0){
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
             }
-          });
-          dropdown.appendChild(lista);
-          columna2FilaInterna.appendChild(dropdown);
-          filaInterna.appendChild(columna2FilaInterna);
-          columna2.appendChild(filaInterna);
-          divInterno.appendChild(columna2);
-          divPrincipal.appendChild(divInterno);
-          document.getElementById("ejercicios").appendChild(divPrincipal);
+            else{
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
+            }
+            if(ejercicio.favorito == 0){
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
+            }
+            else{
+              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-xmark", texto: " Quitar favorito" });
+            }
+            elementosLista.forEach(function(elemento) {
+              let itemLista = document.createElement("li");
+              let enlace = document.createElement("a");
+              enlace.href = elemento.href || "#";
+              enlace.classList.add("dropdown-item", elemento.clase);
+              let iconoLista = document.createElement("i");
+              iconoLista.classList.add("fa-solid", elemento.icono);
+              let textoEnlace = document.createTextNode(elemento.texto);
+              enlace.appendChild(iconoLista);
+              enlace.appendChild(textoEnlace);
+              itemLista.appendChild(enlace);
+              lista.appendChild(itemLista);
+              if (elemento.modal) {
+                enlace.setAttribute("data-bs-toggle", "modal");
+                enlace.setAttribute("data-bs-target", "#" + elemento.modal);
+                enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+              }
+            });
+            dropdown.appendChild(lista);
+            columna2FilaInterna.appendChild(dropdown);
+            filaInterna.appendChild(columna2FilaInterna);
+            columna2.appendChild(filaInterna);
+            divInterno.appendChild(columna2);
+            divPrincipal.appendChild(divInterno);
+            document.getElementById("ejercicios").appendChild(divPrincipal);
+          }
+        }
+        else{
+                let div1 = document.createElement('div');
+                div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
+                let h1 = document.createElement('h1');
+                h1.textContent = "No hay ejercicios en esta categoría";
+                h1.classList.add('text-center','text-black-50');
+                div1.appendChild(h1);
+                document.getElementById("ejercicios").appendChild(div1);
         }
       },false);
       $(document).ready(function(){
