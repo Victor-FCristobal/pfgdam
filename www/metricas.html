@@ -14,19 +14,15 @@
   <body class="bg-light">
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex p-2">
-      <div class="col-6">
-        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Rutinas</p>
-      </div>
-      <div class="text-end col-6">
-        <button data-bs-toggle="modal" data-bs-target="#modalSet" data-bs-nset="1" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
-      </div>
+      <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Métricas</p>
     </div>
     <!-- Fin barra superior -->
+
     <div w3-include-html="header.html"></div>
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
 
-    <div id="rutinas" class="align-items-center d-flex vh-100-app justify-content-center">
+    <div id="metricas" class="align-items-center d-flex vh-100-app justify-content-center">
       <h1 class="text-center text-black-50">Pantalla en construcción</h1>
     </div>
     <!-- Barra inferior -->
@@ -35,17 +31,16 @@
     <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
     
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
     <script src="js/db.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
-        $("#rutinas").hide();
+        $("#metricas").hide();
         setTimeout(ocultarPreLoader, 250);
         function ocultarPreLoader(){
             $("#preloader").remove();
-            $("#rutinas").show();
+            $("#metricas").show();
         }
         const db = conexion();
         getEjerciciosModal();

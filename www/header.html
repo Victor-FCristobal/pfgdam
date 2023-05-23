@@ -1,6 +1,6 @@
 <!-- Modal ejercicios -->
 <div class="modal fade" id="modalEjercicios" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEjerciciosLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="modalEjerciciosLabel">Ejercicios</h5>
@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body pt-0">
                 <div id="busqueda" class="input-group sticky-top">
-                    <input class="form-control py-1" id="buscar_ejercicio" type="text" placeholder="Buscar ejercicio">
+                    <input class="form-control py-1" id="buscar_ejercicio" type="text" onClick="this.select();" placeholder="Buscar ejercicio">
                     <div class="input-group-prepend">
                       <span class="input-group-text bg-primary" id="lupa"><i class="fas fa-search text-white" aria-hidden="true"></i></span>
                     </div>
@@ -19,3 +19,8 @@
     </div>
 </div>
 <!-- Fin modal ejercicios -->
+<div id="preloader" class="bg-white align-items-center d-flex justify-content-around vh-100-app">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>

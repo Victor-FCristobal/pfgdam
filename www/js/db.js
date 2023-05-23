@@ -2,6 +2,11 @@
  * 
  * @returns {SQLitePlugin.Database} db
  */
+let hoy = new Date();
+let anio = hoy.getFullYear();
+let dia = hoy.getDate();
+let dia_hoy = dia + "/" + (hoy.getMonth()+1) + "/" + anio;
+console.log(dia_hoy)
 function conexion(){
   if (window.cordova.platformId === 'browser')
   db = window.openDatabase('GimnasioDB', '1.0', 'Data', 2*1024*1024);
@@ -16,7 +21,7 @@ async function getEjerciciosModal(){
   for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
       let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
       const div1 = document.createElement('div');
-      div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "20/05/2023", 1, ${ejercicio.ID}])`);
+      div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "${dia_hoy}", 1, ${ejercicio.ID}])`);
       const div2 = document.createElement('div');
       div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
       const div3 = document.createElement('div');
@@ -47,7 +52,7 @@ async function getEjerciciosModal(){
     for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
         let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
         const div1 = document.createElement('div');
-        div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "20/05/2023", 1, ${ejercicio.ID}])`);
+        div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "${dia_hoy}", 1, ${ejercicio.ID}])`);
         const div2 = document.createElement('div');
         div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
         const div3 = document.createElement('div');
@@ -212,7 +217,6 @@ async function insertarCategorias(db){
     })
   }
 }
-
 /**
  * 
  * @param {SQLitePlugin.Database} db 
@@ -281,7 +285,7 @@ async function insertarEjercicios(db){
   const ejercicios = await getEjercicios(db);
   if(ejercicios.rows.length == 0){
     db.transaction(function(tx){
-      // INSERCIÓN DE EJERCICIOS DE PIERNA
+      // EJERCICIOS DE PIERNA
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Apertura abductores",0,1,2,"img/ejercicios/abductores.gif",0,4]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
@@ -349,7 +353,7 @@ async function insertarEjercicios(db){
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Zancada con mancuernas",0,1,2,"img/ejercicios/zancada_mancuernas.gif",0,4]);
       
-      // INSERCIÓN DE EJERCICIOS DE BRAZO
+      // EJERCICIOS DE BRAZO
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["cable-cross-over.gif",0,1,2,"img/ejercicios/cable-cross-over.gif",0,1]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
@@ -384,14 +388,16 @@ async function insertarEjercicios(db){
       ["Curl predicador en polea",0,1,2,"img/ejercicios/curl_predicador_polea.gif",0,2]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Curl zottman",0,1,2,"img/ejercicios/curl_zottman.gif",0,2]);
-      tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
-      ["Dominada chin-up",0,1,2,"img/ejercicios/dominada_chin_up.gif",0,3]);
+
+      // EJERCICIOS SIN ORDENAR
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Dominada pull-up",0,1,2,"img/ejercicios/dominada_pull_up.gif",0,3]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Dominada pull-up asistida",0,1,2,"img/ejercicios/dominada_pull_up_asistida.png",0,3]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Dominada pull-up con peso",0,1,2,"img/ejercicios/dominada_pull_up_peso.gif",0,3]);
+      tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
+      ["Dominada chin-up",0,1,2,"img/ejercicios/dominada_chin_up.gif",0,3]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
       ["Elevaciones laterales con mancuerna",0,1,2,"img/ejercicios/elevaciones_laterales_mancuerna.gif",0,5]);
       tx.executeSql('INSERT INTO `EJERCICIO`(nombre,favorito,metrica,tipo,imagen,oculto, grupo_muscular) VALUES (?,?,?,?,?,?,?)',
