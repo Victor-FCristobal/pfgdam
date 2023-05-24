@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCRutina" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->  
+    
+    <!-- Rutinas -->
+    <div id="rutinas" class="mb-5">
+      <!-- Rutina -->
+      <a href="#" class="enlaceNegro text-decoration-none">
+      <div class="my-1">
+        <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="modal-title fs-5">rutina.nombre</h1>
+            <p class="fst-italic modal-title">rutina.dia_preferido</p>
+          </div>
+          <div class="text-end">
+            <p>ejercicios_rutina.rows.length</p>
+          </div>
+        </div>
+        </div>
+      </a>
+      <!-- Fin rutina -->
+    </div>
+    <!-- Fin de rutinas -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script src="js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script src="js/db.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+  </body>
+</html>

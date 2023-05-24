@@ -13,66 +13,78 @@ function conexion(){
   db = window.sqlitePlugin.openDatabase({name: 'gimnasiodb.db', location: 'default'});
   return db;
 }
-async function getEjerciciosModal(){
-  // const modalEjercicios = document.getElementById('modalEjercicios')
-  let ejerciciosNuevoEntrenamiento = await getEjercicios(db);
-  $("#btn-nuevoEntrenamiento").on("click",async function(){
+function pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento){
   for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
-      let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
-      const div1 = document.createElement('div');
-      div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "${dia_hoy}", 1, ${ejercicio.ID}])`);
-      const div2 = document.createElement('div');
-      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-      const div3 = document.createElement('div');
-      div3.classList.add('col-4');
-      const img = document.createElement('img');
-      img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-      img.src = ejercicio.imagen;
-      div3.appendChild(img);
+    let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
+    let div1 = document.createElement('div');
+    div1.setAttribute('onclick', `crearEntrenamientoEjercicio(${ejercicio.ID})`);
+    let div2 = document.createElement('div');
+    div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+    let div3 = document.createElement('div');
+    div3.classList.add('col-4');
+    let img = document.createElement('img');
+    img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+    img.src = ejercicio.imagen;
+    div3.appendChild(img);
+    div2.appendChild(div3);
+    let div4 = document.createElement('div');
+    div4.classList.add('col-8');
+    let div5 = document.createElement('div');
+    div5.classList.add('row');
+    let p = document.createElement('p');
+    p.textContent = ejercicio.nombre;
+    div5.appendChild(p);
+    div4.appendChild(div5);
+    div2.appendChild(div4);
+    div1.appendChild(div2);
+    document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+  }
+}
+async function insertarEntrenamientos(){
+  $("#btn-nuevoEntrenamientoEjercicio").on("click",async function(){
+    let ejerciciosNuevoEntrenamiento = await getEjercicios(db);
+    pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
+    $("#lupa").on("click",async function(){
+      let texto_input = $('#buscar_ejercicio').val()
+      $("#ejerciciosNuevoEntrenamiento").empty()
+      let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
+    });
+  })
+  $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
+    let rutinasNuevoEntrenamiento = await getRutinas(db);
+    for (let i = 0; i < rutinasNuevoEntrenamiento.rows.length; i++) {
+      let rutina = rutinasNuevoEntrenamiento.rows.item(i);
+      let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
+      let a = document.createElement('a');
+      a.href = '#';
+      a.classList.add('enlaceNegro', 'text-decoration-none');
+      a.setAttribute('onclick', `crearEntrenamientosRutina(${rutina.ID})`);
+      let div1 = document.createElement('div');
+      div1.classList.add('my-1');
+      let div2 = document.createElement('div');
+      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
+      let div3 = document.createElement('div');
+      let h1 = document.createElement('h1');
+      h1.classList.add('modal-title', 'fs-5');
+      h1.textContent = rutina.nombre;
+      let p = document.createElement('p');
+      p.classList.add('fst-italic', 'modal-title');
+      p.textContent = rutina.dia_preferido;
+      div3.appendChild(h1);
+      div3.appendChild(p);
       div2.appendChild(div3);
-      const div4 = document.createElement('div');
-      div4.classList.add('col-8');
-      const div5 = document.createElement('div');
-      div5.classList.add('row');
-      const p = document.createElement('p');
-      p.textContent = ejercicio.nombre;
-      div5.appendChild(p);
-      div4.appendChild(div5);
+      let div4 = document.createElement('div');
+      div4.classList.add('text-end');
+      let p2 = document.createElement('p');
+      p2.textContent = ejercicios_rutina.rows.length;
+      div4.appendChild(p2);
       div2.appendChild(div4);
       div1.appendChild(div2);
-      document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+      a.appendChild(div1);
+      document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
     }
   })
-  $("#lupa").on("click",async function(){
-    let texto_input = $('#buscar_ejercicio').val()
-    $("#ejerciciosNuevoEntrenamiento").empty()
-    let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
-    for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
-        let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
-        const div1 = document.createElement('div');
-        div1.setAttribute('onclick', `crearEntrenamiento(db, ["", "${dia_hoy}", 1, ${ejercicio.ID}])`);
-        const div2 = document.createElement('div');
-        div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-        const div3 = document.createElement('div');
-        div3.classList.add('col-4');
-        const img = document.createElement('img');
-        img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-        img.src = ejercicio.imagen;
-        div3.appendChild(img);
-        div2.appendChild(div3);
-        const div4 = document.createElement('div');
-        div4.classList.add('col-8');
-        const div5 = document.createElement('div');
-        div5.classList.add('row');
-        const p = document.createElement('p');
-        p.textContent = ejercicio.nombre;
-        div5.appendChild(p);
-        div4.appendChild(div5);
-        div2.appendChild(div4);
-        div1.appendChild(div2);
-        document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
-    }
-  });
 }
 /**
  * 
@@ -102,7 +114,6 @@ async function crearTablas(db){
   await insertarTipos(db);
   await insertarMetricas(db);
   await insertarEjercicios(db);
-  // await insertarEjerciciosMusculos(db);
   await insertarDificultades(db);
 }
 
@@ -671,7 +682,12 @@ function getEntrenamientos(db,calendario,fecha){
     });
   });
 }
-
+function comentarioEntrenamiento(db,entrenamiento,comentario){
+  db.transaction(function(tx){
+    tx.executeSql('UPDATE ENTRENAMIENTO SET comentario = ? WHERE ID = ?',[comentario,entrenamiento]);
+  })
+  location.reload();
+}
 function getEntrenamiento(db,id){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
@@ -862,7 +878,9 @@ function borrarEntrenamiento(db,entrenamiento){
   db.transaction(function(tx){
     tx.executeSql('DELETE FROM ENTRENAMIENTO WHERE ID = ?', [entrenamiento]);
   })
-  location.href = "index.html"
+  setTimeout(function(){
+    location.href = "index.html";
+  },250);
 }
 function borrarRutina(db,rutina){
   db.transaction(function(tx){
@@ -899,7 +917,7 @@ function crearEntrenamiento(db,datos){
     tx.executeSql('INSERT INTO ENTRENAMIENTO(comentario,fecha,calendario,ejercicio) VALUES(?,?,?,?)',
     [datos[0],datos[1],datos[2],datos[3]]);
   })
-  location.href = "index.html"
+  // location.href = "index.html"
 }
 function crearSerie(db,datos){
   db.transaction(function(tx){
@@ -941,4 +959,20 @@ function getEjerciciosRutina(db,rutina){
       });
     });
   });
+}
+function crearEntrenamientoEjercicio(ejercicio){
+  crearEntrenamiento(db, ["", dia_hoy, 1, ejercicio]);
+  setTimeout(function(){
+    location.href = "index.html"
+  },250);
+}
+async function crearEntrenamientosRutina(rutina){
+  let ejercicios_rutina = await getEjerciciosRutina(db,rutina);
+  for (let i = 0; i < ejercicios_rutina.rows.length; i++) {
+    let ejercicio = ejercicios_rutina.rows.item(i)
+    crearEntrenamiento(db, ["", dia_hoy, 1, ejercicio.ejercicio]);
+  }
+  setTimeout(function(){
+    location.href = "index.html"
+  },250);
 }

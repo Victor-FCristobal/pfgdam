@@ -18,7 +18,7 @@
         <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Rutinas</p>
       </div>
       <div class="text-end col-6">
-        <button data-bs-toggle="modal" data-bs-target="#modalCRutina" data-bs-nset="1" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalCRutina" class="btn btn-primary me-1 nuevaRutina"><i class="fas fa-plus"></i></button>
       </div>
     </div>
     <!-- Fin barra superior -->
@@ -28,7 +28,7 @@
 
     <!-- Modal nueva rutina -->
     <div class="modal fade" id="modalCRutina" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h1 id="tituloC" class="modal-title fs-5">Crear rutina</h1>
@@ -37,11 +37,11 @@
           <div class="modal-body">
             <div class="input-group flex-nowrap mb-3">
               <span class="input-group-text"><i class="fa-solid fa-list"></i></span>
-              <input type="text" onClick="this.select();" class="form-control mb-2" autofocus placeholder="Nombre de la rutina" name="nombre" id="nombre" />
+              <input type="text" onClick="this.select();" class="form-control" autofocus placeholder="Nombre de la rutina" name="nombreC" id="nombreC" />
             </div>
               <div class="input-group flex-nowrap mb-3">
                 <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
-                <select class="form-select" id="dia_preferido" name="dia_preferido">
+                <select class="form-select" id="dia_preferidoC" name="dia_preferidoC">
                   <option id="lunes" value="lunes">lunes</option>
                   <option id="martes" value="martes">martes</option>
                   <option id="miercoles" value="miercoles">miercoles</option>
@@ -51,8 +51,14 @@
                   <option id="domingo" value="domingo">domingo</option>
                 </select>
               </div>
-              <div class="input-group flex-nowrap mb-3">
-                <div id="ejerciciosRutina"></div>
+              <div class="input-group mb-3">
+                <div id="busqueda" class="input-group sticky-top">
+                  <input class="form-control py-1" id="buscar_ejercicioRutinaC" type="text" onClick="this.select();" placeholder="Buscar ejercicio">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-primary" id="lupaRutinaC"><i class="fas fa-search text-white" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+                <div id="ejerciciosRutinaC"></div>
               </div>
             </div>
           <div class="modal-footer">
@@ -79,7 +85,7 @@
           <div class="modal-body">
             <div class="input-group flex-nowrap mb-3">
               <span class="input-group-text"><i class="fa-solid fa-list"></i></span>
-              <input type="text" onClick="this.select();" class="form-control mb-2" autofocus placeholder="Nombre de la rutina" name="nombreE" id="nombreE" />
+              <input type="text" onClick="this.select();" class="form-control" autofocus placeholder="Nombre de la rutina" name="nombreE" id="nombreE" />
             </div>
             <div class="input-group flex-nowrap mb-3">
               <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
@@ -138,6 +144,26 @@
       </div>
     </div>
     <!-- Fin modal borrar rutina -->
+
+    <!-- Modal ver ejercicios -->
+    <div class="modal fade" id="modalREjercicios" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <h1 id="tituloR" class="modal-title fs-5">Lista de ejercicios</h1>
+              <p id="subtituloR" class="fst-italic modal-title"></p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="ejerciciosRutina"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal ver ejercicios -->
+
     <div id="rutinas" class="mb-5"></div>
 
     <!-- Barra inferior -->
@@ -158,20 +184,22 @@
           $("#rutinas").show();
         }, 250);
         const db = conexion();
-        getEjerciciosModal();
+        insertarEntrenamientos();
         const urlParams = new URLSearchParams(window.location.search);
         const rutinas = await getRutinas(db);
         if(rutinas.rows.length > 0){
           for(let i = 0; i < rutinas.rows.length ; i++){
             let rutina = rutinas.rows.item(i);
-            let ejercicios_rutina_array = []
             let div1 = document.createElement('div');
-            div1.classList.add('px-4', 'my-2');
+            div1.classList.add('px-2', 'my-1');
             let div2 = document.createElement('div');
-            div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
-            let link = document.createElement('a');
-            link.href = '#';
-            link.classList.add('enlaceNegro', 'text-decoration-none');
+            div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center','verEjercicios');
+            let a = document.createElement('a');
+            a.href = '#';
+            div2.setAttribute('data-bs-toggle', 'modal');
+            div2.setAttribute('data-bs-target', '#modalREjercicios');
+            div2.setAttribute('data-bs-rutina', rutina.ID);
+            a.classList.add('enlaceNegro', 'text-decoration-none');
             let div3 = document.createElement('div');
             let h1 = document.createElement('h1');
             h1.classList.add('modal-title', 'fs-5');
@@ -181,14 +209,23 @@
             p.textContent = rutina.dia_preferido;
             div3.appendChild(h1);
             div3.appendChild(p);
-            link.appendChild(div3);
+            a.appendChild(div3);
+            let p2 = document.createElement('p');
+            p2.classList.add('m-0');
+            let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
+            p2.textContent = ejercicios_rutina.rows.length;
+            let span = document.createElement('span');
+            span.textContent = ' ejercicios';
+            p2.appendChild(span);
+            a.appendChild(p2);
+            div2.appendChild(a);
             let div4 = document.createElement('div');
             div4.classList.add('text-end');
             let button1 = document.createElement('button');
             button1.setAttribute('data-bs-toggle', 'modal');
             button1.setAttribute('data-bs-target', '#modalURutina');
             button1.setAttribute('data-bs-rutina', rutina.ID);
-            button1.classList.add('btn', 'btn-primary');
+            button1.classList.add('btn', 'btn-primary','editarRutina');
             let i1 = document.createElement('i');
             i1.classList.add('fa-solid', 'fa-pencil');
             button1.appendChild(i1);
@@ -202,11 +239,57 @@
             button2.appendChild(i2);
             div4.appendChild(button1);
             div4.appendChild(button2);
-            div2.appendChild(link);
             div2.appendChild(div4);
             div1.appendChild(div2);
             document.getElementById("rutinas").appendChild(div1);
-            let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID)
+          }
+          $(".verEjercicios").on("click",async function(){
+            $("#ejerciciosRutina").empty();
+            let id_rutina = $(this).attr("data-bs-rutina")
+            let rs_rutina = await getRutinas(db,`WHERE ID = ${id_rutina}`);
+            let rutina = rs_rutina.rows.item(0);
+            $("#subtituloR").text(rutina.nombre + " - "+rutina.dia_preferido)
+            let ejercicios_rutina = await getEjerciciosRutina(db,id_rutina);
+            for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
+              let ejercicio_rutina = ejercicios_rutina.rows.item(i);
+              let rs_ejercicio = await getEjercicios(db,`WHERE ID = ${ejercicio_rutina.ejercicio}`);
+              let ejercicio = rs_ejercicio.rows.item(0);
+              let div1 = document.createElement('div');
+              div1.classList.add('px-2', 'my-1');
+              let div2 = document.createElement('div');
+              div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+              let div3 = document.createElement('div');
+              div3.classList.add('col-4');
+              let img = document.createElement('img');
+              img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+              img.src = ejercicio.imagen;
+              div3.appendChild(img);
+              let div4 = document.createElement('div');
+              div4.classList.add('col-8');
+              let p = document.createElement('p');
+              p.classList.add('m-0');
+              p.textContent = ejercicio.nombre;
+              div4.appendChild(p);
+              div2.appendChild(div3);
+              div2.appendChild(div4);
+              div1.appendChild(div2);
+              document.getElementById("ejerciciosRutina").appendChild(div1);
+            }
+          })
+          $(".editarRutina").on("click",async function(){
+            let id_rutina = $(this).attr("data-bs-rutina")
+            let rutina = await getRutinas(db,`WHERE ID = ${id_rutina}`);
+            let subtitulo = modalURutina.querySelector('#subtitulo')
+            subtitulo.textContent = rutina.rows.item(0).nombre;
+            let inputNombre = modalURutina.querySelector('#nombreE')
+            inputNombre.value = rutina.rows.item(0).nombre;
+            inputNombre.setAttribute("rutina",rutina.rows.item(0).ID);
+            $("#"+rutina.rows.item(0).dia_preferido+"E").attr("selected","selected");
+            $("#ejerciciosRutinaE").empty();
+            let borrar = modalURutina.querySelector('#btn-borrarRutina')
+            borrar.setAttribute('onclick',`borrarRutina(db,${id_rutina})`)
+            let ejercicios_rutina_array = []
+            let ejercicios_rutina = await getEjerciciosRutina(db,id_rutina)
             for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
               ejercicios_rutina_array.push(ejercicios_rutina.rows.item(i).ejercicio)
             }
@@ -214,7 +297,6 @@
             for(let i = 0 ; i < ejercicios.rows.length; i++){
               let ejercicio = ejercicios.rows.item(i)
               let div1 = document.createElement('div');
-              div1.classList.add('px-4', 'my-2');
               let div2 = document.createElement('div');
               div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
               let div3 = document.createElement('div');
@@ -224,6 +306,8 @@
               checkbox.id = ejercicio.ID;
               checkbox.name = 'ejercicios';
               checkbox.value = ejercicio.ID;
+              checkbox.removeAttribute("checked")
+              checkbox.classList.add('form-check-input')
               if(ejercicios_rutina_array.includes(ejercicio.ID))
                 checkbox.setAttribute("checked",true)
               div3.appendChild(checkbox);
@@ -247,19 +331,53 @@
               div1.appendChild(div2);
               document.getElementById("ejerciciosRutinaE").appendChild(div1);
             }
-          }
-          modalURutina.addEventListener('show.bs.modal', async event => {
-            let boton = event.relatedTarget
-            let id_rutina = boton.getAttribute('data-bs-rutina')
-            let rutina = await getRutinas(db,`WHERE ID = ${id_rutina}`);
-            let subtitulo = modalURutina.querySelector('#subtitulo')
-            subtitulo.textContent = rutina.rows.item(0).nombre;
-            let inputNombre = modalURutina.querySelector('#nombreE')
-            inputNombre.value = rutina.rows.item(0).nombre;
-            inputNombre.setAttribute("rutina",rutina.rows.item(0).ID);
-            $("#"+rutina.rows.item(0).dia_preferido+"E").attr("selected","selected");
-            let borrar = modalURutina.querySelector('#btn-borrarRutina')
-            borrar.setAttribute('onclick',`borrarRutina(db,${id_rutina})`)
+            $("#lupaRutinaE").on("click",async function(){
+              let texto_input = $('#buscar_ejercicioRutinaE').val()
+              $("#ejerciciosRutinaE").empty()
+              // let ejerciciosRutinaE = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+              let ejercicios_rutina = await getEjerciciosRutina(db,$("#nombreE").attr("rutina"))
+              let ejercicios_rutina_array = []
+              for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
+                ejercicios_rutina_array.push(ejercicios_rutina.rows.item(i).ejercicio)
+              }
+              let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+              for(let i = 0 ; i < ejercicios.rows.length; i++){
+                let ejercicio = ejercicios.rows.item(i)
+                let div1 = document.createElement('div');
+                let div2 = document.createElement('div');
+                div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+                let div3 = document.createElement('div');
+                div3.classList.add('col-1');
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = ejercicio.ID;
+                checkbox.name = 'ejercicios';
+                checkbox.value = ejercicio.ID;
+                checkbox.classList.add('form-check-input')
+                if(ejercicios_rutina_array.includes(ejercicio.ID))
+                  checkbox.setAttribute("checked",true)
+                div3.appendChild(checkbox);
+                div2.appendChild(div3);
+                let div4 = document.createElement('div');
+                div4.classList.add('col-3');
+                let img = document.createElement('img');
+                img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+                img.src = ejercicio.imagen;
+                div4.appendChild(img);
+                div2.appendChild(div4);
+                let div5 = document.createElement('div');
+                div5.classList.add('col-8');
+                let div6 = document.createElement('div');
+                div6.classList.add('row');
+                let p = document.createElement('p');
+                p.textContent = ejercicio.nombre;
+                div6.appendChild(p);
+                div5.appendChild(div6);
+                div2.appendChild(div5);
+                div1.appendChild(div2);
+                document.getElementById("ejerciciosRutinaE").appendChild(div1);
+              }
+            })
           });
           modalDRutina.addEventListener('show.bs.modal', async event => {
           let boton = event.relatedTarget
@@ -283,11 +401,100 @@
           div1.appendChild(h1);
           document.getElementById("rutinas").appendChild(div1);
         }
+        $(".nuevaRutina").on("click",async function(){
+          let inputNombre = modalCRutina.querySelector('#nombreC')
+          inputNombre.value = "";
+          $("#ejerciciosRutinaC").empty();
+          let ejercicios = await getEjercicios(db)
+          for(let i = 0 ; i < ejercicios.rows.length; i++){
+            let ejercicio = ejercicios.rows.item(i)
+            let div1 = document.createElement('div');
+            let div2 = document.createElement('div');
+            div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+            let div3 = document.createElement('div');
+            div3.classList.add('col-1');
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = ejercicio.ID;
+            checkbox.name = 'ejercicios';
+            checkbox.value = ejercicio.ID;
+            checkbox.removeAttribute("checked")
+            checkbox.classList.add('form-check-input')
+            div3.appendChild(checkbox);
+            div2.appendChild(div3);
+            let div4 = document.createElement('div');
+            div4.classList.add('col-3');
+            let img = document.createElement('img');
+            img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+            img.src = ejercicio.imagen;
+            div4.appendChild(img);
+            div2.appendChild(div4);
+            let div5 = document.createElement('div');
+            div5.classList.add('col-8');
+            let div6 = document.createElement('div');
+            div6.classList.add('row');
+            let p = document.createElement('p');
+            p.textContent = ejercicio.nombre;
+            div6.appendChild(p);
+            div5.appendChild(div6);
+            div2.appendChild(div5);
+            div1.appendChild(div2);
+            document.getElementById("ejerciciosRutinaC").appendChild(div1);
+          }
+          $("#lupaRutinaC").on("click",async function(){
+            let texto_input = $('#buscar_ejercicioRutinaC').val()
+            $("#ejerciciosRutinaC").empty()
+            let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+            for(let i = 0 ; i < ejercicios.rows.length; i++){
+              let ejercicio = ejercicios.rows.item(i)
+              let div1 = document.createElement('div');
+              let div2 = document.createElement('div');
+              div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+              let div3 = document.createElement('div');
+              div3.classList.add('col-1');
+              let checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.id = ejercicio.ID;
+              checkbox.name = 'ejercicios';
+              checkbox.value = ejercicio.ID;
+              checkbox.classList.add('form-check-input')
+              div3.appendChild(checkbox);
+              div2.appendChild(div3);
+              let div4 = document.createElement('div');
+              div4.classList.add('col-3');
+              let img = document.createElement('img');
+              img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+              img.src = ejercicio.imagen;
+              div4.appendChild(img);
+              div2.appendChild(div4);
+              let div5 = document.createElement('div');
+              div5.classList.add('col-8');
+              let div6 = document.createElement('div');
+              div6.classList.add('row');
+              let p = document.createElement('p');
+              p.textContent = ejercicio.nombre;
+              div6.appendChild(p);
+              div5.appendChild(div6);
+              div2.appendChild(div5);
+              div1.appendChild(div2);
+              document.getElementById("ejerciciosRutinaC").appendChild(div1);
+            }
+          })
+        });
       },false)
-      function cRutina(){
-          let datos = [$("#nombre").val(),$("#dia_preferido").val()]
-          crearRutina(db,datos)
-          location.reload()
+      async function cRutina(){
+          let datos = [$("#nombreC").val(),$("#dia_preferidoC").val()]
+          if($("#nombreC").val() != ""){
+            crearRutina(db,datos)
+            let rs_rutinas = await getRutinas(db,"ORDER BY ID")
+            let rutina = rs_rutinas.rows.item(rs_rutinas.rows.length-1)
+            $("input[name=ejercicios]:checked").each(async function(){
+              await insertarEjercicioaRutina(db,$(this).val(),rutina.ID);
+            });
+            setTimeout(function(){
+              location.reload();
+            },250);
+          }
         }
       function uRutina(){
         let datos = [$("#nombreE").attr("rutina"),$("#nombreE").val(),$("#dia_preferidoE").val()]
@@ -300,53 +507,6 @@
           location.reload();
         },250);
       }
-      $("#lupaRutinaE").on("click",async function(){
-        let texto_input = $('#buscar_ejercicioRutinaE').val()
-        $("#ejerciciosRutinaE").empty()
-        // let ejerciciosRutinaE = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
-        let ejercicios_rutina = await getEjerciciosRutina(db,$("#nombreE").attr("rutina"))
-        let ejercicios_rutina_array = []
-        for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
-          ejercicios_rutina_array.push(ejercicios_rutina.rows.item(i).ejercicio)
-        }
-        let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
-        for(let i = 0 ; i < ejercicios.rows.length; i++){
-          let ejercicio = ejercicios.rows.item(i)
-          let div1 = document.createElement('div');
-          div1.classList.add('px-4', 'my-2');
-          let div2 = document.createElement('div');
-          div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-          let div3 = document.createElement('div');
-          div3.classList.add('col-1');
-          let checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.id = ejercicio.ID;
-          checkbox.name = 'ejercicios';
-          checkbox.value = ejercicio.ID;
-          if(ejercicios_rutina_array.includes(ejercicio.ID))
-            checkbox.setAttribute("checked",true)
-          div3.appendChild(checkbox);
-          div2.appendChild(div3);
-          let div4 = document.createElement('div');
-          div4.classList.add('col-3');
-          let img = document.createElement('img');
-          img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-          img.src = ejercicio.imagen;
-          div4.appendChild(img);
-          div2.appendChild(div4);
-          let div5 = document.createElement('div');
-          div5.classList.add('col-8');
-          let div6 = document.createElement('div');
-          div6.classList.add('row');
-          let p = document.createElement('p');
-          p.textContent = ejercicio.nombre;
-          div6.appendChild(p);
-          div5.appendChild(div6);
-          div2.appendChild(div5);
-          div1.appendChild(div2);
-          document.getElementById("ejerciciosRutinaE").appendChild(div1);
-        }
-      })
     </script>
   </body>
 </html>

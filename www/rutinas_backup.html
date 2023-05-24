@@ -125,19 +125,39 @@
       </div>
     </div>
     <!-- Fin modal borrar rutina -->
+
+    <!-- Modal ver ejercicios -->
+    <div class="modal fade" id="modalREjercicios" tabindex="-1" aria-labelledby="modalREjerciciosLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <h1 id="tituloR" class="modal-title fs-5"></h1>
+              <p id="subtituloR" class="fst-italic modal-title"></p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="ejercicios">a</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal ver ejercicios -->
     
     <!-- Rutinas -->
     <div id="rutinas" class="mb-5">
       <!-- Rutina -->
-      <div class="px-4 my-2">
+      <div class="px-2 my-1">
         <div class="bg-white rounded shadow-sm p-3 d-flex justify-content-between align-items-center">
-          <a href="rutinas.html?rutina=rutina.ID" class="enlaceNegro text-decoration-none">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modalREjercicios" data-bs-rutina="rutina.ID" class="enlaceNegro text-decoration-none">
             <div>
               <h1 class="modal-title fs-5">rutina.nombre</h1>
               <p class="fst-italic modal-title">rutina.dia_preferido</p>
             </div>
+            <p class="m-0">ejercicios_rutina.length<span> ejercicios</span></p>
           </a>
-            <div class="text-end">
+          <div class="text-end">
               <button data-bs-toggle="modal" data-bs-target="#modalURutina" data-bs-rutina="rutina.ID" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></button>
               <button data-bs-toggle="modal" data-bs-target="#modalDRutina" data-bs-rutina="rutina.ID" class="btn btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
             </div>

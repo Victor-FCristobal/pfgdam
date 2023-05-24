@@ -130,8 +130,29 @@
             </div>
             </div>
         </div>
-        </div>
+    </div>
     <!-- Fin modal borrar entrenamiento -->
+
+    <!-- Modal comentario entrenamiento -->
+    <div class="modal fade" id="modalComentario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Comentario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea onClick="this.select();" id="comentario" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="guardarComentario" data-bs-dismiss="modal">Guardar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin modal comentario entrenamiento -->
+
     <!-- Entrenamientos -->
     <div id="entrenamientos" class="mb-5"></div>
     <!-- Fin de entrenamientos -->
@@ -159,7 +180,7 @@
                 $("#entrenamientos").toggle();
             })
             const db = conexion();
-            getEjerciciosModal();
+            insertarEntrenamientos();
             await crearTablas(db);
 
             // Fecha
@@ -170,7 +191,6 @@
             let dia = hoy.getDate();
             let mostrar_dia_hoy = dia + " " + mes;
             let dia_hoy = dia + "/" + (hoy.getMonth()+1) + "/" + anio;
-            console.log(dia_hoy)
             // Calendario
             let calendario = await getCalendario(db);
             let id_calendario = calendario.rows.item(0).ID;
@@ -178,68 +198,6 @@
             let color_calendario = calendario.rows.item(0).color;
             // $("#calendario").text(nombre_calendario);
             $("#calendario").text(mostrar_dia_hoy);
-            const modalCSet = document.getElementById('modalCSet')
-            modalCSet.addEventListener('show.bs.modal', async event => {
-                let boton = event.relatedTarget
-                let nset = boton.getAttribute('data-bs-nset')
-                let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-                let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
-                let entrenamiento = rs_entrenamiento.rows.item(0)
-                let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
-                let titulo = modalCSet.querySelector('#titulo')
-                let subtitulo = modalCSet.querySelector('#subtitulo')
-                titulo.textContent = 'Set Nº ' + nset
-                subtitulo.textContent = ejercicio.rows.item(0).nombre;
-                let guardar = modalCSet.querySelector('#btn-crearSerie')
-                guardar.setAttribute('onclick',`crearSet(${entrenamiento.ID},${nset})`)
-                let radios = document.getElementsByName("dificultad")
-                $("#valor1").val("")
-                $("#valor2").val("")
-                for(let i = 0; i < radios.length; i++ )
-                    radios[i].checked = false
-                if(nset-1 != 0){
-                    let rs_serie_anterior = await getSerie(db,entrenamiento.ID,nset-1)
-                    let serie_anterior = rs_serie_anterior.rows.item(0)
-                    $("#valor1").val(serie_anterior.valor1)
-                    $("#valor2").val(serie_anterior.valor2)
-                    for(let i = 0; i < radios.length; i++ ) {
-                        if(radios[i].value == serie_anterior.dificultad )
-                            radios[i].checked = true
-                    }
-                }
-            })
-            const modalUSet = document.getElementById('modalUSet')
-            modalUSet.addEventListener('show.bs.modal', async event => {
-                let boton = event.relatedTarget
-                let nset = boton.getAttribute('data-bs-nset')
-                let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-                let entrenamiento = await getEntrenamiento(db,id_entrenamiento)
-                entrenamiento = entrenamiento.rows.item(0);
-                let serie = await getSerie(db,entrenamiento.ID,nset)
-                serie = serie.rows.item(0)
-                $("#valor1E").val(serie.valor1)
-                $("#valor2E").val(serie.valor2)
-                let radios = document.getElementsByName("dificultadE")
-                for(let i = 0; i < radios.length; i++ ) {
-                    if(radios[i].value == serie.dificultad )
-                        radios[i].checked = true
-                    else
-                        radios[i].checked = false
-                }
-                if ($("input[name='dificultadE']").val() == serie.dificultad)
-                    $("input[name='dificultadE']").attr("checked","checked")
-                let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`)
-                ejercicio = ejercicio.rows.item(0)
-                let titulo = modalUSet.querySelector('#titulo')
-                let subtitulo = modalUSet.querySelector('#subtitulo')
-                titulo.textContent = 'Edición set Nº ' + nset
-                subtitulo.textContent = ejercicio.nombre;
-                let actualizar = modalUSet.querySelector('#btn-editarSerie')
-                actualizar.setAttribute('onclick',`editarSet(${entrenamiento.ID},${nset})`)
-                let borrar = modalUSet.querySelector('#btn-borrarSerie')
-                borrar.setAttribute('onclick',`borrarSerie(db,${entrenamiento.ID},${nset})`)
-            })
-
             const entrenamientos = await getEntrenamientos(db,id_calendario,dia_hoy);
             if(entrenamientos.rows.length > 0){
                 for (let i = 0; i < entrenamientos.rows.length; i++) {
@@ -301,11 +259,14 @@
                     let item2Lista = document.createElement('li');
                     let item2ListaEnlace = document.createElement('a');
                     item2ListaEnlace.href = '#';
-                    item2ListaEnlace.classList.add('dropdown-item');
+                    item2ListaEnlace.classList.add('dropdown-item','comentario');
                     let item2ListaIcono = document.createElement('i');
                     item2ListaIcono.classList.add('fa-solid', 'fa-comment-dots');
                     item2ListaEnlace.appendChild(item2ListaIcono);
                     item2ListaEnlace.innerHTML += ' Comentario';
+                    item2ListaEnlace.setAttribute('data-bs-toggle', 'modal');
+                    item2ListaEnlace.setAttribute('data-bs-target', '#modalComentario');
+                    item2ListaEnlace.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
                     item2Lista.appendChild(item2ListaEnlace);
                     listaDD.appendChild(item2Lista);
                     let item3Lista = document.createElement('li');
@@ -341,22 +302,32 @@
                         div10.classList.add('bg-'+serie.dificultad);
                         let p1 = document.createElement('p');
                         let p2 = document.createElement('p');
+                        p1.textContent = serie.valor1;
+                        p2.textContent = serie.valor2;
                         switch(ejercicio.metrica){
                             case 1:
-                                p1.textContent = serie.valor1 + "KG";
-                                p2.textContent = serie.valor2 + "REP";
+                                if(p1.textContent != "")
+                                    p1.textContent = p1.textContent + "KG";
+                                if(p2.textContent != "")
+                                p2.textContent = p2.textContent + "REP";
                                 break;
                             case 2:
-                                p1.textContent = serie.valor1 + "MIN";
-                                p2.textContent = serie.valor2 + "KM";
+                                if(p1.textContent != "")
+                                    p1.textContent = p1.textContent + "MIN";
+                                if(p2.textContent != "")
+                                    p2.textContent = p2.textContent + "KM";
                                 break;
                             case 3:
-                                p1.textContent = serie.valor1 + "MIN";
-                                p2.textContent = serie.valor2 + "KG";
+                                if(p1.textContent != "")
+                                    p1.textContent = p1.textContent + "MIN";
+                                if(p2.textContent != "")
+                                    p2.textContent = p2.textContent + "KG";
                                 break;
                             case 4:
-                                p1.textContent = serie.valor1 + "MIN";
-                                p2.textContent = serie.valor2 + "REP";
+                                if(p1.textContent != "")
+                                    p1.textContent = p1.textContent + "MIN";
+                                if(p2.textContent != "")
+                                    p2.textContent = p2.textContent + "REP";
                                 break;
                         }
                         div9.appendChild(div10);
@@ -382,6 +353,84 @@
                     div1.appendChild(div2);
                     document.getElementById("entrenamientos").appendChild(div1);
                 }
+                const modalCSet = document.getElementById('modalCSet')
+                modalCSet.addEventListener('show.bs.modal', async event => {
+                    let boton = event.relatedTarget
+                    let nset = boton.getAttribute('data-bs-nset')
+                    let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                    let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
+                    let entrenamiento = rs_entrenamiento.rows.item(0)
+                    let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
+                    let titulo = modalCSet.querySelector('#titulo')
+                    let subtitulo = modalCSet.querySelector('#subtitulo')
+                    titulo.textContent = 'Set Nº ' + nset
+                    subtitulo.textContent = ejercicio.rows.item(0).nombre;
+                    let guardar = modalCSet.querySelector('#btn-crearSerie')
+                    guardar.setAttribute('onclick',`crearSet(${entrenamiento.ID},${nset})`)
+                    let radios = document.getElementsByName("dificultad")
+                    $("#valor1").val("")
+                    $("#valor2").val("")
+                    for(let i = 0; i < radios.length; i++ )
+                        radios[i].checked = false
+                    if(nset-1 != 0){
+                        let rs_serie_anterior = await getSerie(db,entrenamiento.ID,nset-1)
+                        let serie_anterior = rs_serie_anterior.rows.item(0)
+                        $("#valor1").val(serie_anterior.valor1)
+                        $("#valor2").val(serie_anterior.valor2)
+                        for(let i = 0; i < radios.length; i++ ) {
+                            if(radios[i].value == serie_anterior.dificultad )
+                                radios[i].checked = true
+                        }
+                    }
+                })
+                const modalUSet = document.getElementById('modalUSet')
+                modalUSet.addEventListener('show.bs.modal', async event => {
+                    let boton = event.relatedTarget
+                    let nset = boton.getAttribute('data-bs-nset')
+                    let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                    let entrenamiento = await getEntrenamiento(db,id_entrenamiento)
+                    entrenamiento = entrenamiento.rows.item(0);
+                    let serie = await getSerie(db,entrenamiento.ID,nset)
+                    serie = serie.rows.item(0)
+                    $("#valor1E").val(serie.valor1)
+                    $("#valor2E").val(serie.valor2)
+                    let radios = document.getElementsByName("dificultadE")
+                    for(let i = 0; i < radios.length; i++ ) {
+                        if(radios[i].value == serie.dificultad )
+                            radios[i].checked = true
+                        else
+                            radios[i].checked = false
+                    }
+                    if ($("input[name='dificultadE']").val() == serie.dificultad)
+                        $("input[name='dificultadE']").attr("checked","checked")
+                    let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`)
+                    ejercicio = ejercicio.rows.item(0)
+                    let titulo = modalUSet.querySelector('#titulo')
+                    let subtitulo = modalUSet.querySelector('#subtitulo')
+                    titulo.textContent = 'Edición set Nº ' + nset
+                    subtitulo.textContent = ejercicio.nombre;
+                    let actualizar = modalUSet.querySelector('#btn-editarSerie')
+                    actualizar.setAttribute('onclick',`editarSet(${entrenamiento.ID},${nset})`)
+                    let borrar = modalUSet.querySelector('#btn-borrarSerie')
+                    borrar.setAttribute('onclick',`borrarSerie(db,${entrenamiento.ID},${nset})`)
+                })
+                const modalDEntrenamiento = document.getElementById('modalDEntrenamiento')
+                modalDEntrenamiento.addEventListener('show.bs.modal', async event => {
+                    let boton = event.relatedTarget
+                    let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                    let modalLink = modalDEntrenamiento.querySelector('#eliminar')
+                    modalLink.href = "index.html?eliminar="+id_entrenamiento;
+                });
+                $(".comentario").on("click",async function(){
+                    let id_entrenamiento = $(this).attr("data-bs-entrenamiento");
+                    let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
+                    let entrenamiento = rs_entrenamiento.rows.item(0);
+                    $("#comentario").text("");
+                    $("#comentario").text(entrenamiento.comentario);
+                    $("#guardarComentario").on("click",async function(){
+                        comentarioEntrenamiento(db,id_entrenamiento,$("#comentario").val());
+                    })
+                })
             }
             else{
                 let div1 = document.createElement('div');
@@ -392,17 +441,9 @@
                 div1.appendChild(h1);
                 document.getElementById("entrenamientos").appendChild(div1);
             }
-            const modalDEntrenamiento = document.getElementById('modalDEntrenamiento')
-            modalDEntrenamiento.addEventListener('show.bs.modal', async event => {
-            let boton = event.relatedTarget
-            let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-            let modalLink = modalDEntrenamiento.querySelector('#eliminar')
-            modalLink.href = "index.html?eliminar="+id_entrenamiento;
-            });
             const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.get('eliminar') != null){
-            borrarEntrenamiento(db,urlParams.get('eliminar'));
-            }
+            if(urlParams.get('eliminar') != null)
+                borrarEntrenamiento(db,urlParams.get('eliminar'));
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth'
