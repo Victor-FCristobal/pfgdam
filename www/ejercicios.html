@@ -247,6 +247,7 @@
 
         if(urlParams.get('eliminar') != null){
           borrarEjercicio(db,urlParams.get('eliminar'));
+          console.log('Borro el ejercicio'+urlParams.get('eliminar'))
         }
         if(urlParams.get('ocultar') != null){
           ocultarEjercicio(db,urlParams.get('ocultar'));

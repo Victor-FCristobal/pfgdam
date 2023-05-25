@@ -334,13 +334,12 @@
             $("#lupaRutinaE").on("click",async function(){
               let texto_input = $('#buscar_ejercicioRutinaE').val()
               $("#ejerciciosRutinaE").empty()
-              // let ejerciciosRutinaE = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
               let ejercicios_rutina = await getEjerciciosRutina(db,$("#nombreE").attr("rutina"))
               let ejercicios_rutina_array = []
               for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
                 ejercicios_rutina_array.push(ejercicios_rutina.rows.item(i).ejercicio)
               }
-              let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+              let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
               for(let i = 0 ; i < ejercicios.rows.length; i++){
                 let ejercicio = ejercicios.rows.item(i)
                 let div1 = document.createElement('div');
@@ -444,7 +443,7 @@
           $("#lupaRutinaC").on("click",async function(){
             let texto_input = $('#buscar_ejercicioRutinaC').val()
             $("#ejerciciosRutinaC").empty()
-            let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
+            let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
             for(let i = 0 ; i < ejercicios.rows.length; i++){
               let ejercicio = ejercicios.rows.item(i)
               let div1 = document.createElement('div');

@@ -8,83 +8,12 @@ let dia_hoy = dia + "/" + (hoy.getMonth()+1) + "/" + anio;
  */
 function conexion(){
   if (window.cordova.platformId === 'browser')
-  db = window.openDatabase('GimnasioDB', '1.0', 'Data', 2*1024*1024);
-  else
-  db = window.sqlitePlugin.openDatabase({name: 'gimnasiodb.db', location: 'default'});
-  return db;
-}
-function pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento){
-  for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
-    let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
-    let div1 = document.createElement('div');
-    div1.setAttribute('onclick', `crearEntrenamientoEjercicio(${ejercicio.ID})`);
-    let div2 = document.createElement('div');
-    div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-    let div3 = document.createElement('div');
-    div3.classList.add('col-4');
-    let img = document.createElement('img');
-    img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-    img.src = ejercicio.imagen;
-    div3.appendChild(img);
-    div2.appendChild(div3);
-    let div4 = document.createElement('div');
-    div4.classList.add('col-8');
-    let div5 = document.createElement('div');
-    div5.classList.add('row');
-    let p = document.createElement('p');
-    p.textContent = ejercicio.nombre;
-    div5.appendChild(p);
-    div4.appendChild(div5);
-    div2.appendChild(div4);
-    div1.appendChild(div2);
-    document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+    db = window.openDatabase('GimnasioDB', '1.0', 'Data', 2*1024*1024);
+  else{
+    db = window.sqlitePlugin.openDatabase({name: 'gimnasiodb.db', location: 'default'});
+    db.executeSql('PRAGMA foreign_keys = ON;');
   }
-}
-async function insertarEntrenamientos(){
-  $("#btn-nuevoEntrenamientoEjercicio").on("click",async function(){
-    let ejerciciosNuevoEntrenamiento = await getEjercicios(db);
-    pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
-    $("#lupa").on("click",async function(){
-      let texto_input = $('#buscar_ejercicio').val()
-      $("#ejerciciosNuevoEntrenamiento").empty()
-      let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%"`);
-      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
-    });
-  })
-  $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
-    let rutinasNuevoEntrenamiento = await getRutinas(db);
-    for (let i = 0; i < rutinasNuevoEntrenamiento.rows.length; i++) {
-      let rutina = rutinasNuevoEntrenamiento.rows.item(i);
-      let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
-      let a = document.createElement('a');
-      a.href = '#';
-      a.classList.add('enlaceNegro', 'text-decoration-none');
-      a.setAttribute('onclick', `crearEntrenamientosRutina(${rutina.ID})`);
-      let div1 = document.createElement('div');
-      div1.classList.add('my-1');
-      let div2 = document.createElement('div');
-      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
-      let div3 = document.createElement('div');
-      let h1 = document.createElement('h1');
-      h1.classList.add('modal-title', 'fs-5');
-      h1.textContent = rutina.nombre;
-      let p = document.createElement('p');
-      p.classList.add('fst-italic', 'modal-title');
-      p.textContent = rutina.dia_preferido;
-      div3.appendChild(h1);
-      div3.appendChild(p);
-      div2.appendChild(div3);
-      let div4 = document.createElement('div');
-      div4.classList.add('text-end');
-      let p2 = document.createElement('p');
-      p2.textContent = ejercicios_rutina.rows.length;
-      div4.appendChild(p2);
-      div2.appendChild(div4);
-      div1.appendChild(div2);
-      a.appendChild(div1);
-      document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
-    }
-  })
+  return db;
 }
 /**
  * 
@@ -100,7 +29,7 @@ async function crearTablas(db){
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_TIPO` (ID INTEGER,tipo TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_METRICA` (ID INTEGER NOT NULL,metrica TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO` (ID INTEGER,nombre TEXT NOT NULL,favorito INTEGER NOT NULL DEFAULT 0,metrica INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_METRICA(ID),tipo INTEGER NOT NULL DEFAULT 1 REFERENCES EJERCICIO_TIPO(ID),imagen TEXT,oculto INTEGER, grupo_muscular INTEGER NOT NULL REFERENCES GRUPO_MUSCULAR(ID), FOREIGN KEY(metrica) REFERENCES EJERCICIO_METRICA(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(tipo) REFERENCES EJERCICIO_TIPO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(grupo_muscular) REFERENCES GRUPO_MUSCULAR(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_MUSCULO` (ejercicio_id INTEGER NOT NULL,musculo_id INTEGER NOT NULL,grupo_muscular_id INTEGER NOT NULL,FOREIGN KEY(grupo_muscular_id) REFERENCES MUSCULO(grupo_muscular_id) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(musculo_id) REFERENCES MUSCULO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(ejercicio_id) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,PRIMARY KEY(ejercicio_id,musculo_id,grupo_muscular_id))');
+    // tx.executeSql('CREATE TABLE IF NOT EXISTS `EJERCICIO_MUSCULO` (ejercicio_id INTEGER NOT NULL,musculo_id INTEGER NOT NULL,grupo_muscular_id INTEGER NOT NULL,FOREIGN KEY(grupo_muscular_id) REFERENCES MUSCULO(grupo_muscular_id) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(musculo_id) REFERENCES MUSCULO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(ejercicio_id) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,PRIMARY KEY(ejercicio_id,musculo_id,grupo_muscular_id))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `ENTRENAMIENTO` (ID INTEGER NOT NULL,comentario TEXT,fecha TEXT NOT NULL,calendario INTEGER NOT NULL,ejercicio INTEGER NOT NULL,FOREIGN KEY(calendario) REFERENCES CALENDARIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, FOREIGN KEY(ejercicio) REFERENCES EJERCICIO(ID) ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE_DIFICULTAD` (ID INTEGER,dificultad TEXT NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))');
     tx.executeSql('CREATE TABLE IF NOT EXISTS `SERIE` (ID INTEGER NOT NULL,numero INTEGER NOT NULL,dificultad INTEGER,valor1 TEXT NOT NULL,valor2 TEXT NOT NULL,entrenamiento INTEGER NOT NULL,FOREIGN KEY(entrenamiento)REFERENCES ENTRENAMIENTO(ID) ON DELETE CASCADE ON UPDATE NO ACTION,FOREIGN KEY(dificultad) REFERENCES SERIE_DIFICULTAD(ID) ON DELETE SET NULL ON UPDATE NO ACTION,PRIMARY KEY(ID AUTOINCREMENT))');
@@ -871,7 +800,11 @@ function qFavoritoEjercicio(db, ejercicio){
  */
 function borrarEjercicio(db, ejercicio){
   db.transaction(function(tx){
-    tx.executeSql('DELETE FROM EJERCICIO WHERE ID = ?', [ejercicio]);
+    tx.executeSql('DELETE FROM EJERCICIO WHERE ID = ?', [ejercicio],function(){
+      console.log('Borrado correctamente')
+    },function(tx, error){
+      console.log('Error al borrar: ' + error.message)
+    });
   })
 }
 function borrarEntrenamiento(db,entrenamiento){
@@ -975,4 +908,77 @@ async function crearEntrenamientosRutina(rutina){
   setTimeout(function(){
     location.href = "index.html"
   },250);
+}
+function pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento){
+  for (let i = 0; i < ejerciciosNuevoEntrenamiento.rows.length; i++) {
+    let ejercicio = ejerciciosNuevoEntrenamiento.rows.item(i)
+    let div1 = document.createElement('div');
+    div1.setAttribute('onclick', `crearEntrenamientoEjercicio(${ejercicio.ID})`);
+    let div2 = document.createElement('div');
+    div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+    let div3 = document.createElement('div');
+    div3.classList.add('col-4');
+    let img = document.createElement('img');
+    img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+    img.src = ejercicio.imagen;
+    div3.appendChild(img);
+    div2.appendChild(div3);
+    let div4 = document.createElement('div');
+    div4.classList.add('col-8');
+    let div5 = document.createElement('div');
+    div5.classList.add('row');
+    let p = document.createElement('p');
+    p.textContent = ejercicio.nombre;
+    div5.appendChild(p);
+    div4.appendChild(div5);
+    div2.appendChild(div4);
+    div1.appendChild(div2);
+    document.getElementById("ejerciciosNuevoEntrenamiento").appendChild(div1);
+  }
+}
+async function insertarEntrenamientos(){
+  $("#btn-nuevoEntrenamientoEjercicio").on("click",async function(){
+    let ejerciciosNuevoEntrenamiento = await getEjercicios(db,"WHERE oculto = 0");
+    pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
+    $("#lupa").on("click",async function(){
+      let texto_input = $('#buscar_ejercicio').val()
+      $("#ejerciciosNuevoEntrenamiento").empty()
+      let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
+      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
+    });
+  })
+  $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
+    let rutinasNuevoEntrenamiento = await getRutinas(db);
+    for (let i = 0; i < rutinasNuevoEntrenamiento.rows.length; i++) {
+      let rutina = rutinasNuevoEntrenamiento.rows.item(i);
+      let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
+      let a = document.createElement('a');
+      a.href = '#';
+      a.classList.add('enlaceNegro', 'text-decoration-none');
+      a.setAttribute('onclick', `crearEntrenamientosRutina(${rutina.ID})`);
+      let div1 = document.createElement('div');
+      div1.classList.add('my-1');
+      let div2 = document.createElement('div');
+      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
+      let div3 = document.createElement('div');
+      let h1 = document.createElement('h1');
+      h1.classList.add('modal-title', 'fs-5');
+      h1.textContent = rutina.nombre;
+      let p = document.createElement('p');
+      p.classList.add('fst-italic', 'modal-title');
+      p.textContent = rutina.dia_preferido;
+      div3.appendChild(h1);
+      div3.appendChild(p);
+      div2.appendChild(div3);
+      let div4 = document.createElement('div');
+      div4.classList.add('text-end');
+      let p2 = document.createElement('p');
+      p2.textContent = ejercicios_rutina.rows.length;
+      div4.appendChild(p2);
+      div2.appendChild(div4);
+      div1.appendChild(div2);
+      a.appendChild(div1);
+      document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
+    }
+  })
 }
