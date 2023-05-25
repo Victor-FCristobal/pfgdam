@@ -1,7 +1,4 @@
-let hoy = new Date();
-let anio = hoy.getFullYear();
-let dia = hoy.getDate();
-let dia_hoy = dia + "/" + (hoy.getMonth()+1) + "/" + anio;
+let dia = new Date().toLocaleDateString();
 /**
  * 
  * @returns {SQLitePlugin.Database} db
@@ -611,6 +608,19 @@ function getEntrenamientos(db,calendario,fecha){
     });
   });
 }
+
+function getTodosEntrenamientos(db,calendario){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO WHERE calendario = ? GROUP BY fecha', [calendario], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
 function comentarioEntrenamiento(db,entrenamiento,comentario){
   db.transaction(function(tx){
     tx.executeSql('UPDATE ENTRENAMIENTO SET comentario = ? WHERE ID = ?',[comentario,entrenamiento]);
@@ -894,7 +904,7 @@ function getEjerciciosRutina(db,rutina){
   });
 }
 function crearEntrenamientoEjercicio(ejercicio){
-  crearEntrenamiento(db, ["", dia_hoy, 1, ejercicio]);
+  crearEntrenamiento(db, ["", dia, 1, ejercicio]);
   setTimeout(function(){
     location.href = "index.html"
   },250);
@@ -903,7 +913,7 @@ async function crearEntrenamientosRutina(rutina){
   let ejercicios_rutina = await getEjerciciosRutina(db,rutina);
   for (let i = 0; i < ejercicios_rutina.rows.length; i++) {
     let ejercicio = ejercicios_rutina.rows.item(i)
-    crearEntrenamiento(db, ["", dia_hoy, 1, ejercicio.ejercicio]);
+    crearEntrenamiento(db, ["", dia, 1, ejercicio.ejercicio]);
   }
   setTimeout(function(){
     location.href = "index.html"
