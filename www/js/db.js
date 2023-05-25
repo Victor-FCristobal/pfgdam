@@ -1,4 +1,3 @@
-let dia = new Date().toLocaleDateString();
 /**
  * 
  * @returns {SQLitePlugin.Database} db
@@ -904,7 +903,7 @@ function getEjerciciosRutina(db,rutina){
   });
 }
 function crearEntrenamientoEjercicio(ejercicio){
-  crearEntrenamiento(db, ["", dia, 1, ejercicio]);
+  crearEntrenamiento(db, ["", localStorage.getItem("fecha"), 1, ejercicio]);
   setTimeout(function(){
     location.href = "index.html"
   },250);
@@ -913,7 +912,7 @@ async function crearEntrenamientosRutina(rutina){
   let ejercicios_rutina = await getEjerciciosRutina(db,rutina);
   for (let i = 0; i < ejercicios_rutina.rows.length; i++) {
     let ejercicio = ejercicios_rutina.rows.item(i)
-    crearEntrenamiento(db, ["", dia, 1, ejercicio.ejercicio]);
+    crearEntrenamiento(db, ["", localStorage.getItem("fecha"), 1, ejercicio.ejercicio]);
   }
   setTimeout(function(){
     location.href = "index.html"

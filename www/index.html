@@ -184,8 +184,9 @@
 
             // Fecha
             const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-            let dia = new Date();
-
+            let fecha = new Date();
+            if(!localStorage.getItem("fecha"))
+                localStorage.setItem("fecha",fecha.toLocaleDateString())
             // Calendario
             let calendario = await getCalendario(db);
             let id_calendario = calendario.rows.item(0).ID;
@@ -201,8 +202,8 @@
             let todosEntrenamientos = await getTodosEntrenamientos(db,id_calendario);
             for(let i = 0; i < todosEntrenamientos.rows.length; i++){
                 let fecha_dividida = todosEntrenamientos.rows.item(i).fecha.split('/');
-                let [day, month, year] = fecha_dividida.map(parte => parseInt(parte));
-                let fechaOK = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                let [dia, mes, anio] = fecha_dividida.map(parte => parseInt(parte));
+                let fechaOK = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
                 eventos.push({start: `${fechaOK}`,color: '#963a45',display: 'background'})
             }
             $("#btn-calendario").on("click",function(){
@@ -225,11 +226,12 @@
                         next: 's fa-solid fa-arrow-right'
                     },
                     buttonText: {
-                        today: meses[dia.getMonth()]
+                        today: meses[fecha.getMonth()]
                     },
-                    dateClick: function(dia_click) {
-                        dia = new Date(dia_click.dateStr);
-                        pintarEntrenamientos(db,id_calendario,dia);
+                    dateClick: function(fecha_click) {
+                        fecha = new Date(fecha_click.dateStr);
+                        localStorage.setItem("fecha",fecha.toLocaleDateString())
+                        pintarEntrenamientos(db,id_calendario,fecha);
                         $("#calendar").toggle();
                         $("#entrenamientos").toggle();
                     },
@@ -238,10 +240,10 @@
                 calendar.render();
                 $("#entrenamientos").toggle();
             })
-            pintarEntrenamientos(db,id_calendario,dia);
-            async function pintarEntrenamientos(db,id_calendario,dia){
+            pintarEntrenamientos(db,id_calendario,localStorage.getItem("fecha"));
+            async function pintarEntrenamientos(db,id_calendario,fecha){
                 $("#entrenamientos").empty();
-                const entrenamientos = await getEntrenamientos(db,id_calendario,dia.toLocaleDateString());
+                const entrenamientos = await getEntrenamientos(db,id_calendario,localStorage.getItem("fecha"));
                 if(entrenamientos.rows.length > 0){
                     for (let i = 0; i < entrenamientos.rows.length; i++) {
                         let entrenamiento = entrenamientos.rows.item(i);
@@ -484,7 +486,13 @@
                     div1.appendChild(h1);
                     document.getElementById("entrenamientos").appendChild(div1);
                 }
-                $("#fecha").text(dia.getDate() + " " + meses[dia.getMonth()]);
+                fecha = localStorage.getItem("fecha")
+                let partes = fecha.split('/');
+                let dia = parseInt(partes[0]);
+                let mes = parseInt(partes[1]) - 1; // Los meses van de 0 a 11, se resta 1
+                let anio = parseInt(partes[2]);
+                fecha = new Date(anio, mes, dia)
+                $("#fecha").text(fecha.getDate() + " " + meses[fecha.getMonth()]);
             }
             const urlParams = new URLSearchParams(window.location.search);
             if(urlParams.get('eliminar') != null)
