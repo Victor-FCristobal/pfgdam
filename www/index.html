@@ -21,11 +21,11 @@
         <!-- Barra superior -->
         <div class="sticky-top bg-primary d-flex p-2">
             <div class="col-6">
-            <p class="m-2 h4" id="fecha"></p>
+                <p class="m-2 h4" id="fecha"></p>
             </div>
             <div class="text-end col-6">
-            <i id="btn-calendario" style="color:white" class="fa-solid fa-calendar m-2 h4"></i>
-            <i class="fa-solid fa-gear m-2 h4"></i>
+                <i id="btn-calendario" style="color:white" class="fa-solid fa-calendar m-2 h4"></i>
+                <i data-bs-toggle="modal" data-bs-target="#modalInfo" class="fa-solid fa-info-circle m-2 h4"></i>
             </div>
         </div>
         <!-- Fin barra superior -->
@@ -35,6 +35,27 @@
         <div w3-include-html="header.html"></div>
         <script src="js/footer.js"></script>
         <script>includeHTML();</script>
+        <!-- Modal info -->
+        <div class="modal fade" id="modalInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 id="titulo" class="modal-title fs-5"><i class="fa-solid fa-info-circle"></i> Información sobre la aplicación</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1><i class="fa-solid fa-clipboard-user"></i></h1>
+                        <p>Desarrollo hecho por Víctor Fernández Cristóbal</p>
+                        <p>Proyecto de fin de ciclo Desarrollo de Aplicaciones Multiplataforma curso 2022/2023</p>
+                        <hr>
+                        <h1><i class="fa-solid fa-at"></i></h1>
+                        <p><a class="enlaceNegro" href="mailto:victorfernandezcristobal@gmail.com">victorfernandezcristobal@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal info-->
+
         <!-- Modal agregar serie -->
         <div class="modal fade" id="modalCSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
