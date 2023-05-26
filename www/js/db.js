@@ -947,6 +947,7 @@ function pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento){
 }
 async function insertarEntrenamientos(){
   $("#btn-nuevoEntrenamientoEjercicio").on("click",async function(){
+    $("#ejerciciosNuevoEntrenamiento").empty()
     let ejerciciosNuevoEntrenamiento = await getEjercicios(db,"WHERE oculto = 0");
     pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
     $("#lupa").on("click",async function(){
@@ -957,37 +958,50 @@ async function insertarEntrenamientos(){
     });
   })
   $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
+    $("#rutinasNuevoEntrenamiento").empty()
     let rutinasNuevoEntrenamiento = await getRutinas(db);
-    for (let i = 0; i < rutinasNuevoEntrenamiento.rows.length; i++) {
-      let rutina = rutinasNuevoEntrenamiento.rows.item(i);
-      let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
-      let a = document.createElement('a');
-      a.href = '#';
-      a.classList.add('enlaceNegro', 'text-decoration-none');
-      a.setAttribute('onclick', `crearEntrenamientosRutina(${rutina.ID})`);
+    if(rutinasNuevoEntrenamiento.rows.length > 0){
+      for (let i = 0; i < rutinasNuevoEntrenamiento.rows.length; i++) {
+        let rutina = rutinasNuevoEntrenamiento.rows.item(i);
+        let ejercicios_rutina = await getEjerciciosRutina(db,rutina.ID);
+        let a = document.createElement('a');
+        a.href = '#';
+        a.classList.add('enlaceNegro', 'text-decoration-none');
+        a.setAttribute('onclick', `crearEntrenamientosRutina(${rutina.ID})`);
+        let div1 = document.createElement('div');
+        div1.classList.add('my-1');
+        let div2 = document.createElement('div');
+        div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
+        let div3 = document.createElement('div');
+        let h1 = document.createElement('h1');
+        h1.classList.add('modal-title', 'fs-5');
+        h1.textContent = rutina.nombre;
+        let p = document.createElement('p');
+        p.classList.add('fst-italic', 'modal-title');
+        p.textContent = rutina.dia_preferido;
+        div3.appendChild(h1);
+        div3.appendChild(p);
+        div2.appendChild(div3);
+        let div4 = document.createElement('div');
+        div4.classList.add('text-end');
+        let p2 = document.createElement('p');
+        p2.textContent = ejercicios_rutina.rows.length;
+        div4.appendChild(p2);
+        div2.appendChild(div4);
+        div1.appendChild(div2);
+        a.appendChild(div1);
+        document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
+      }
+    }
+    else{
       let div1 = document.createElement('div');
-      div1.classList.add('my-1');
-      let div2 = document.createElement('div');
-      div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center');
-      let div3 = document.createElement('div');
+      div1.classList.add('align-items-center','d-flex','justify-content-center')
+      div1.setAttribute("style","height:150px;")
       let h1 = document.createElement('h1');
-      h1.classList.add('modal-title', 'fs-5');
-      h1.textContent = rutina.nombre;
-      let p = document.createElement('p');
-      p.classList.add('fst-italic', 'modal-title');
-      p.textContent = rutina.dia_preferido;
-      div3.appendChild(h1);
-      div3.appendChild(p);
-      div2.appendChild(div3);
-      let div4 = document.createElement('div');
-      div4.classList.add('text-end');
-      let p2 = document.createElement('p');
-      p2.textContent = ejercicios_rutina.rows.length;
-      div4.appendChild(p2);
-      div2.appendChild(div4);
-      div1.appendChild(div2);
-      a.appendChild(div1);
-      document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
+      h1.textContent = "No existen rutinas";
+      h1.classList.add('text-center','text-black-50');
+      div1.appendChild(h1);
+      document.getElementById("rutinasNuevoEntrenamiento").appendChild(div1);
     }
   })
   $("#btn-nuevoEntrenamientoCalendario").on("click",async function(){
