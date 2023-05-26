@@ -903,7 +903,7 @@ function getEjerciciosRutina(db,rutina){
   });
 }
 function crearEntrenamientoEjercicio(ejercicio){
-  crearEntrenamiento(db, ["", localStorage.getItem("fecha"), 1, ejercicio]);
+  crearEntrenamiento(db, ["", localStorage.getItem("fecha"), localStorage.getItem("calendario"), ejercicio]);
   setTimeout(function(){
     location.href = "index.html"
   },250);
@@ -990,4 +990,63 @@ async function insertarEntrenamientos(){
       document.getElementById("rutinasNuevoEntrenamiento").appendChild(a);
     }
   })
+  $("#btn-nuevoEntrenamientoCalendario").on("click",async function(){
+    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    let fechaHoy = new Date();
+    let eventos = []
+    let todosEntrenamientos = await getTodosEntrenamientos(db,localStorage.getItem("calendario"));
+    for(let i = 0; i < todosEntrenamientos.rows.length; i++){
+        let fecha_dividida = todosEntrenamientos.rows.item(i).fecha.split('/');
+        let [dia, mes, anio] = fecha_dividida.map(parte => parseInt(parte));
+        let fechaOK = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+        eventos.push({start: `${fechaOK}`,color: '#963a45',display: 'background'})
+    }
+    let calendarEl = document.getElementById('calendarioNuevoEntrenamiento');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap5',
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        editable: false,
+        showNonCurrentDates: false,
+        height: 'auto',
+        titleFormat: {
+            month: 'short',
+            year: '2-digit',
+        },
+        buttonIcons: {
+            prev: 's fa-solid fa-arrow-left',
+            next: 's fa-solid fa-arrow-right'
+        },
+        buttonText: {
+            today: meses[fechaHoy.getMonth()]
+        },
+        dateClick: async function(fecha_click) {
+          let fecha = new Date(fecha_click.dateStr)
+          let entrenamientos = await getEntrenamientos(db,localStorage.getItem("calendario"),fecha.toLocaleDateString());
+          if(entrenamientos.rows.length > 0){
+            for(let i=0; i < entrenamientos.rows.length; i++){
+              let entrenamiento = entrenamientos.rows.item(i);
+              let datos = ["",localStorage.getItem("fecha"),localStorage.getItem("calendario"),entrenamiento.ejercicio];
+              crearEntrenamiento(db,datos)
+            }
+            setTimeout(function(){
+              location.href = "index.html";
+            },250);
+          }
+        },
+        events: eventos
+    });
+    setTimeout(function(){calendar.render()},150);
+  })
+}
+
+// Función para comprobar si el día que tiene seleccionado el usuario es el de hoy, de momento no la utilizo, 
+// la idea es que si devuelve false y estoy creando un entrenamiento, me saque un warning que tenga que confirmar
+function comprobarDia(){
+  let hoy = new Date();
+  let dia_hoy = hoy.toLocaleDateString();
+  if(localStorage.getItem("fecha") != dia_hoy){
+    return true
+  }
+  return false
 }

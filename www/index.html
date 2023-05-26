@@ -16,504 +16,509 @@
         <script src='fullcalendar-6.1.7/packages/core/locales/es.global.js'></script>
         <script src='fullcalendar-6.1.7/packages/bootstrap5/index.global.js'></script>
         <script src='fullcalendar-6.1.7/packages/interaction/index.global.js'></script>
-
-
-        <!-- <link href='fullcalendar-6.1.7/packages/core/index.global.js' rel='stylesheet' /> -->
     </head>
-  <body class="bg-light">
-    <!-- Barra superior -->
-    <div class="sticky-top bg-primary d-flex p-2">
-      <div class="col-6">
-        <p class="m-2 h4" id="fecha"></p>
-      </div>
-      <div class="text-end col-6">
-        <i id="btn-calendario" class="fa-solid fa-calendar m-2 h4"></i>
-        <i class="fa-solid fa-gear m-2 h4"></i>
-      </div>
-    </div>
-    <!-- Fin barra superior -->
-
-    <div style="display:none" id="calendar"></div>
-
-    <div w3-include-html="header.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
-    <!-- Modal agregar serie -->
-    <div class="modal fade" id="modalCSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div>
-                <h1 id="titulo" class="modal-title fs-5"></h1>
-                <p id="subtitulo" class="modal-title fst-italic"></p>
+    <body class="bg-light">
+        <!-- Barra superior -->
+        <div class="sticky-top bg-primary d-flex p-2">
+            <div class="col-6">
+            <p class="m-2 h4" id="fecha"></p>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text">KG</span>
-                <input type="number" onClick="this.select();" class="form-control" id="valor1">
+            <div class="text-end col-6">
+            <i id="btn-calendario" style="color:white" class="fa-solid fa-calendar m-2 h4"></i>
+            <i class="fa-solid fa-gear m-2 h4"></i>
             </div>
-            <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text">REP</span>
-                <input type="number" onClick="this.select();" class="form-control" id="valor2">
-            </div>
-            <div class="btn-group-sm text-center form-group">
-                <input type="radio" class="btn-check btn-1" name="dificultad" id="calentamiento" value="1">
-                <label class="btn btn-1" for="calentamiento">Calentamiento</label>
-                <input type="radio" class="btn-check btn-2" name="dificultad" id="facil" value="2">
-                <label class="btn btn-2" for="facil">Fácil</label>
-                <input type="radio" class="btn-check btn-3" name="dificultad" id="normal" value="3">
-                <label class="btn btn-3" for="normal">Normal</label>
-                <input type="radio" class="btn-check btn-4" name="dificultad" id="dificil" value="4">
-                <label class="btn btn-4" for="dificil">Difícil</label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="btn-crearSerie" data-bs-dismiss="modal">Guardar</button>
-          </div>
         </div>
-      </div>
-    </div>
-    <!-- Fin modal agregar serie-->
+        <!-- Fin barra superior -->
 
-    <!-- Modal editar serie -->
-    <div class="modal fade" id="modalUSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div style="display:none" id="calendar"></div>
+
+        <div w3-include-html="header.html"></div>
+        <script src="js/footer.js"></script>
+        <script>includeHTML();</script>
+        <!-- Modal agregar serie -->
+        <div class="modal fade" id="modalCSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div>
-                        <h1 id="titulo" class="modal-title fs-5"></h1>
-                        <p id="subtitulo" class="modal-title fst-italic"></p>
+                <div>
+                    <h1 id="titulo" class="modal-title fs-5"></h1>
+                    <p id="subtitulo" class="modal-title fst-italic"></p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div class="input-group flex-nowrap mb-3">
+                    <span class="input-group-text">KG</span>
+                    <input type="number" onClick="this.select();" class="form-control" id="valor1">
+                </div>
+                <div class="input-group flex-nowrap mb-3">
+                    <span class="input-group-text">REP</span>
+                    <input type="number" onClick="this.select();" class="form-control" id="valor2">
+                </div>
+                <div class="btn-group-sm text-center form-group">
+                    <input type="radio" class="btn-check btn-1" name="dificultad" id="calentamiento" value="1">
+                    <label class="btn btn-1" for="calentamiento">Calentamiento</label>
+                    <input type="radio" class="btn-check btn-2" name="dificultad" id="facil" value="2">
+                    <label class="btn btn-2" for="facil">Fácil</label>
+                    <input type="radio" class="btn-check btn-3" name="dificultad" id="normal" value="3">
+                    <label class="btn btn-3" for="normal">Normal</label>
+                    <input type="radio" class="btn-check btn-4" name="dificultad" id="dificil" value="4">
+                    <label class="btn btn-4" for="dificil">Difícil</label>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-crearSerie" data-bs-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Fin modal agregar serie-->
+
+        <!-- Modal editar serie -->
+        <div class="modal fade" id="modalUSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h1 id="titulo" class="modal-title fs-5"></h1>
+                            <p id="subtitulo" class="modal-title fst-italic"></p>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <div class="input-group flex-nowrap mb-3">
+                            <span class="input-group-text">KG</span>
+                            <input type="number" onClick="this.select();" class="form-control" id="valor1E">
+                        </div>
+                        <div class="input-group flex-nowrap mb-3">
+                            <span class="input-group-text">REP</span>
+                            <input type="number" onClick="this.select();" class="form-control" id="valor2E">
+                        </div>
+                        <div class="btn-group-sm text-center form-group">
+                            <input type="radio" class="btn-check btn-1" name="dificultadE" id="calentamientoE" value="1">
+                            <label class="btn btn-1" for="calentamientoE">Calentamiento</label>
+                            <input type="radio" class="btn-check btn-2" name="dificultadE" id="facilE" value="2">
+                            <label class="btn btn-2" for="facilE">Fácil</label>
+                            <input type="radio" class="btn-check btn-3" name="dificultadE" id="normalE" value="3">
+                            <label class="btn btn-3" for="normalE">Normal</label>
+                            <input type="radio" class="btn-check btn-4" name="dificultadE" id="dificilE" value="4">
+                            <label class="btn btn-4" for="dificilE">Difícil</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-primary" id="btn-borrarSerie" data-bs-dismiss="modal"><i class="fas fa-trash-can"></i></button>
+                        <div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btn-editarSerie">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal editar serie -->
+
+        <!-- Modal borrar entrenamiento -->
+        <div class="modal fade" id="modalDEntrenamiento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalDEntrenamientoLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group flex-nowrap mb-3">
-                        <span class="input-group-text">KG</span>
-                        <input type="number" onClick="this.select();" class="form-control" id="valor1E">
-                    </div>
-                    <div class="input-group flex-nowrap mb-3">
-                        <span class="input-group-text">REP</span>
-                        <input type="number" onClick="this.select();" class="form-control" id="valor2E">
-                    </div>
-                    <div class="btn-group-sm text-center form-group">
-                        <input type="radio" class="btn-check btn-1" name="dificultadE" id="calentamientoE" value="1">
-                        <label class="btn btn-1" for="calentamientoE">Calentamiento</label>
-                        <input type="radio" class="btn-check btn-2" name="dificultadE" id="facilE" value="2">
-                        <label class="btn btn-2" for="facilE">Fácil</label>
-                        <input type="radio" class="btn-check btn-3" name="dificultadE" id="normalE" value="3">
-                        <label class="btn btn-3" for="normalE">Normal</label>
-                        <input type="radio" class="btn-check btn-4" name="dificultadE" id="dificilE" value="4">
-                        <label class="btn btn-4" for="dificilE">Difícil</label>
-                    </div>
+                    <p>¡Se eliminará el entrenamiento y sus series!</p>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-primary" id="btn-borrarSerie" data-bs-dismiss="modal"><i class="fas fa-trash-can"></i></button>
-                    <div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="btn-editarSerie">Actualizar</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary"><a class="text-decoration-none" id="eliminar">Eliminar</a></button>
+                </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Fin modal editar serie -->
+        <!-- Fin modal borrar entrenamiento -->
 
-    <!-- Modal borrar entrenamiento -->
-    <div class="modal fade" id="modalDEntrenamiento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalDEntrenamientoLabel"></h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¡Se eliminará el entrenamiento y sus series!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary"><a class="text-decoration-none" id="eliminar">Eliminar</a></button>
-            </div>
+        <!-- Modal comentario entrenamiento -->
+        <div class="modal fade" id="modalComentario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Comentario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea onClick="this.select();" id="comentario" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="guardarComentario" data-bs-dismiss="modal">Guardar</button>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Fin modal borrar entrenamiento -->
+        <!-- Fin modal comentario entrenamiento -->
 
-    <!-- Modal comentario entrenamiento -->
-    <div class="modal fade" id="modalComentario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Comentario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <textarea onClick="this.select();" id="comentario" class="form-control"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="guardarComentario" data-bs-dismiss="modal">Guardar</button>
-            </div>
-            </div>
-        </div>
-    </div>
-    <!-- Fin modal comentario entrenamiento -->
+        <!-- Entrenamientos -->
+        <div id="entrenamientos" class="mb-5"></div>
+        <!-- Fin de entrenamientos -->
 
-    <!-- Entrenamientos -->
-    <div id="entrenamientos" class="mb-5"></div>
-    <!-- Fin de entrenamientos -->
+        <!-- Barra inferior -->
+        <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
+        <script src="js/footer.js"></script>
+        <script>includeHTML();</script>
+        <!-- Fin  barra inferior -->
 
-    <!-- Barra inferior -->
-    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
-    <!-- Fin  barra inferior -->
-  
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/db.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script>
-        document.addEventListener('deviceready', async function() {
-            const db = conexion();
-            insertarEntrenamientos();
-            await crearTablas(db);
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
+        <script src="js/db.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script>
+            document.addEventListener('deviceready', async function() {
+                const db = conexion();
+                insertarEntrenamientos();
+                await crearTablas(db);
 
-            // Fecha
-            const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-            let fecha = new Date();
-            if(!localStorage.getItem("fecha"))
-                localStorage.setItem("fecha",fecha.toLocaleDateString())
-            // Calendario
-            let calendario = await getCalendario(db);
-            let id_calendario = calendario.rows.item(0).ID;
-            let nombre_calendario = calendario.rows.item(0).nombre;
-            let color_calendario = calendario.rows.item(0).color;
+                // Fecha
+                const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+                let fecha = new Date();
+                let fechaHoy = new Date();
+                if(!localStorage.getItem("fecha"))
+                    localStorage.setItem("fecha",fecha.toLocaleDateString())
+                // Calendario
+                let calendario = await getCalendario(db);
+                let id_calendario = calendario.rows.item(0).ID;
+                localStorage.setItem("calendario",id_calendario)
+                let nombre_calendario = calendario.rows.item(0).nombre;
+                let color_calendario = calendario.rows.item(0).color;
 
-            $("#entrenamientos").hide();
-            setTimeout(function(){
-                $("#preloader").remove();
-                $("#entrenamientos").show();
-            }, 250);
-            let eventos = []
-            let todosEntrenamientos = await getTodosEntrenamientos(db,id_calendario);
-            for(let i = 0; i < todosEntrenamientos.rows.length; i++){
-                let fecha_dividida = todosEntrenamientos.rows.item(i).fecha.split('/');
-                let [dia, mes, anio] = fecha_dividida.map(parte => parseInt(parte));
-                let fechaOK = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
-                eventos.push({start: `${fechaOK}`,color: '#963a45',display: 'background'})
-            }
-            $("#btn-calendario").on("click",function(){
-                $("#calendar").toggle();
-                let calendarEl = document.getElementById('calendar');
-                let calendar = new FullCalendar.Calendar(calendarEl, {
-                    // plugins: [ interactionPlugin ],
-                    themeSystem: 'bootstrap5',
-                    initialView: 'dayGridMonth',
-                    locale: 'es',
-                    editable: false,
-                    showNonCurrentDates: false,
-                    height: 'auto',
-                    titleFormat: {
-                        month: 'short',
-                        year: '2-digit',
-                    },
-                    buttonIcons: {
-                        prev: 's fa-solid fa-arrow-left',
-                        next: 's fa-solid fa-arrow-right'
-                    },
-                    buttonText: {
-                        today: meses[fecha.getMonth()]
-                    },
-                    dateClick: function(fecha_click) {
-                        fecha = new Date(fecha_click.dateStr);
-                        localStorage.setItem("fecha",fecha.toLocaleDateString())
-                        pintarEntrenamientos(db,id_calendario,fecha);
-                        $("#calendar").toggle();
-                        $("#entrenamientos").toggle();
-                    },
-                    events: eventos
-                });
-                calendar.render();
-                $("#entrenamientos").toggle();
-            })
-            pintarEntrenamientos(db,id_calendario,localStorage.getItem("fecha"));
-            async function pintarEntrenamientos(db,id_calendario,fecha){
-                $("#entrenamientos").empty();
-                const entrenamientos = await getEntrenamientos(db,id_calendario,localStorage.getItem("fecha"));
-                if(entrenamientos.rows.length > 0){
-                    for (let i = 0; i < entrenamientos.rows.length; i++) {
-                        let entrenamiento = entrenamientos.rows.item(i);
-                        let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
-                        ejercicio = ejercicio.rows.item(0);
-                        let div1 = document.createElement('div');
-                        div1.classList.add('px-4', 'my-2');
-                        let div2 = document.createElement('div');
-                        div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row');
-                        let div3 = document.createElement('div');
-                        div3.classList.add('col-4');
-                        let img = document.createElement('img');
-                        img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-                        img.src = ejercicio.imagen;
-                        div3.appendChild(img);
-                        div2.appendChild(div3);
-                        let div4 = document.createElement('div');
-                        div4.classList.add('col-8');
-                        let div5 = document.createElement('div');
-                        div5.classList.add('row');
-                        let div6 = document.createElement('div');
-                        div6.classList.add('col-10');
-                        let p = document.createElement('p');
-                        let strong = document.createElement('strong');
-                        let u = document.createElement('u');
-                        u.textContent = ejercicio.nombre;
-                        strong.appendChild(u);
-                        p.appendChild(strong);
-                        div6.appendChild(p);
-                        div5.appendChild(div6);
-                        let div7 = document.createElement('div');
-                        div7.classList.add('col-2');
-                        let divDD = document.createElement('div');
-                        divDD.classList.add('dropdown');
-                        let botonPuntitos = document.createElement('button');
-                        botonPuntitos.classList.add('btn');
-                        botonPuntitos.type = 'button';
-                        botonPuntitos.setAttribute('data-bs-toggle', 'dropdown');
-                        botonPuntitos.id = 'dropdownMenuClickableInside';
-                        botonPuntitos.setAttribute('aria-expanded', 'false');
-                        let iconoPuntitos = document.createElement('i');
-                        iconoPuntitos.classList.add('fa-solid', 'fa-ellipsis-vertical');
-                        botonPuntitos.appendChild(iconoPuntitos);
-                        divDD.appendChild(botonPuntitos);
-                        let listaDD = document.createElement('ul');
-                        listaDD.classList.add('dropdown-menu');
-                        listaDD.setAttribute('aria-labelledby', 'dropdownMenuClickableInside');
-                        let item1Lista = document.createElement('li');
-                        let item1ListaEnlace = document.createElement('a');
-                        item1ListaEnlace.href = '#';
-                        item1ListaEnlace.classList.add('dropdown-item');
-                        let item1ListaIcono = document.createElement('i');
-                        item1ListaIcono.classList.add('fa-solid', 'fa-clock-rotate-left');
-                        item1ListaEnlace.appendChild(item1ListaIcono);
-                        item1ListaEnlace.innerHTML += ' Última vez';
-                        item1Lista.appendChild(item1ListaEnlace);
-                        listaDD.appendChild(item1Lista);
-                        let item2Lista = document.createElement('li');
-                        let item2ListaEnlace = document.createElement('a');
-                        item2ListaEnlace.href = '#';
-                        item2ListaEnlace.classList.add('dropdown-item','comentario');
-                        let item2ListaIcono = document.createElement('i');
-                        item2ListaIcono.classList.add('fa-solid', 'fa-comment-dots');
-                        item2ListaEnlace.appendChild(item2ListaIcono);
-                        item2ListaEnlace.innerHTML += ' Comentario';
-                        item2ListaEnlace.setAttribute('data-bs-toggle', 'modal');
-                        item2ListaEnlace.setAttribute('data-bs-target', '#modalComentario');
-                        item2ListaEnlace.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
-                        item2Lista.appendChild(item2ListaEnlace);
-                        listaDD.appendChild(item2Lista);
-                        let item3Lista = document.createElement('li');
-                        let item3ListaBoton = document.createElement('button');
-                        item3ListaBoton.classList.add('dropdown-item');
-                        item3ListaBoton.setAttribute('data-bs-toggle', 'modal');
-                        item3ListaBoton.setAttribute('data-bs-target', '#modalDEntrenamiento');
-                        item3ListaBoton.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
-                        let item3ListaIcono = document.createElement('i');
-                        item3ListaIcono.classList.add('fa-solid', 'fa-trash-can');
-                        item3ListaBoton.appendChild(item3ListaIcono);
-                        item3ListaBoton.innerHTML += ' Eliminar';
-                        item3Lista.appendChild(item3ListaBoton);
-                        listaDD.appendChild(item3Lista);
-                        divDD.appendChild(listaDD);
-                        div7.appendChild(divDD);
-                        div5.appendChild(div7);
-                        div4.appendChild(div5);
-                        let div8 = document.createElement('div');
-                        div8.id = 'series';
-                        div8.classList.add('row', 'text-center');
-                        const series = await getSeries(db,entrenamiento.ID);
-                        for (let j = 0; j < series.rows.length; j++) {
-                            let serie = series.rows.item(j);
-                            let div9 = document.createElement('div');
-                            div9.setAttribute('data-bs-toggle', 'modal');
-                            div9.setAttribute('data-bs-target', '#modalUSet');
-                            div9.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
-                            div9.setAttribute('data-bs-nset', serie.numero);
-                            div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
-                            let div10 = document.createElement('div');
-                            div10.classList.add('py-1', 'h-25', 'rounded-pill');
-                            div10.classList.add('bg-'+serie.dificultad);
-                            let p1 = document.createElement('p');
-                            let p2 = document.createElement('p');
-                            p1.textContent = serie.valor1;
-                            p2.textContent = serie.valor2;
-                            switch(ejercicio.metrica){
-                                case 1:
-                                    if(p1.textContent != "")
-                                        p1.textContent = p1.textContent + "KG";
-                                    if(p2.textContent != "")
-                                    p2.textContent = p2.textContent + "REP";
-                                    break;
-                                case 2:
-                                    if(p1.textContent != "")
-                                        p1.textContent = p1.textContent + "MIN";
-                                    if(p2.textContent != "")
-                                        p2.textContent = p2.textContent + "KM";
-                                    break;
-                                case 3:
-                                    if(p1.textContent != "")
-                                        p1.textContent = p1.textContent + "MIN";
-                                    if(p2.textContent != "")
-                                        p2.textContent = p2.textContent + "KG";
-                                    break;
-                                case 4:
-                                    if(p1.textContent != "")
-                                        p1.textContent = p1.textContent + "MIN";
-                                    if(p2.textContent != "")
+                $("#entrenamientos").hide();
+                setTimeout(function(){
+                    $("#preloader").remove();
+                    $("#entrenamientos").show();
+                }, 250);
+                let eventos = []
+                let todosEntrenamientos = await getTodosEntrenamientos(db,localStorage.getItem("calendario"));
+                for(let i = 0; i < todosEntrenamientos.rows.length; i++){
+                    let fecha_dividida = todosEntrenamientos.rows.item(i).fecha.split('/');
+                    let [dia, mes, anio] = fecha_dividida.map(parte => parseInt(parte));
+                    let fechaOK = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+                    eventos.push({start: `${fechaOK}`,color: '#963a45',display: 'background'})
+                }
+                $("#btn-calendario").on("click",function(){
+                    $("#calendar").toggle();
+                    let calendarEl = document.getElementById('calendar');
+                    let calendar = new FullCalendar.Calendar(calendarEl, {
+                        themeSystem: 'bootstrap5',
+                        initialView: 'dayGridMonth',
+                        locale: 'es',
+                        editable: false,
+                        showNonCurrentDates: false,
+                        height: 'auto',
+                        titleFormat: {
+                            month: 'short',
+                            year: '2-digit',
+                        },
+                        buttonIcons: {
+                            prev: 's fa-solid fa-arrow-left',
+                            next: 's fa-solid fa-arrow-right'
+                        },
+                        buttonText: {
+                            today: meses[fechaHoy.getMonth()]
+                        },
+                        dateClick: function(fecha_click) {
+                            fecha = new Date(fecha_click.dateStr);
+                            localStorage.setItem("fecha",fecha.toLocaleDateString())
+                            pintarEntrenamientos(db,localStorage.getItem("calendario"),localStorage.getItem("fecha"));
+                            $("#calendar").toggle();
+                            $("#entrenamientos").toggle();
+                        },
+                        events: eventos
+                    });
+                    calendar.render();
+                    $("#entrenamientos").toggle();
+                })
+                pintarEntrenamientos(db,localStorage.getItem("calendario"),localStorage.getItem("fecha"));
+                async function pintarEntrenamientos(db,calendario,fecha){
+                    $("#entrenamientos").empty();
+                    const entrenamientos = await getEntrenamientos(db,calendario,fecha);
+                    if(entrenamientos.rows.length > 0){
+                        for (let i = 0; i < entrenamientos.rows.length; i++) {
+                            let entrenamiento = entrenamientos.rows.item(i);
+                            let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
+                            ejercicio = ejercicio.rows.item(0);
+                            let div1 = document.createElement('div');
+                            div1.classList.add('px-4', 'my-2');
+                            let div2 = document.createElement('div');
+                            div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row');
+                            let div3 = document.createElement('div');
+                            div3.classList.add('col-4');
+                            let img = document.createElement('img');
+                            img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+                            img.src = ejercicio.imagen;
+                            div3.appendChild(img);
+                            div2.appendChild(div3);
+                            let div4 = document.createElement('div');
+                            div4.classList.add('col-8');
+                            let div5 = document.createElement('div');
+                            div5.classList.add('row');
+                            let div6 = document.createElement('div');
+                            div6.classList.add('col-10');
+                            let p = document.createElement('p');
+                            let strong = document.createElement('strong');
+                            let u = document.createElement('u');
+                            u.textContent = ejercicio.nombre;
+                            strong.appendChild(u);
+                            p.appendChild(strong);
+                            div6.appendChild(p);
+                            div5.appendChild(div6);
+                            let div7 = document.createElement('div');
+                            div7.classList.add('col-2');
+                            let divDD = document.createElement('div');
+                            divDD.classList.add('dropdown');
+                            let botonPuntitos = document.createElement('button');
+                            botonPuntitos.classList.add('btn');
+                            botonPuntitos.type = 'button';
+                            botonPuntitos.setAttribute('data-bs-toggle', 'dropdown');
+                            botonPuntitos.id = 'dropdownMenuClickableInside';
+                            botonPuntitos.setAttribute('aria-expanded', 'false');
+                            let iconoPuntitos = document.createElement('i');
+                            iconoPuntitos.classList.add('fa-solid', 'fa-ellipsis-vertical');
+                            botonPuntitos.appendChild(iconoPuntitos);
+                            divDD.appendChild(botonPuntitos);
+                            let listaDD = document.createElement('ul');
+                            listaDD.classList.add('dropdown-menu');
+                            listaDD.setAttribute('aria-labelledby', 'dropdownMenuClickableInside');
+                            let item1Lista = document.createElement('li');
+                            let item1ListaEnlace = document.createElement('a');
+                            item1ListaEnlace.href = '#';
+                            item1ListaEnlace.classList.add('dropdown-item');
+                            let item1ListaIcono = document.createElement('i');
+                            item1ListaIcono.classList.add('fa-solid', 'fa-clock-rotate-left');
+                            item1ListaEnlace.appendChild(item1ListaIcono);
+                            item1ListaEnlace.innerHTML += ' Última vez';
+                            item1Lista.appendChild(item1ListaEnlace);
+                            listaDD.appendChild(item1Lista);
+                            let item2Lista = document.createElement('li');
+                            let item2ListaEnlace = document.createElement('a');
+                            item2ListaEnlace.href = '#';
+                            item2ListaEnlace.classList.add('dropdown-item','comentario');
+                            let item2ListaIcono = document.createElement('i');
+                            item2ListaIcono.classList.add('fa-solid', 'fa-comment-dots');
+                            item2ListaEnlace.appendChild(item2ListaIcono);
+                            item2ListaEnlace.innerHTML += ' Comentario';
+                            item2ListaEnlace.setAttribute('data-bs-toggle', 'modal');
+                            item2ListaEnlace.setAttribute('data-bs-target', '#modalComentario');
+                            item2ListaEnlace.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                            item2Lista.appendChild(item2ListaEnlace);
+                            listaDD.appendChild(item2Lista);
+                            let item3Lista = document.createElement('li');
+                            let item3ListaBoton = document.createElement('button');
+                            item3ListaBoton.classList.add('dropdown-item');
+                            item3ListaBoton.setAttribute('data-bs-toggle', 'modal');
+                            item3ListaBoton.setAttribute('data-bs-target', '#modalDEntrenamiento');
+                            item3ListaBoton.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                            let item3ListaIcono = document.createElement('i');
+                            item3ListaIcono.classList.add('fa-solid', 'fa-trash-can');
+                            item3ListaBoton.appendChild(item3ListaIcono);
+                            item3ListaBoton.innerHTML += ' Eliminar';
+                            item3Lista.appendChild(item3ListaBoton);
+                            listaDD.appendChild(item3Lista);
+                            divDD.appendChild(listaDD);
+                            div7.appendChild(divDD);
+                            div5.appendChild(div7);
+                            div4.appendChild(div5);
+                            let div8 = document.createElement('div');
+                            div8.id = 'series';
+                            div8.classList.add('row', 'text-center');
+                            const series = await getSeries(db,entrenamiento.ID);
+                            for (let j = 0; j < series.rows.length; j++) {
+                                let serie = series.rows.item(j);
+                                let div9 = document.createElement('div');
+                                div9.setAttribute('data-bs-toggle', 'modal');
+                                div9.setAttribute('data-bs-target', '#modalUSet');
+                                div9.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                                div9.setAttribute('data-bs-nset', serie.numero);
+                                div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                                let div10 = document.createElement('div');
+                                div10.classList.add('py-1', 'h-25', 'rounded-pill');
+                                div10.classList.add('bg-'+serie.dificultad);
+                                let p1 = document.createElement('p');
+                                let p2 = document.createElement('p');
+                                p1.textContent = serie.valor1;
+                                p2.textContent = serie.valor2;
+                                switch(ejercicio.metrica){
+                                    case 1:
+                                        if(p1.textContent != "")
+                                            p1.textContent = p1.textContent + "KG";
+                                        if(p2.textContent != "")
                                         p2.textContent = p2.textContent + "REP";
-                                    break;
+                                        break;
+                                    case 2:
+                                        if(p1.textContent != "")
+                                            p1.textContent = p1.textContent + "MIN";
+                                        if(p2.textContent != "")
+                                            p2.textContent = p2.textContent + "KM";
+                                        break;
+                                    case 3:
+                                        if(p1.textContent != "")
+                                            p1.textContent = p1.textContent + "MIN";
+                                        if(p2.textContent != "")
+                                            p2.textContent = p2.textContent + "KG";
+                                        break;
+                                    case 4:
+                                        if(p1.textContent != "")
+                                            p1.textContent = p1.textContent + "MIN";
+                                        if(p2.textContent != "")
+                                            p2.textContent = p2.textContent + "REP";
+                                        break;
+                                }
+                                div9.appendChild(div10);
+                                div9.appendChild(p1);
+                                div9.appendChild(p2);
+                                div8.appendChild(div9);
                             }
-                            div9.appendChild(div10);
-                            div9.appendChild(p1);
-                            div9.appendChild(p2);
-                            div8.appendChild(div9);
+                            let div11 = document.createElement('div');
+                            div11.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                            let button = document.createElement('button');
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#modalCSet');
+                            button.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
+                            button.setAttribute('data-bs-nset', series.rows.length+1);
+                            button.classList.add('btn');
+                            let icon = document.createElement('i');
+                            icon.classList.add('fas', 'fa-plus');
+                            button.appendChild(icon);
+                            div11.appendChild(button);
+                            div8.appendChild(div11);
+                            div4.appendChild(div8);
+                            div2.appendChild(div4);
+                            div1.appendChild(div2);
+                            document.getElementById("entrenamientos").appendChild(div1);
                         }
-                        let div11 = document.createElement('div');
-                        div11.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
-                        let button = document.createElement('button');
-                        button.setAttribute('data-bs-toggle', 'modal');
-                        button.setAttribute('data-bs-target', '#modalCSet');
-                        button.setAttribute('data-bs-entrenamiento', entrenamiento.ID);
-                        button.setAttribute('data-bs-nset', series.rows.length+1);
-                        button.classList.add('btn');
-                        let icon = document.createElement('i');
-                        icon.classList.add('fas', 'fa-plus');
-                        button.appendChild(icon);
-                        div11.appendChild(button);
-                        div8.appendChild(div11);
-                        div4.appendChild(div8);
-                        div2.appendChild(div4);
-                        div1.appendChild(div2);
+                        const modalCSet = document.getElementById('modalCSet')
+                        modalCSet.addEventListener('show.bs.modal', async event => {
+                            let boton = event.relatedTarget
+                            let nset = boton.getAttribute('data-bs-nset')
+                            let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                            let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
+                            let entrenamiento = rs_entrenamiento.rows.item(0)
+                            let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
+                            let titulo = modalCSet.querySelector('#titulo')
+                            let subtitulo = modalCSet.querySelector('#subtitulo')
+                            titulo.textContent = 'Set Nº ' + nset
+                            subtitulo.textContent = ejercicio.rows.item(0).nombre;
+                            let guardar = modalCSet.querySelector('#btn-crearSerie')
+                            guardar.setAttribute('onclick',`crearSet(${entrenamiento.ID},${nset})`)
+                            let radios = document.getElementsByName("dificultad")
+                            $("#valor1").val("")
+                            $("#valor2").val("")
+                            for(let i = 0; i < radios.length; i++ )
+                                radios[i].checked = false
+                            if(nset-1 != 0){
+                                let rs_serie_anterior = await getSerie(db,entrenamiento.ID,nset-1)
+                                let serie_anterior = rs_serie_anterior.rows.item(0)
+                                $("#valor1").val(serie_anterior.valor1)
+                                $("#valor2").val(serie_anterior.valor2)
+                                for(let i = 0; i < radios.length; i++ ) {
+                                    if(radios[i].value == serie_anterior.dificultad )
+                                        radios[i].checked = true
+                                }
+                            }
+                        })
+                        const modalUSet = document.getElementById('modalUSet')
+                        modalUSet.addEventListener('show.bs.modal', async event => {
+                            let boton = event.relatedTarget
+                            let nset = boton.getAttribute('data-bs-nset')
+                            let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                            let entrenamiento = await getEntrenamiento(db,id_entrenamiento)
+                            entrenamiento = entrenamiento.rows.item(0);
+                            let serie = await getSerie(db,entrenamiento.ID,nset)
+                            serie = serie.rows.item(0)
+                            $("#valor1E").val(serie.valor1)
+                            $("#valor2E").val(serie.valor2)
+                            let radios = document.getElementsByName("dificultadE")
+                            for(let i = 0; i < radios.length; i++ ) {
+                                if(radios[i].value == serie.dificultad )
+                                    radios[i].checked = true
+                                else
+                                    radios[i].checked = false
+                            }
+                            if ($("input[name='dificultadE']").val() == serie.dificultad)
+                                $("input[name='dificultadE']").attr("checked","checked")
+                            let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`)
+                            ejercicio = ejercicio.rows.item(0)
+                            let titulo = modalUSet.querySelector('#titulo')
+                            let subtitulo = modalUSet.querySelector('#subtitulo')
+                            titulo.textContent = 'Edición set Nº ' + nset
+                            subtitulo.textContent = ejercicio.nombre;
+                            let actualizar = modalUSet.querySelector('#btn-editarSerie')
+                            actualizar.setAttribute('onclick',`editarSet(${entrenamiento.ID},${nset})`)
+                            let borrar = modalUSet.querySelector('#btn-borrarSerie')
+                            borrar.setAttribute('onclick',`borrarSerie(db,${entrenamiento.ID},${nset})`)
+                        })
+                        const modalDEntrenamiento = document.getElementById('modalDEntrenamiento')
+                        modalDEntrenamiento.addEventListener('show.bs.modal', async event => {
+                            let boton = event.relatedTarget
+                            let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
+                            let modalLink = modalDEntrenamiento.querySelector('#eliminar')
+                            modalLink.href = "index.html?eliminar="+id_entrenamiento;
+                        });
+                        $(".comentario").on("click",async function(){
+                            let id_entrenamiento = $(this).attr("data-bs-entrenamiento");
+                            let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
+                            let entrenamiento = rs_entrenamiento.rows.item(0);
+                            $("#comentario").text("");
+                            $("#comentario").text(entrenamiento.comentario);
+                            $("#guardarComentario").on("click",async function(){
+                                comentarioEntrenamiento(db,id_entrenamiento,$("#comentario").val());
+                            })
+                        })
+                    }
+                    else{
+                        let div1 = document.createElement('div');
+                        div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
+                        let h1 = document.createElement('h1');
+                        h1.textContent = "Día sin entrenamientos";
+                        h1.classList.add('text-center','text-black-50');
+                        div1.appendChild(h1);
                         document.getElementById("entrenamientos").appendChild(div1);
                     }
-                    const modalCSet = document.getElementById('modalCSet')
-                    modalCSet.addEventListener('show.bs.modal', async event => {
-                        let boton = event.relatedTarget
-                        let nset = boton.getAttribute('data-bs-nset')
-                        let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-                        let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
-                        let entrenamiento = rs_entrenamiento.rows.item(0)
-                        let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`);
-                        let titulo = modalCSet.querySelector('#titulo')
-                        let subtitulo = modalCSet.querySelector('#subtitulo')
-                        titulo.textContent = 'Set Nº ' + nset
-                        subtitulo.textContent = ejercicio.rows.item(0).nombre;
-                        let guardar = modalCSet.querySelector('#btn-crearSerie')
-                        guardar.setAttribute('onclick',`crearSet(${entrenamiento.ID},${nset})`)
-                        let radios = document.getElementsByName("dificultad")
-                        $("#valor1").val("")
-                        $("#valor2").val("")
-                        for(let i = 0; i < radios.length; i++ )
-                            radios[i].checked = false
-                        if(nset-1 != 0){
-                            let rs_serie_anterior = await getSerie(db,entrenamiento.ID,nset-1)
-                            let serie_anterior = rs_serie_anterior.rows.item(0)
-                            $("#valor1").val(serie_anterior.valor1)
-                            $("#valor2").val(serie_anterior.valor2)
-                            for(let i = 0; i < radios.length; i++ ) {
-                                if(radios[i].value == serie_anterior.dificultad )
-                                    radios[i].checked = true
-                            }
-                        }
-                    })
-                    const modalUSet = document.getElementById('modalUSet')
-                    modalUSet.addEventListener('show.bs.modal', async event => {
-                        let boton = event.relatedTarget
-                        let nset = boton.getAttribute('data-bs-nset')
-                        let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-                        let entrenamiento = await getEntrenamiento(db,id_entrenamiento)
-                        entrenamiento = entrenamiento.rows.item(0);
-                        let serie = await getSerie(db,entrenamiento.ID,nset)
-                        serie = serie.rows.item(0)
-                        $("#valor1E").val(serie.valor1)
-                        $("#valor2E").val(serie.valor2)
-                        let radios = document.getElementsByName("dificultadE")
-                        for(let i = 0; i < radios.length; i++ ) {
-                            if(radios[i].value == serie.dificultad )
-                                radios[i].checked = true
-                            else
-                                radios[i].checked = false
-                        }
-                        if ($("input[name='dificultadE']").val() == serie.dificultad)
-                            $("input[name='dificultadE']").attr("checked","checked")
-                        let ejercicio = await getEjercicios(db,`WHERE ID = ${entrenamiento.ejercicio}`)
-                        ejercicio = ejercicio.rows.item(0)
-                        let titulo = modalUSet.querySelector('#titulo')
-                        let subtitulo = modalUSet.querySelector('#subtitulo')
-                        titulo.textContent = 'Edición set Nº ' + nset
-                        subtitulo.textContent = ejercicio.nombre;
-                        let actualizar = modalUSet.querySelector('#btn-editarSerie')
-                        actualizar.setAttribute('onclick',`editarSet(${entrenamiento.ID},${nset})`)
-                        let borrar = modalUSet.querySelector('#btn-borrarSerie')
-                        borrar.setAttribute('onclick',`borrarSerie(db,${entrenamiento.ID},${nset})`)
-                    })
-                    const modalDEntrenamiento = document.getElementById('modalDEntrenamiento')
-                    modalDEntrenamiento.addEventListener('show.bs.modal', async event => {
-                        let boton = event.relatedTarget
-                        let id_entrenamiento = boton.getAttribute('data-bs-entrenamiento')
-                        let modalLink = modalDEntrenamiento.querySelector('#eliminar')
-                        modalLink.href = "index.html?eliminar="+id_entrenamiento;
-                    });
-                    $(".comentario").on("click",async function(){
-                        let id_entrenamiento = $(this).attr("data-bs-entrenamiento");
-                        let rs_entrenamiento = await getEntrenamiento(db,id_entrenamiento);
-                        let entrenamiento = rs_entrenamiento.rows.item(0);
-                        $("#comentario").text("");
-                        $("#comentario").text(entrenamiento.comentario);
-                        $("#guardarComentario").on("click",async function(){
-                            comentarioEntrenamiento(db,id_entrenamiento,$("#comentario").val());
-                        })
-                    })
+                    let hoy = new Date();
+                    let dia_hoy = hoy.toLocaleDateString();
+                    fecha = localStorage.getItem("fecha")
+                    if(fecha != dia_hoy){
+                        let partes = fecha.split('/');
+                        let dia = parseInt(partes[0]);
+                        let mes = parseInt(partes[1]) - 1; // Los meses van de 0 a 11, se resta 1
+                        let anio = parseInt(partes[2]);
+                        fecha = new Date(anio, mes, dia)
+                        $("#fecha").text(fecha.getDate() + " " + meses[fecha.getMonth()]);
+                    }
+                    else{
+                        $("#fecha").text("Hoy");
+                    }
                 }
-                else{
-                    let div1 = document.createElement('div');
-                    div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
-                    let h1 = document.createElement('h1');
-                    h1.textContent = "Día sin entrenamientos";
-                    h1.classList.add('text-center','text-black-50');
-                    div1.appendChild(h1);
-                    document.getElementById("entrenamientos").appendChild(div1);
-                }
-                fecha = localStorage.getItem("fecha")
-                let partes = fecha.split('/');
-                let dia = parseInt(partes[0]);
-                let mes = parseInt(partes[1]) - 1; // Los meses van de 0 a 11, se resta 1
-                let anio = parseInt(partes[2]);
-                fecha = new Date(anio, mes, dia)
-                $("#fecha").text(fecha.getDate() + " " + meses[fecha.getMonth()]);
+                const urlParams = new URLSearchParams(window.location.search);
+                if(urlParams.get('eliminar') != null)
+                    borrarEntrenamiento(db,urlParams.get('eliminar'));
+            })
+            function crearSet(entrenamiento,numero){
+                let valor1 = $("#valor1").val()
+                let valor2 = $("#valor2").val()
+                let dificultad = $("input[name='dificultad']:checked").val()
+                let datos = [numero,dificultad,valor1,valor2,entrenamiento]
+                crearSerie(db,datos);
+                location.reload();       
             }
-            const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.get('eliminar') != null)
-                borrarEntrenamiento(db,urlParams.get('eliminar'));
-        })
-        function crearSet(entrenamiento,numero){
-            let valor1 = $("#valor1").val()
-            let valor2 = $("#valor2").val()
-            let dificultad = $("input[name='dificultad']:checked").val()
-            let datos = [numero,dificultad,valor1,valor2,entrenamiento]
-            crearSerie(db,datos);
-            location.reload();       
-        }
-        function editarSet(entrenamiento,numero){
-            let valor1 = $("#valor1E").val()
-            let valor2 = $("#valor2E").val()
-            let dificultad = $("input[name='dificultadE']:checked").val()
-            let datos = [numero,dificultad,valor1,valor2,entrenamiento]
-            editarSerie(db,datos)
-            location.reload()
-        }
-    </script>
-  </body>
+            function editarSet(entrenamiento,numero){
+                let valor1 = $("#valor1E").val()
+                let valor2 = $("#valor2E").val()
+                let dificultad = $("input[name='dificultadE']:checked").val()
+                let datos = [numero,dificultad,valor1,valor2,entrenamiento]
+                editarSerie(db,datos)
+                location.reload()
+            }
+        </script>
+    </body>
 </html>
