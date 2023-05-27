@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="../css/fontawesome.css" />
+    <link rel="stylesheet" href="../css/solid.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Ejercicios</p>
+      </div>
+      <div class="text-end col-6">
+        <button class="btn btn-secondary me-1"><i class="fas fa-search"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+
+    <!-- Ejercicios -->
+    <div id="ejercicios" class="mb-5">
+      <!-- Ejercicio -->
+      <div class="bg-white rounded shadow-sm p-3 row">
+        <p>entrenamiento.fecha</p>
+        <div id="series" class="row text-center"></div>
+      </div>
+      <!-- Fin ejercicio -->
+    </div>
+    <!-- Fin de ejercicios -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script href="../js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <script href="../js/bootstrap.js"></script>
+    <script href="../js/bootstrap.bundle.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -16,7 +16,6 @@
         <script src='fullcalendar-6.1.7/packages/core/locales/es.global.js'></script>
         <script src='fullcalendar-6.1.7/packages/bootstrap5/index.global.js'></script>
         <script src='fullcalendar-6.1.7/packages/interaction/index.global.js'></script>
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     </head>
     <body class="bg-light">
         <!-- Barra superior -->
@@ -180,20 +179,36 @@
         </div>
         <!-- Fin modal comentario entrenamiento -->
 
+    <!-- Modal último entrenamiento -->
+    <div class="modal fade" id="modalUltimoEntrenamiento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5">Último entrenamiento</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="bg-light" id="ultima_vez"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin modal último entrenamiento -->
+
         <!-- Entrenamientos -->
         <div id="entrenamientos" class="mb-5"></div>
         <!-- Fin de entrenamientos -->
 
         <!-- Barra inferior -->
         <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-        <script src="js/footer.js"></script>
+        <!-- <script src="js/footer.js"></script> -->
         <script>includeHTML();</script>
         <!-- Fin  barra inferior -->
 
-        <script src="js/bootstrap.js"></script>
-        <script src="js/bootstrap.bundle.js"></script>
         <script src="js/db.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <!-- <script src="js/bootstrap.js"></script> -->
+        <script src="js/jquery-3.7.0.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
         <script>
             document.addEventListener('deviceready', async function() {
                 const db = conexion();
@@ -250,9 +265,7 @@
                         dateClick: function(fecha_click) {
                             fecha = new Date(fecha_click.dateStr);
                             localStorage.setItem("fecha",fecha.toLocaleDateString())
-                            pintarEntrenamientos(db,localStorage.getItem("calendario"),localStorage.getItem("fecha"));
-                            $("#calendar").toggle();
-                            $("#entrenamientos").toggle();
+                            location.reload()
                         },
                         events: eventos
                     });
@@ -318,6 +331,9 @@
                             item1ListaIcono.classList.add('fa-solid', 'fa-clock-rotate-left');
                             item1ListaEnlace.appendChild(item1ListaIcono);
                             item1ListaEnlace.innerHTML += ' Última vez';
+                            item1ListaEnlace.setAttribute('data-bs-toggle', 'modal');
+                            item1ListaEnlace.setAttribute('data-bs-target', '#modalUltimoEntrenamiento');
+                            item1ListaEnlace.setAttribute('data-bs-ejercicio', ejercicio.ID);
                             item1Lista.appendChild(item1ListaEnlace);
                             listaDD.appendChild(item1Lista);
                             let item2Lista = document.createElement('li');
@@ -495,6 +511,58 @@
                                 comentarioEntrenamiento(db,id_entrenamiento,$("#comentario").val());
                             })
                         })
+                        const modalUltimoEntrenamiento = document.getElementById('modalUltimoEntrenamiento')
+                        modalUltimoEntrenamiento.addEventListener('show.bs.modal', async event => {
+                            $("#ultima_vez").empty()
+                            let boton = event.relatedTarget
+                            let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+                            let divUltimaVez = modalUltimoEntrenamiento.querySelector('#ultima_vez')
+                            let rs_entrenamientos = await getUltimoEntrenamientoEjercicio(db,localStorage.getItem("calendario"),id_ejercicio)
+                            if(rs_entrenamientos.rows.length > 1){
+                                let entrenamiento = rs_entrenamientos.rows.item(1)
+                                let div1 = document.createElement('div');
+                                div1.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row','my-2');
+                                let p = document.createElement('p');
+                                p.classList.add('m-0','fst-italic','fw-bold');
+                                p.textContent = entrenamiento.fecha;
+                                let div2 = document.createElement('div');
+                                div2.id = 'series';
+                                div2.classList.add('row', 'text-center');
+                                const series = await getSeries(db,entrenamiento.ID);
+                                if(series.rows.length > 0){
+                                    for (let j = 0; j < series.rows.length; j++) {
+                                        let serie = series.rows.item(j);
+                                        let div9 = document.createElement('div');
+                                        div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                                        let div10 = document.createElement('div');
+                                        div10.classList.add('py-1', 'h-25', 'rounded-pill');
+                                        div10.classList.add('bg-'+serie.dificultad);
+                                        let p1 = document.createElement('p');
+                                        let p2 = document.createElement('p');
+                                        p1.textContent = serie.valor1 + "KG";
+                                        p2.textContent = serie.valor2 + "REP";
+                                        div9.appendChild(div10);
+                                        div9.appendChild(p1);
+                                        div9.appendChild(p2);
+                                        div2.appendChild(div9);
+                                    }
+                                }
+                                else{
+                                    let p = document.createElement('p')
+                                    p.textContent = 'No hay series en este entrenamiento'
+                                    div2.appendChild(p)
+                                }
+                                div1.appendChild(p);
+                                div1.appendChild(document.createElement('hr'))
+                                div1.appendChild(div2);
+                                divUltimaVez.appendChild(div1);
+                            }
+                            else{
+                                let p = document.createElement('p');
+                                p.textContent = "No hay más entrenamientos";
+                                divUltimaVez.appendChild(p);
+                            }
+                        });
                     }
                     else{
                         let div1 = document.createElement('div');

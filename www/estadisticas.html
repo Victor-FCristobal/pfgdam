@@ -27,6 +27,22 @@
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
 
+    <!-- Modal histórico entrenamientos -->
+    <div class="modal fade" id="modalHEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Histórico de entrenamientos</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="bg-light" id="historico"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal histórico entrenamientos -->
+
     <div id="estadisticas" class="mb-5">
       <div class="bg-white rounded shadow-sm p-3 my-3">
         <h4><i class="fa-solid fa-chart-line"></i> Generales</h4>
@@ -60,9 +76,9 @@
     <!-- Fin  barra inferior -->
     
     <script src="js/db.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <!-- <script src="js/bootstrap.js"></script> -->
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         $("#estadisticas").hide();
@@ -72,7 +88,7 @@
         }, 250);
         const db = conexion();
         await insertarEntrenamientos();
-
+        const modalHEjercicio = document.getElementById('modalHEjercicio')
         let rs_dias_entrenados = await getDiasEntrenados(db);
         let dias_entrenados = rs_dias_entrenados.rows.item(0).ndias
         $("#dias_entrenados").text(dias_entrenados)
@@ -89,41 +105,98 @@
         if(rs_veces_ejercicio.rows.length > 0){
           for(let i = 0; i < rs_veces_ejercicio.rows.length; i++){
             let veces_ejercicio = rs_veces_ejercicio.rows.item(i);
-          let a = document.createElement('a');
-          a.classList.add('enlaceNegro', 'text-decoration-none');
-          a.href = `estadisticas.html?ejercicio=${veces_ejercicio.ejercicio}`;
-          let div1 = document.createElement('div');
-          div1.classList.add('px-3', 'my-1');
-          let div2 = document.createElement('div');
-          div2.classList.add('rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-          let div3 = document.createElement('div');
-          div3.classList.add('col-4');
-          let img = document.createElement('img');
-          img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-          img.src = veces_ejercicio.imagen;
-          let div4 = document.createElement('div');
-          div4.classList.add('col-8', 'd-flex', 'justify-content-between');
-          let p1 = document.createElement('p');
-          p1.classList.add('m-0');
-          p1.textContent = veces_ejercicio.nombre;
-          let p2 = document.createElement('p');
-          p2.classList.add('text-end', 'm-0');
-          p2.textContent = veces_ejercicio.veces;
-          div3.appendChild(img);
-          div4.appendChild(p1);
-          div4.appendChild(p2);
-          div2.appendChild(div3);
-          div2.appendChild(div4);
-          div1.appendChild(div2);
-          a.appendChild(div1);
-          document.getElementById("ejercicios_favoritos").appendChild(a);
+            let a = document.createElement('a');
+            a.classList.add('enlaceNegro', 'text-decoration-none');
+            a.href = '#';
+            a.setAttribute('data-bs-toggle', 'modal');
+            a.setAttribute('data-bs-target', '#modalHEjercicio');
+            a.setAttribute('data-bs-ejercicio', veces_ejercicio.ejercicio);
+            let div1 = document.createElement('div');
+            div1.classList.add('px-3', 'my-1');
+            let div2 = document.createElement('div');
+            div2.classList.add('rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+            let div3 = document.createElement('div');
+            div3.classList.add('col-4');
+            let img = document.createElement('img');
+            img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+            img.src = veces_ejercicio.imagen;
+            let div4 = document.createElement('div');
+            div4.classList.add('col-8', 'd-flex', 'justify-content-between');
+            let p1 = document.createElement('p');
+            p1.classList.add('m-0');
+            p1.textContent = veces_ejercicio.nombre;
+            let p2 = document.createElement('p');
+            p2.classList.add('text-end', 'm-0');
+            p2.textContent = veces_ejercicio.veces;
+            div3.appendChild(img);
+            div4.appendChild(p1);
+            div4.appendChild(p2);
+            div2.appendChild(div3);
+            div2.appendChild(div4);
+            div1.appendChild(div2);
+            a.appendChild(div1);
+            document.getElementById("ejercicios_favoritos").appendChild(a);
+          }
+          modalHEjercicio.addEventListener('show.bs.modal', async event => {
+            $("#historico").empty()
+            let boton = event.relatedTarget
+            let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+            let divHistorico = modalHEjercicio.querySelector('#historico')
+            let rs_entrenamientos = await getEntrenamientosEjercicio(db,localStorage.getItem("calendario"),id_ejercicio)
+            if(rs_entrenamientos.rows.length > 0){
+              for(let i = 0; i < rs_entrenamientos.rows.length; i++){
+                let entrenamiento = rs_entrenamientos.rows.item(i)
+                let div1 = document.createElement('div');
+                div1.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row','my-2');
+                let p = document.createElement('p');
+                p.classList.add('m-0','fst-italic','fw-bold')
+                p.textContent = entrenamiento.fecha;
+                let div2 = document.createElement('div');
+                div2.id = 'series';
+                div2.classList.add('row', 'text-center');
+                const series = await getSeries(db,entrenamiento.ID);
+                if(series.rows.length > 0){
+                  for (let j = 0; j < series.rows.length; j++) {
+                    let serie = series.rows.item(j);
+                    let div9 = document.createElement('div');
+                    div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                    let div10 = document.createElement('div');
+                    div10.classList.add('py-1', 'h-25', 'rounded-pill');
+                    div10.classList.add('bg-'+serie.dificultad);
+                    let p1 = document.createElement('p');
+                    let p2 = document.createElement('p');
+                    p1.textContent = serie.valor1 + "KG";
+                    p2.textContent = serie.valor2 + "REP";
+                    div9.appendChild(div10);
+                    div9.appendChild(p1);
+                    div9.appendChild(p2);
+                    div2.appendChild(div9);
+                  }
+                }
+                else{
+                  let p = document.createElement('p')
+                  p.textContent = 'No hay series en este entrenamiento'
+                  div2.appendChild(p)
+                }
+                div1.appendChild(p);
+                div1.appendChild(document.createElement('hr'))
+                div1.appendChild(div2);
+                divHistorico.appendChild(div1);
+              }
+            }
+            else{
+              let p = document.createElement('p')
+              p.textContent = "No hay entrenamientos de este ejercicio"
+              divHistorico.classList.remove('bg-light')
+              divHistorico.appendChild(p);
+            }
+          })
         }
-      }
-      else{
-        let p1 = document.createElement('p');
-        p1.textContent = 'No has entrenado nunca';
-        document.getElementById("ejercicios_favoritos").appendChild(p1);
-      }
+        else{
+          let p1 = document.createElement('p');
+          p1.textContent = 'No has entrenado nunca';
+          document.getElementById("ejercicios_favoritos").appendChild(p1);
+        }
       })
     </script>
   </body>

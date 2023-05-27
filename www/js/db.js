@@ -608,6 +608,18 @@ function getEntrenamientos(db,calendario,fecha){
   });
 }
 
+function getEntrenamientosEjercicio(db,calendario,ejercicio){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO WHERE calendario = ? AND ejercicio = ? ORDER BY printf("%04d-%02d-%02d", substr(fecha, 7, 4), substr(fecha, 4, 2), substr(fecha, 1, 2)) DESC', [calendario,ejercicio], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
 function getTodosEntrenamientos(db,calendario){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
@@ -620,6 +632,17 @@ function getTodosEntrenamientos(db,calendario){
   });
 }
 
+function getUltimoEntrenamientoEjercicio(db,calendario,ejercicio){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT * FROM ENTRENAMIENTO WHERE calendario = ? AND ejercicio = ? ORDER BY printf("%04d-%02d-%02d", substr(fecha, 7, 4), substr(fecha, 4, 2), substr(fecha, 1, 2)) DESC LIMIT 2', [calendario,ejercicio], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
 function comentarioEntrenamiento(db,entrenamiento,comentario){
   db.transaction(function(tx){
     tx.executeSql('UPDATE ENTRENAMIENTO SET comentario = ? WHERE ID = ?',[comentario,entrenamiento]);

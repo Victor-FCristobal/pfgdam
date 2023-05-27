@@ -41,7 +41,9 @@
     <script>includeHTML();</script>
 
     <!-- Filtrado -->
-    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100"></div>
+    <div>
+      <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100"></div>
+    </div>
     <!-- Fin filtrado -->
 
     <div id="ejercicios" class="mb-5"></div>
@@ -136,6 +138,22 @@
     </div>
     <!-- Fin modal borrar ejercicio -->
 
+    <!-- Modal histórico entrenamientos -->
+    <div class="modal fade" id="modalHEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Histórico de entrenamientos</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="bg-light" id="historico"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal histórico entrenamientos -->
+
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around vw-100" w3-include-html="footer.html"></div>
     <script src="js/footer.js"></script>
@@ -143,10 +161,9 @@
     <!-- Fin  barra inferior -->
     
     <script src="js/db.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <!-- <script src="js/bootstrap.js"></script> -->
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         $("#ejercicios").hide();
@@ -170,6 +187,7 @@
         const modalCEjercicio = document.getElementById('modalCEjercicio')
         const modalUEjercicio = document.getElementById('modalUEjercicio')
         const modalDEjercicio = document.getElementById('modalDEjercicio')
+        const modalHEjercicio = document.getElementById('modalHEjercicio')
 
         const inputTipoC = modalCEjercicio.querySelector('#tipo')
         const inputTipoE = modalUEjercicio.querySelector('#tipoE')
@@ -227,7 +245,7 @@
           $("#categoria"+grupo_muscular_id).attr("selected","selected");
         });
 
-        modalUEjercicio.addEventListener('shown.bs.modal', async event => {
+        modalUEjercicio.addEventListener('show.bs.modal', async event => {
           let boton = event.relatedTarget
           let idEjercicio = boton.getAttribute('data-bs-ejercicio')
           let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
@@ -251,12 +269,69 @@
           modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
         });
 
+        modalHEjercicio.addEventListener('show.bs.modal', async event => {
+          $("#historico").empty()
+          let boton = event.relatedTarget
+          let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+          let divHistorico = modalHEjercicio.querySelector('#historico')
+          let rs_entrenamientos = await getEntrenamientosEjercicio(db,localStorage.getItem("calendario"),id_ejercicio)
+          if(rs_entrenamientos.rows.length > 0){
+            for(let i = 0; i < rs_entrenamientos.rows.length; i++){
+              let entrenamiento = rs_entrenamientos.rows.item(i)
+              let div1 = document.createElement('div');
+              div1.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row','my-2');
+              let p = document.createElement('p');
+              p.classList.add('m-0','fst-italic','fw-bold')
+              p.textContent = entrenamiento.fecha;
+              let div2 = document.createElement('div');
+              div2.id = 'series';
+              div2.classList.add('row', 'text-center');
+              const series = await getSeries(db,entrenamiento.ID);
+              if(series.rows.length > 0){
+                for (let j = 0; j < series.rows.length; j++) {
+                  let serie = series.rows.item(j);
+                  let div9 = document.createElement('div');
+                  div9.classList.add('col-3', 'd-flex', 'flex-column', 'justify-content-center');
+                  let div10 = document.createElement('div');
+                  div10.classList.add('py-1', 'h-25', 'rounded-pill');
+                  div10.classList.add('bg-'+serie.dificultad);
+                  let p1 = document.createElement('p');
+                  let p2 = document.createElement('p');
+                  p1.textContent = serie.valor1 + "KG";
+                  p2.textContent = serie.valor2 + "REP";
+                  div9.appendChild(div10);
+                  div9.appendChild(p1);
+                  div9.appendChild(p2);
+                  div2.appendChild(div9);
+                }
+              }
+              else{
+                let p = document.createElement('p')
+                p.textContent = 'No hay series en este entrenamiento'
+                div2.appendChild(p)
+              }
+              div1.appendChild(p);
+              div1.appendChild(document.createElement('hr'))
+              div1.appendChild(div2);
+              divHistorico.appendChild(div1);
+            }
+          }
+          else{
+            let p = document.createElement('p')
+            p.textContent = "No hay entrenamientos de este ejercicio"
+            divHistorico.classList.remove('bg-light')
+            divHistorico.appendChild(p);
+          }
+        });
+
         if(urlParams.get('eliminar') != null){
           borrarEjercicio(db,urlParams.get('eliminar'));
-          console.log('Borro el ejercicio'+urlParams.get('eliminar'))
         }
         if(urlParams.get('ocultar') != null){
           ocultarEjercicio(db,urlParams.get('ocultar'));
+        }
+        if(urlParams.get('mostrar') != null){
+          mostrarEjercicio(db,urlParams.get('mostrar'));
         }
         if(urlParams.get('favoritoS') != null){
           aFavoritoEjercicio(db,urlParams.get('favoritoS'));
@@ -289,12 +364,12 @@
         }
         $("#lupaBusqueda").on("click",async function(){
           $("#ejercicios").empty()
-          $("#filtrado").empty()
+          // $("#filtrado").empty()
           let texto_input = $('#buscar_ejercicioBusqueda').val()
           let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
           if(ejercicios.rows.length > 0){
             let padre = document.getElementById("ejercicios");
-            pintarFiltrado();
+            // pintarFiltrado();
             pintarEjercicios(ejercicios,padre);
           }
           else{
@@ -309,10 +384,29 @@
         });
         async function pintarFiltrado(){
           // Filtrado
+          let divTodos = document.createElement('div');
+          divTodos.classList.add('w-auto', 'p-1');
+          let inputTodos = document.createElement('input');
+          inputTodos.type = 'radio';
+          inputTodos.name = 'filtro';
+          inputTodos.classList.add('btn-check');
+          inputTodos.id = 'btn-todos';
+          inputTodos.setAttribute("checked",true)
+          let labelTodos = document.createElement('label');
+          labelTodos.classList.add('btn', 'btn-primary');
+          labelTodos.htmlFor = 'btn-todos';
+          let iconoTodos = document.createElement('i');
+          iconoTodos.classList.add('fa-solid', 'fa-filter-circle-xmark');
+          labelTodos.appendChild(iconoTodos);
+          divTodos.appendChild(inputTodos);
+          divTodos.appendChild(labelTodos);
+          document.getElementById("filtrado").appendChild(divTodos)
+          
           let divFavoritos = document.createElement('div');
           divFavoritos.classList.add('w-auto', 'p-1');
           let inputFavoritos = document.createElement('input');
-          inputFavoritos.type = 'checkbox';
+          inputFavoritos.type = 'radio';
+          inputFavoritos.name = 'filtro';
           inputFavoritos.classList.add('btn-check');
           inputFavoritos.id = 'btn-favoritos';
           let labelFavoritos = document.createElement('label');
@@ -324,10 +418,12 @@
           divFavoritos.appendChild(inputFavoritos);
           divFavoritos.appendChild(labelFavoritos);
           document.getElementById("filtrado").appendChild(divFavoritos)
+
           let divOcultos = document.createElement('div');
           divOcultos.classList.add('w-auto', 'p-1');
           let inputOcultos = document.createElement('input');
-          inputOcultos.type = 'checkbox';
+          inputOcultos.type = 'radio';
+          inputOcultos.name = 'filtro';
           inputOcultos.classList.add('btn-check');
           inputOcultos.id = 'btn-ocultos';
           let labelOcultos = document.createElement('label');
@@ -415,7 +511,7 @@
             lista.classList.add("dropdown-menu");
             let elementosLista = [
               { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
-              { href: `estadisticas.html?ejercicio=${ejercicio.ID}`, clase: "estadisticasEjercicio", icono: "fa-chart-line", texto: " Estadísticas" },
+              { clase: "historicoEjercicio", icono: "fa-chart-line", texto: " Histórico", modal: "modalHEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
               { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
               { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
             ];
@@ -460,28 +556,28 @@
         }
         $("#btn-favoritos").on("click", async function(){
           if(this.checked){
-            let ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND favorito = 1`);
+            let ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND favorito = 1 AND oculto = 0`);
             let padre = document.getElementById("ejercicios");
             $("#ejercicios").empty()
-            $("#filtrado").empty()
-            pintarFiltrado();
-            pintarEjercicios(ejercicios,padre);
-          }
-          else{
-            let ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id}`);
-            let padre = document.getElementById("ejercicios");
-            $("#ejercicios").empty()
-            $("#filtrado").empty()
-            pintarFiltrado();
             pintarEjercicios(ejercicios,padre);
           }
         })
-        $("#btn-ocultos").on("change", function(){
+        $("#btn-ocultos").on("click", async function(){
           if(this.checked){
-            console.log('Filtro por ocultos')
+            let ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 1`);
+            let padre = document.getElementById("ejercicios");
+            $("#ejercicios").empty()
+            pintarEjercicios(ejercicios,padre);
+
           }
-          else{
-            console.log('Oculto: Muestro todos');
+        })
+        $("#btn-todos").on("click", async function(){
+          if(this.checked){
+            let ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
+            let padre = document.getElementById("ejercicios");
+            $("#ejercicios").empty()
+            pintarEjercicios(ejercicios,padre);
+
           }
         })
       },false);
