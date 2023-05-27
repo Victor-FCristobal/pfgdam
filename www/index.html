@@ -197,7 +197,7 @@
         <script>
             document.addEventListener('deviceready', async function() {
                 const db = conexion();
-                insertarEntrenamientos();
+                await insertarEntrenamientos();
                 await crearTablas(db);
 
                 // Fecha

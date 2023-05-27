@@ -156,7 +156,7 @@
         }, 250);
         // Conexión, insertar metricas, tipos y ejercicios
         const db = conexion();
-        insertarEntrenamientos();
+        await insertarEntrenamientos();
 
         const musculos = await getMusculos(db);
         const tipos = await getTipos(db);

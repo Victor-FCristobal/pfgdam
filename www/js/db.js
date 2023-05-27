@@ -946,7 +946,21 @@ function pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento){
   }
 }
 async function insertarEntrenamientos(){
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
   $("#btn-nuevoEntrenamientoEjercicio").on("click",async function(){
+    if(comprobarDia()){
+      $("#warning-ejercicios").show()
+      setTimeout(function(){
+        $("#warning-ejercicios").tooltip("show")
+      },500)
+      setTimeout(function(){
+        $("#warning-ejercicios").tooltip("hide")
+      },3000)
+    }
+    else
+      $("#warning-ejercicios").hide()
     $("#ejerciciosNuevoEntrenamiento").empty()
     let ejerciciosNuevoEntrenamiento = await getEjercicios(db,"WHERE oculto = 0");
     pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
@@ -958,6 +972,17 @@ async function insertarEntrenamientos(){
     });
   })
   $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
+    if(comprobarDia()){
+      $("#warning-rutinas").show()
+      setTimeout(function(){
+        $("#warning-rutinas").tooltip("show")
+      },500)
+      setTimeout(function(){
+        $("#warning-rutinas").tooltip("hide")
+      },3000)
+    }
+    else
+      $("#warning-rutinas").hide()
     $("#rutinasNuevoEntrenamiento").empty()
     let rutinasNuevoEntrenamiento = await getRutinas(db);
     if(rutinasNuevoEntrenamiento.rows.length > 0){
@@ -1005,6 +1030,17 @@ async function insertarEntrenamientos(){
     }
   })
   $("#btn-nuevoEntrenamientoCalendario").on("click",async function(){
+    if(comprobarDia()){
+      $("#warning-calendario").show()
+      setTimeout(function(){
+        $("#warning-calendario").tooltip("show")
+      },500)
+      setTimeout(function(){
+        $("#warning-calendario").tooltip("hide")
+      },3000)
+    }
+    else
+      $("#warning-calendario").hide()
     const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
     let fechaHoy = new Date();
     let eventos = []
@@ -1054,8 +1090,6 @@ async function insertarEntrenamientos(){
   })
 }
 
-// Función para comprobar si el día que tiene seleccionado el usuario es el de hoy, de momento no la utilizo, 
-// la idea es que si devuelve false y estoy creando un entrenamiento, me saque un warning que tenga que confirmar
 function comprobarDia(){
   let hoy = new Date();
   let dia_hoy = hoy.toLocaleDateString();
@@ -1063,4 +1097,50 @@ function comprobarDia(){
     return true
   }
   return false
+}
+
+function getDiasEntrenados(db){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT COUNT(DISTINCT fecha) as ndias FROM ENTRENAMIENTO', [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
+function getEjerciciosFinalizados(db){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT COUNT(*) as nejercicios FROM ENTRENAMIENTO', [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+function getSeriesFinalizadas(db){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT COUNT(*) as nseries FROM SERIE', [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+function getVecesEjercicio(db){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT ent.ejercicio,COUNT(ent.ejercicio) as veces, ej.nombre,ej.imagen FROM ENTRENAMIENTO as ent INNER JOIN EJERCICIO as ej WHERE ent.ejercicio = ej.ID GROUP BY ent.ejercicio ORDER BY COUNT(ent.ejercicio) DESC', [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
 }

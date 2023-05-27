@@ -190,7 +190,7 @@
           $("#rutinas").show();
         }, 250);
         const db = conexion();
-        insertarEntrenamientos();
+        await insertarEntrenamientos();
         const urlParams = new URLSearchParams(window.location.search);
         const rutinas = await getRutinas(db);
         if(rutinas.rows.length > 0){

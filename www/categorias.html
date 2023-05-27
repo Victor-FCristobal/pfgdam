@@ -56,7 +56,7 @@
           $("#categorias").show();
         }, 250);
         const db = conexion();
-        insertarEntrenamientos();
+        await insertarEntrenamientos();
         grupos_musculares = await getCategorias(db);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);

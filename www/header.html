@@ -3,8 +3,10 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="modalEjerciciosLabel">Ejercicios</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button id="warning-ejercicios" style="display:none" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Insertando en una fecha que no corresponde a la de hoy">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0">
                 <div id="busqueda" class="input-group sticky-top">
@@ -25,8 +27,10 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="modalRutinasLabel">Rutinas</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button id="warning-rutinas" style="display:none" type="button" data-delay='{"show":"5000", "hide":"3000"}' class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Insertando en una fecha que no corresponde a la de hoy">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0">
                 <div id="rutinasNuevoEntrenamiento"></div>
@@ -41,6 +45,9 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
+                <button id="warning-calendario" style="display:none" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Insertando en una fecha que no corresponde a la de hoy">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </button>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

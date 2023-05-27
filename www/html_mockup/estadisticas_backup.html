@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="../css/fontawesome.css" />
+    <link rel="stylesheet" href="../css/solid.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="cordova.js"></script>
+  </head>
+  <body class="bg-light">
+    <!-- Barra superior -->
+    <div class="sticky-top bg-primary d-flex p-2">
+      <div class="col-6">
+        <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Estadísticas</p>
+      </div>
+      <div class="text-end col-6">
+        <button data-bs-toggle="modal" data-bs-target="#modalCCategoria" class="btn btn-primary me-1"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <!-- Fin barra superior -->
+
+    <!-- Estadísticas -->
+    <div id="estadisticas" class="mb-5">
+      <h1>ESTADÍSTICAS GENERALES</h1>
+      <hr>
+      <div class="d-flex">
+        <div style="height: 200px; width: 200px;" class="align-items-center bg-white border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+          <p id="dias_entrenados"></p>
+          <p class="fs-6">DÍAS ENTRENADOS</p>
+        </div>
+        <div style="height: 200px; width: 200px;" class="align-items-center bg-white border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+          <p id="ejercicios_finalizados"></p>
+          <p class="fs-6">EJERCICIOS FINALIZADOS</p>
+        </div>
+        <div style="height: 200px; width: 200px;" class="align-items-center bg-white border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+          <p id="series_finalizadas"></p>
+          <p class="fs-6">SERIES FINALIZADAS</p>
+        </div>
+      </div>
+      <h1>EJERCICIOS FAVORITOS</h1>
+      <hr>
+      <div id="ejercicios" class="mb-5">
+        <!-- Ejercicio -->
+        <a class="enlaceNegro text-decoration-none" href="estadisticas.html?ejercicio=ejercicio.ID">
+          <div class="px-3 my-1">
+            <div class="bg-white rounded shadow-sm p-3 row align-items-center">
+              <div class="col-4">
+                  <img class="rounded-circle shadow img-fluid" src=ejercicio.imagen />
+              </div>
+              <div class="col-8 d-flex justify-content-between">
+                <p class="m-0">ejercicio.nombre</p>
+                <p class="text-end m-0">8</p>
+              </div>
+            </div>
+          </div>
+        </a>
+        <!-- Fin ejercicio -->
+      </div>
+    </div>
+    <!-- Fin de estadísticas -->
+    
+    <!-- Barra inferior -->
+    <div
+      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
+      w3-include-html="footer.html"
+    ></div>
+    <script href="../js/footer.js"></script>
+    <script>
+      includeHTML();
+    </script>
+    <!-- Fin  barra inferior -->
+
+    <!-- <script href="../js/db.js"></script> -->
+    <script href="../js/bootstrap.js"></script>
+    <script>
+        const db = window.sqlitePlugin.openDatabase({
+            name: 'gimnasio.db',
+            location: 'default',
+            androidDatabaseProvider: 'system'
+        });
+    </script>
+  </body>
+</html>

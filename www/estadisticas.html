@@ -27,9 +27,32 @@
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
 
-    <div id="estadisticas" class="align-items-center d-flex vh-100-app justify-content-center">
-      <h1 class="text-center text-black-50">Pantalla en construcción</h1>
+    <div id="estadisticas" class="mb-5">
+      <div class="bg-white rounded shadow-sm p-3 my-3">
+        <h4><i class="fa-solid fa-chart-line"></i> Generales</h4>
+        <hr>
+        <div class="d-flex">
+          <div style="height: 120px; width: 33%;" class="align-items-center bg-principal border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+            <p class="fs-1 fw-bold m-0" id="dias_entrenados"></p>
+            <p class="fs-6">DÍAS ENTRENADOS</p>
+          </div>
+          <div style="height: 120px; width: 33%;" class="align-items-center bg-principal border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+            <p class="fs-1 fw-bold m-0" id="ejercicios_finalizados"></p>
+            <p class="fs-6">EJERCICIOS FINALIZADOS</p>
+          </div>
+          <div style="height: 120px; width: 33%;" class="align-items-center bg-principal border d-flex flex-column justify-content-center m-1 shadow-sm text-center">
+            <p class="fs-1 fw-bold m-0" id="series_finalizadas"></p>
+            <p class="fs-6">SERIES FINALIZADAS</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded shadow-sm p-3">
+        <h4><i class="fa-solid fa-star"></i> Favoritos</h4>
+        <hr>
+        <div id="ejercicios_favoritos" class="mb-5"></div>
+      </div>
     </div>
+
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
     <script src="js/footer.js"></script>
@@ -48,7 +71,59 @@
           $("#estadisticas").show();
         }, 250);
         const db = conexion();
-        insertarEntrenamientos();
+        await insertarEntrenamientos();
+
+        let rs_dias_entrenados = await getDiasEntrenados(db);
+        let dias_entrenados = rs_dias_entrenados.rows.item(0).ndias
+        $("#dias_entrenados").text(dias_entrenados)
+
+        let rs_ejercicios_finaizados = await getEjerciciosFinalizados(db);
+        let ejercicios_finalizados = rs_ejercicios_finaizados.rows.item(0).nejercicios;
+        $("#ejercicios_finalizados").text(ejercicios_finalizados)
+
+        let rs_series_finalizadas = await getSeriesFinalizadas(db);
+        let series_finalizadas = rs_series_finalizadas.rows.item(0).nseries;
+        $("#series_finalizadas").text(series_finalizadas);
+
+        let rs_veces_ejercicio = await getVecesEjercicio(db);
+        if(rs_veces_ejercicio.rows.length > 0){
+          for(let i = 0; i < rs_veces_ejercicio.rows.length; i++){
+            let veces_ejercicio = rs_veces_ejercicio.rows.item(i);
+          let a = document.createElement('a');
+          a.classList.add('enlaceNegro', 'text-decoration-none');
+          a.href = `estadisticas.html?ejercicio=${veces_ejercicio.ejercicio}`;
+          let div1 = document.createElement('div');
+          div1.classList.add('px-3', 'my-1');
+          let div2 = document.createElement('div');
+          div2.classList.add('rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
+          let div3 = document.createElement('div');
+          div3.classList.add('col-4');
+          let img = document.createElement('img');
+          img.classList.add('rounded-circle', 'shadow', 'img-fluid');
+          img.src = veces_ejercicio.imagen;
+          let div4 = document.createElement('div');
+          div4.classList.add('col-8', 'd-flex', 'justify-content-between');
+          let p1 = document.createElement('p');
+          p1.classList.add('m-0');
+          p1.textContent = veces_ejercicio.nombre;
+          let p2 = document.createElement('p');
+          p2.classList.add('text-end', 'm-0');
+          p2.textContent = veces_ejercicio.veces;
+          div3.appendChild(img);
+          div4.appendChild(p1);
+          div4.appendChild(p2);
+          div2.appendChild(div3);
+          div2.appendChild(div4);
+          div1.appendChild(div2);
+          a.appendChild(div1);
+          document.getElementById("ejercicios_favoritos").appendChild(a);
+        }
+      }
+      else{
+        let p1 = document.createElement('p');
+        p1.textContent = 'No has entrenado nunca';
+        document.getElementById("ejercicios_favoritos").appendChild(p1);
+      }
       })
     </script>
   </body>
