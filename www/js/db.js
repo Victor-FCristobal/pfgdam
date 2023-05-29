@@ -746,7 +746,6 @@ function getCategorias(db,condicion = ""){
  * @returns Promise
  */
 function getEjercicios(db,condicion = ""){
-  // const db = conexion();
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
       tx.executeSql('SELECT * FROM EJERCICIO ' + condicion, [], function(tx,rs){
@@ -757,6 +756,25 @@ function getEjercicios(db,condicion = ""){
     });
   });
 }
+
+/**
+ * 
+ * @param {SQLitePlugin.Database} db 
+ * @param {number} ejercicio
+ * @returns Promise
+ */
+function getEjercicio(db,ejercicio){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT ej.nombre,ej.favorito,ej.imagen,ej.oculto,gr.nombre as grupo_muscular,tip.tipo,met.metrica FROM EJERCICIO as ej INNER JOIN EJERCICIO_METRICA as met ON ej.metrica = met.ID INNER JOIN EJERCICIO_TIPO as tip ON ej.tipo = tip.ID INNER JOIN GRUPO_MUSCULAR as gr ON ej.grupo_muscular = gr.ID WHERE ej.ID = ?', [ejercicio], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
 /**
  * 
  * @param {SQLitePlugin.Database} db 
@@ -1159,7 +1177,19 @@ function getSeriesFinalizadas(db){
 function getVecesEjercicio(db){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
-      tx.executeSql('SELECT ent.ejercicio,COUNT(ent.ejercicio) as veces, ej.nombre,ej.imagen FROM ENTRENAMIENTO as ent INNER JOIN EJERCICIO as ej WHERE ent.ejercicio = ej.ID GROUP BY ent.ejercicio ORDER BY COUNT(ent.ejercicio) DESC', [], function(tx,rs){
+      tx.executeSql('SELECT ent.ejercicio,COUNT(ent.ejercicio) as veces, ej.nombre,ej.imagen FROM ENTRENAMIENTO as ent INNER JOIN EJERCICIO as ej ON ent.ejercicio = ej.ID GROUP BY ent.ejercicio ORDER BY COUNT(ent.ejercicio) DESC', [], function(tx,rs){
+        resolve(rs);
+      },function(error){
+        reject(error);
+      });
+    });
+  });
+}
+
+function getVecesPorEjercicio(db,ejercicio){
+  return new Promise(function(resolve,reject){
+    db.transaction(function(tx){
+      tx.executeSql('SELECT COUNT(ent.ejercicio) as veces FROM ENTRENAMIENTO as ent INNER JOIN EJERCICIO as ej ON ent.ejercicio = ej.ID WHERE ej.ID = ?', [ejercicio], function(tx,rs){
         resolve(rs);
       },function(error){
         reject(error);

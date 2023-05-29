@@ -5,17 +5,22 @@
       <meta name="format-detection" content="telephone=no">
       <meta name="msapplication-tap-highlight" content="no">
       <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-      <link rel="stylesheet" href="css/fontawesome.css">
-      <link rel="stylesheet" href="css/solid.css">
-      <link rel="stylesheet" href="css/bootstrap.css">
-      <link rel="stylesheet" href="css/index.css">
-      <script src="cordova.js"></script>
 
+      <link rel="stylesheet" href="css/fontawesome.css" />
+      <link rel="stylesheet" href="css/solid.css" />
+      <link rel="stylesheet" href="css/bootstrap.css" />
+      <link rel="stylesheet" href="css/index.css" />
+      
+      <script src="cordova.js"></script>
+      <script src="js/footer.js"></script>
       <script src='fullcalendar-6.1.7/packages/core/index.global.js'></script>
       <script src='fullcalendar-6.1.7/packages/daygrid/index.global.js'></script>
       <script src='fullcalendar-6.1.7/packages/core/locales/es.global.js'></script>
       <script src='fullcalendar-6.1.7/packages/bootstrap5/index.global.js'></script>
       <script src='fullcalendar-6.1.7/packages/interaction/index.global.js'></script>
+      <script src="js/db.js"></script>
+      <script src="js/jquery-3.7.0.js"></script>
+      <script src="js/bootstrap.bundle.min.js"></script>
   </head>
   <body class="bg-light">
     <!-- Barra superior -->
@@ -40,20 +45,12 @@
     <script src="js/footer.js"></script>
     <script>includeHTML();</script>
 
-    <!-- Filtrado -->
-    <div>
-      <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100"></div>
-    </div>
-    <!-- Fin filtrado -->
-
-    <div id="ejercicios" class="mb-5"></div>
-
     <!-- Modal nuevo ejercicio -->
     <div class="modal fade" id="modalCEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalCEjercicioLabel">Crear ejercicio</h1>
+            <h1 class="modal-title fs-5" id="modalCEjercicioLabel"><i class="fa-solid fa-plus"></i> Crear ejercicio</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -87,7 +84,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <div>
-              <h1 id="titulo" class="modal-title fs-5">Editar ejercicio</h1>
+              <h1 id="titulo" class="modal-title fs-5"><i class="fa-solid fa-pencil"></i> Editar ejercicio</h1>
               <p id="subtitulo" class="fst-italic modal-title"></p>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -122,7 +119,10 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="modalDEjercicioLabel"></h1>
+            <div>
+              <h1 class="modal-title fs-5" id="modalDEjercicioLabel"><i class="fa-solid fa-trash-can"></i> Eliminar ejercicio</h1>
+              <p id="subtitulo" class="fst-italic modal-title"></p>
+            </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -138,12 +138,28 @@
     </div>
     <!-- Fin modal borrar ejercicio -->
 
+    <!-- Modal información ejercicio -->
+    <div class="modal fade" id="modalIEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5"><i class="fa-solid fa-circle-info"></i> Información de ejercicio</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="bg-light" id="informacion"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin modal información ejercicio -->
+
     <!-- Modal histórico entrenamientos -->
     <div class="modal fade" id="modalHEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5">Histórico de entrenamientos</h1>
+            <h1 class="modal-title fs-5"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de entrenamientos</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -153,17 +169,15 @@
       </div>
     </div>
     <!-- Fin modal histórico entrenamientos -->
+    
+
+    <div id="filtrado" class="px-4 my-2 row overflow-scroll flex-nowrap vw-100"></div>
+    <div id="ejercicios" class="mb-5"></div>
 
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around vw-100" w3-include-html="footer.html"></div>
-    <script src="js/footer.js"></script>
     <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
-    
-    <script src="js/db.js"></script>
-    <!-- <script src="js/bootstrap.js"></script> -->
-    <script src="js/jquery-3.7.0.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         $("#ejercicios").hide();
@@ -175,10 +189,11 @@
         const db = conexion();
         await insertarEntrenamientos();
 
-        const musculos = await getMusculos(db);
+        // const musculos = await getMusculos(db);
         const tipos = await getTipos(db);
         const metricas = await getMetricas(db);
         const categorias = await getCategorias(db);
+
         // Obtengo el parámetro get grupo_muscular para hacer la consulta de los ejercicios correspondientes
         const urlParams = new URLSearchParams(window.location.search);
         const grupo_muscular_id = urlParams.get('grupo_muscular');
@@ -188,6 +203,7 @@
         const modalUEjercicio = document.getElementById('modalUEjercicio')
         const modalDEjercicio = document.getElementById('modalDEjercicio')
         const modalHEjercicio = document.getElementById('modalHEjercicio')
+        const modalIEjercicio = document.getElementById('modalIEjercicio')
 
         const inputTipoC = modalCEjercicio.querySelector('#tipo')
         const inputTipoE = modalUEjercicio.querySelector('#tipoE')
@@ -240,6 +256,95 @@
           inputCategoriaE.appendChild(opcionCategoriaE)
         }
 
+        modalIEjercicio.addEventListener('show.bs.modal', async event => {
+          $("#informacion").empty();
+          let boton = event.relatedTarget;
+          let id_ejercicio = boton.getAttribute('data-bs-ejercicio');
+          let rs_ejercicio = await getEjercicio(db,id_ejercicio);
+          let rs_veces_ejercicio = await getVecesPorEjercicio(db,id_ejercicio);
+          let veces_ejercicio = rs_veces_ejercicio.rows.item(0);
+          let ejercicio = rs_ejercicio.rows.item(0);
+          // Crear el elemento principal div con la clase "card"
+          let cardDiv = document.createElement('div');
+          cardDiv.classList.add('card', 'text-center');
+
+          // Crear el encabezado de la tarjeta (grupo muscular)
+          let cardHeader = document.createElement('div');
+          cardHeader.classList.add('card-header');
+          cardHeader.textContent = ejercicio.grupo_muscular;
+
+          // Crear el cuerpo de la tarjeta
+          let cardBody = document.createElement('div');
+          cardBody.classList.add('card-body');
+
+          // Crear la imagen del ejercicio
+          let exerciseImage = document.createElement('img');
+          exerciseImage.classList.add('card-img-top', 'img-fluid');
+          exerciseImage.src = ejercicio.imagen;
+          exerciseImage.alt = 'Imagen de ejercicio';
+
+          // Crear el título del ejercicio
+          let exerciseTitle = document.createElement('h1');
+          exerciseTitle.classList.add('card-title');
+          exerciseTitle.textContent = ejercicio.nombre;
+
+          // Crear los botones en el cuerpo de la tarjeta
+          let buttonContainer = document.createElement('div');
+          buttonContainer.classList.add('d-flex', 'flex-wrap', 'justify-content-center');
+
+          // Botón para el tipo de ejercicio
+          let typeButton = document.createElement('a');
+          typeButton.href = '#';
+          typeButton.classList.add('m-2', 'btn', 'btn-primary');
+          typeButton.innerHTML = `<i class="fa-solid fa-dumbbell"></i> ${ejercicio.tipo}`;
+
+          // Botón para la métrica del ejercicio
+          let metricButton = document.createElement('a');
+          metricButton.href = '#';
+          metricButton.classList.add('m-2', 'btn', 'btn-primary');
+          metricButton.innerHTML = `<i class="fa-solid fa-ruler"></i> ${ejercicio.metrica}`;
+
+          // Botón de favorito
+          let favoriteButton = document.createElement('a');
+          favoriteButton.href = '#';
+          favoriteButton.classList.add('m-2', 'btn', 'btn-secondary');
+          if(ejercicio.favorito == 0)
+            favoriteButton.innerHTML = '<i class="fa-solid fa-star"></i> No favorito';
+          else
+            favoriteButton.innerHTML = '<i class="fa-solid fa-star"></i> Favorito';
+
+          // Botón de oculto
+          let hiddenButton = document.createElement('a');
+          hiddenButton.href = '#';
+          hiddenButton.classList.add('m-2', 'btn', 'btn-secondary');
+          if(ejercicio.oculto == 0)
+            hiddenButton.innerHTML = '<i class="fa-solid fa-eye"></i> No oculto';
+          else
+            hiddenButton.innerHTML = '<i class="fa-solid fa-eye"></i> Oculto';
+
+          // Agregar los botones al contenedor
+          buttonContainer.appendChild(typeButton);
+          buttonContainer.appendChild(metricButton);
+          buttonContainer.appendChild(favoriteButton);
+          buttonContainer.appendChild(hiddenButton);
+
+          // Crear el pie de la tarjeta (veces entrenado)
+          let cardFooter = document.createElement('div');
+          cardFooter.classList.add('card-footer', 'text-muted');
+          cardFooter.innerHTML = `<span>${veces_ejercicio.veces}</span> veces entrenado`;
+
+          // Agregar los elementos al cuerpo de la tarjeta
+          cardBody.appendChild(exerciseImage);
+          cardBody.appendChild(exerciseTitle);
+          cardBody.appendChild(buttonContainer);
+
+          // Agregar los elementos a la tarjeta principal
+          cardDiv.appendChild(cardHeader);
+          cardDiv.appendChild(cardBody);
+          cardDiv.appendChild(cardFooter);
+          document.getElementById("informacion").appendChild(cardDiv);
+        });
+
         modalCEjercicio.addEventListener('show.bs.modal', async event => {
           let boton = event.relatedTarget
           $("#categoria"+grupo_muscular_id).attr("selected","selected");
@@ -247,8 +352,8 @@
 
         modalUEjercicio.addEventListener('show.bs.modal', async event => {
           let boton = event.relatedTarget
-          let idEjercicio = boton.getAttribute('data-bs-ejercicio')
-          let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`);
+          let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+          let ejercicio = await getEjercicios(db,`WHERE ID = ${id_ejercicio}`);
           let subtitulo = modalUEjercicio.querySelector('#subtitulo')
           subtitulo.textContent = ejercicio.rows.item(0).nombre;
           let inputNombre = modalUEjercicio.querySelector('#nombreE')
@@ -261,12 +366,12 @@
 
         modalDEjercicio.addEventListener('show.bs.modal', async event => {
           let boton = event.relatedTarget
-          let idEjercicio = boton.getAttribute('data-bs-ejercicio')
-          let ejercicio = await getEjercicios(db,`WHERE ID = ${idEjercicio}`)
-          let modalTitle = modalDEjercicio.querySelector('.modal-title')
-          modalTitle.textContent = ejercicio.rows.item(0).nombre;
+          let id_ejercicio = boton.getAttribute('data-bs-ejercicio')
+          let ejercicio = await getEjercicios(db,`WHERE ID = ${id_ejercicio}`)
+          let subtitulo = modalDEjercicio.querySelector('#subtitulo')
+          subtitulo.textContent = ejercicio.rows.item(0).nombre;
           let modalLink = modalDEjercicio.querySelector('#eliminar')
-          modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+idEjercicio;
+          modalLink.href = "ejercicios.html?grupo_muscular="+grupo_muscular_id+"&eliminar="+id_ejercicio;
         });
 
         modalHEjercicio.addEventListener('show.bs.modal', async event => {
@@ -510,10 +615,10 @@
             let lista = document.createElement("ul");
             lista.classList.add("dropdown-menu");
             let elementosLista = [
-              { href: `ejercicios.html?ejercicio=${ejercicio.ID}`, clase: "infoEjercicio", icono: "fa-info-circle", texto: " Información" },
-              { clase: "historicoEjercicio", icono: "fa-chart-line", texto: " Histórico", modal: "modalHEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-              { clase: "editarEjercicio", icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-              { clase: "eliminarEjercicio", icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
+              { icono: "fa-info-circle", texto: " Información", modal: "modalIEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+              { icono: "fa-clock-rotate-left", texto: " Histórico", modal: "modalHEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+              { icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+              { icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
             ];
             if(ejercicio.oculto == 0){
               elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });

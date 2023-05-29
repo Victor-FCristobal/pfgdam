@@ -2,32 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
+    <!-- <meta name="format-detection" content="telephone=no" /> -->
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta
-      name="viewport"
-      content="initial-scale=1, width=device-width, viewport-fit=cover"
-    />
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover" />
+
     <link rel="stylesheet" href="css/fontawesome.css" />
     <link rel="stylesheet" href="css/solid.css" />
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/index.css" />
+    
     <script src="cordova.js"></script>
-
+    <script src="js/footer.js"></script>
     <script src='fullcalendar-6.1.7/packages/core/index.global.js'></script>
     <script src='fullcalendar-6.1.7/packages/daygrid/index.global.js'></script>
     <script src='fullcalendar-6.1.7/packages/core/locales/es.global.js'></script>
     <script src='fullcalendar-6.1.7/packages/bootstrap5/index.global.js'></script>
     <script src='fullcalendar-6.1.7/packages/interaction/index.global.js'></script>
+    <script src="js/db.js"></script>
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
   </head>
   <body class="bg-light">
+    
     <!-- Barra superior -->
     <div class="sticky-top bg-primary d-flex flex-wrap p-2">
       <p class="m-2 h4"><a href="index.html"><i class="fa-solid fa-arrow-left"></i></a> Categorías</p>
     </div>
     <!-- Fin barra superior -->
+
     <div w3-include-html="header.html"></div>
-    <script src="js/footer.js"></script>
     <script>includeHTML();</script>
 
     <!-- Categorías -->
@@ -35,20 +38,10 @@
     <!-- Fin de categorías -->
     
     <!-- Barra inferior -->
-    <div
-      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
-      w3-include-html="footer.html"
-    ></div>
-    <script src="js/footer.js"></script>
-    <script>
-      includeHTML();
-    </script>
+    <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
+    <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
 
-    <script src="js/db.js"></script>
-    <!-- <script src="js/bootstrap.js"></script> -->
-    <script src="js/jquery-3.7.0.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener('deviceready', async function() {
         $("#categorias").hide();

@@ -13,6 +13,15 @@
     <link rel="stylesheet" href="../css/bootstrap.css" />
     <link rel="stylesheet" href="../css/index.css" />
     <script src="cordova.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src='../fullcalendar-6.1.7/packages/core/index.global.js'></script>
+    <script src='../fullcalendar-6.1.7/packages/daygrid/index.global.js'></script>
+    <script src='../fullcalendar-6.1.7/packages/core/locales/es.global.js'></script>
+    <script src='../fullcalendar-6.1.7/packages/bootstrap5/index.global.js'></script>
+    <script src='../fullcalendar-6.1.7/packages/interaction/index.global.js'></script>
+    <script src="../js/db.js"></script>
+    <script src="../js/jquery-3.7.0.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
   </head>
   <body class="bg-light">
     <!-- Barra superior -->
@@ -26,42 +35,41 @@
       </div>
     </div>
     <!-- Fin barra superior -->
-
-    <!-- Ejercicios -->
-    <div class="px-4 my-2 row flex-row flex-nowrap">
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
-      </div>
-      <div class="w-auto p-1">
-        <input type="checkbox" class="btn-check" id="btn-check">
-        <label class="btn btn-primary" for="btn-check"><i class="fa-solid fa-star"></i></label>
+    
+    <!-- Modal información ejercicio -->
+    <div class="modal fade" id="modalIEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5"><i class="fa-solid fa-circle-info"></i> Información de ejercicio</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="bg-light" id="informacion">
+              <div class="card text-center">
+                <div class="card-header">
+                  ejercicio.grupo_muscular
+                </div>
+                <div class="card-body">
+                  <img class="card-img-top img-fluid" src=ejercicio.imagen>
+                  <h1 class="card-title">ejercicio.nombre</h1>
+                  <div class="d-flex flex-wrap justify-content-center">
+                    <a href="#" class="m-2 btn btn-primary"><i class="fa-solid fa-dumbbell"></i> ejercicio.tipo</a>
+                    <a href="#" class="m-2 btn btn-primary"><i class="fa-solid fa-ruler"></i> ejercicio.metrica</a>
+                    <a href="#" class="m-2 btn btn-secondary"><i class="fa-solid fa-star"></i> Favorito</a>
+                    <a href="#" class="m-2 btn btn-secondary"><i class="fa-solid fa-eye"></i> Oculto</a>
+                  </div>
+                </div>
+                <div class="card-footer text-muted"><span>ejercicio.veces</span> veces entrenado</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- Fin modal información ejercicio -->
+
+    <!-- Ejercicios -->
     <div id="ejercicios" class="mb-5">
         <!-- Ejercicio -->
         <div class="px-4 my-2" style="animation: 3s linear 1s slidein">
@@ -80,7 +88,7 @@
                                 <i class="fa-solid fa-ellipsis-vertical" ></i>
                               </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-                                    <li><a href="ejercicios.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-info-circle"></i> Información</a></li>
+                                    <li><a data-bs-toggle="modal" data-bs-target="#modalIEjercicio" data-bs-ejercicio="ejercicio.id" class="dropdown-item"><i class="fa-solid fa-info-circle"></i> Información</a></li>
                                     <li><a href="estadisticas.html?ejercicio=ejercicio.id" class="dropdown-item"><i class="fa-solid fa-chart-line"></i> Estadísticas</a></li>
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalUEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-pencil"></i> Editar</button></li>
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDEjercicio" data-bs-ejercicio="ejercicio.id"><i class="fa-solid fa-trash-can"></i> Eliminar</button></li>
@@ -96,21 +104,5 @@
         <!-- Fin ejercicio -->
     </div>
     <!-- Fin de ejercicios -->
-    
-    <!-- Barra inferior -->
-    <div
-      class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around"
-      w3-include-html="footer.html"
-    ></div>
-    <script href="../js/footer.js"></script>
-    <script>
-      includeHTML();
-    </script>
-    <!-- Fin  barra inferior -->
-
-    <script href="../js/bootstrap.js"></script>
-    <script href="../js/bootstrap.bundle.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
   </body>
 </html>
