@@ -29,8 +29,6 @@
     </div>
     <!-- Fin barra superior -->
     <div w3-include-html="header.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
 
     <!-- Modal histórico entrenamientos -->
     <div class="modal fade" id="modalHEjercicio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -76,18 +74,18 @@
 
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
     
     <script>
+      includeHTML();
       document.addEventListener('deviceready', async function() {
         $("#estadisticas").hide();
         setTimeout(function(){
           $("#preloader").remove();
           $("#estadisticas").show();
+          insertarEntrenamientos();
         }, 250);
         const db = conexion();
-        await insertarEntrenamientos();
         const modalHEjercicio = document.getElementById('modalHEjercicio')
         let rs_dias_entrenados = await getDiasEntrenados(db);
         let dias_entrenados = rs_dias_entrenados.rows.item(0).ndias

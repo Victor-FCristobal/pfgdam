@@ -30,26 +30,24 @@
     <!-- Fin barra superior -->
 
     <div w3-include-html="header.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
 
     <div id="metricas" class="align-items-center d-flex vh-100-app justify-content-center">
       <h1 class="text-center text-black-50">Pantalla en construcción</h1>
     </div>
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
     
     <script>
+      includeHTML();
       document.addEventListener('deviceready', async function() {
         $("#medidas").hide();
         setTimeout(function(){
           $("#preloader").remove();
           $("#medidas").show();
+          insertarEntrenamientos();
         }, 250);
         const db = conexion();
-        await insertarEntrenamientos();
       })
     </script>
   </body>

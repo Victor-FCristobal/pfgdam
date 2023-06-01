@@ -38,8 +38,6 @@
         <div style="display:none" id="calendar"></div>
 
         <div w3-include-html="header.html"></div>
-        <script src="js/footer.js"></script>
-        <script>includeHTML();</script>
         <!-- Modal info -->
         <div class="modal fade" id="modalInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -206,13 +204,12 @@
 
         <!-- Barra inferior -->
         <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-        <script>includeHTML();</script>
         <!-- Fin  barra inferior -->
         
         <script>
+            includeHTML();
             document.addEventListener('deviceready', async function() {
                 const db = conexion();
-                await insertarEntrenamientos();
                 await crearTablas(db);
 
                 // Fecha
@@ -232,6 +229,7 @@
                 setTimeout(function(){
                     $("#preloader").remove();
                     $("#entrenamientos").show();
+                    insertarEntrenamientos();
                 }, 250);
                 let eventos = []
                 let todosEntrenamientos = await getTodosEntrenamientos(db,localStorage.getItem("calendario"));

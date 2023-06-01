@@ -31,7 +31,6 @@
     <!-- Fin barra superior -->
 
     <div w3-include-html="header.html"></div>
-    <script>includeHTML();</script>
 
     <!-- Categorías -->
     <div id="categorias" class="mb-5"></div>
@@ -39,18 +38,18 @@
     
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
 
     <script>
+      includeHTML();
       document.addEventListener('deviceready', async function() {
         $("#categorias").hide();
         setTimeout(function(){
           $("#preloader").remove();
           $("#categorias").show();
+          insertarEntrenamientos();
         }, 250);
         const db = conexion();
-        await insertarEntrenamientos();
         grupos_musculares = await getCategorias(db);
         for (let i = 0; i < grupos_musculares.rows.length; i++) {
           let grupo_muscular = grupos_musculares.rows.item(i);

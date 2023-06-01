@@ -34,8 +34,6 @@
     </div>
     <!-- Fin barra superior -->
     <div w3-include-html="header.html"></div>
-    <script src="js/footer.js"></script>
-    <script>includeHTML();</script>
 
     <!-- Modal nueva rutina -->
     <div class="modal fade" id="modalCRutina" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -179,18 +177,18 @@
 
     <!-- Barra inferior -->
     <div class="align-items-center mh-45px fixed-bottom bg-primary p-2 d-flex justify-content-around" w3-include-html="footer.html"></div>
-    <script>includeHTML();</script>
     <!-- Fin  barra inferior -->
 
     <script>
+      includeHTML();
       document.addEventListener('deviceready', async function() {
         $("#rutinas").hide();
         setTimeout(function(){
           $("#preloader").remove();
           $("#rutinas").show();
+          insertarEntrenamientos();
         }, 250);
         const db = conexion();
-        await insertarEntrenamientos();
         const urlParams = new URLSearchParams(window.location.search);
         const rutinas = await getRutinas(db);
         if(rutinas.rows.length > 0){
