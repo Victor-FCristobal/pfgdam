@@ -335,50 +335,15 @@
               div1.appendChild(div2);
               document.getElementById("ejerciciosRutinaE").appendChild(div1);
             }
-            $("#lupaRutinaE").on("click",async function(){
-              let texto_input = $('#buscar_ejercicioRutinaE').val()
-              $("#ejerciciosRutinaE").empty()
-              let ejercicios_rutina = await getEjerciciosRutina(db,$("#nombreE").attr("rutina"))
-              let ejercicios_rutina_array = []
-              for(let i = 0 ; i < ejercicios_rutina.rows.length; i++){
-                ejercicios_rutina_array.push(ejercicios_rutina.rows.item(i).ejercicio)
-              }
-              let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
-              for(let i = 0 ; i < ejercicios.rows.length; i++){
-                let ejercicio = ejercicios.rows.item(i)
-                let div1 = document.createElement('div');
-                let div2 = document.createElement('div');
-                div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-                let div3 = document.createElement('div');
-                div3.classList.add('col-1');
-                let checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = ejercicio.ID;
-                checkbox.name = 'ejercicios';
-                checkbox.value = ejercicio.ID;
-                checkbox.classList.add('form-check-input')
-                if(ejercicios_rutina_array.includes(ejercicio.ID))
-                  checkbox.setAttribute("checked",true)
-                div3.appendChild(checkbox);
-                div2.appendChild(div3);
-                let div4 = document.createElement('div');
-                div4.classList.add('col-3');
-                let img = document.createElement('img');
-                img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-                img.src = ejercicio.imagen;
-                div4.appendChild(img);
-                div2.appendChild(div4);
-                let div5 = document.createElement('div');
-                div5.classList.add('col-8');
-                let div6 = document.createElement('div');
-                div6.classList.add('row');
-                let p = document.createElement('p');
-                p.textContent = ejercicio.nombre;
-                div6.appendChild(p);
-                div5.appendChild(div6);
-                div2.appendChild(div5);
-                div1.appendChild(div2);
-                document.getElementById("ejerciciosRutinaE").appendChild(div1);
+            $("#buscar_ejercicioRutinaE").on("keyup",async function(){
+              let texto_input = $('#buscar_ejercicioRutinaE').val().toLowerCase();
+              const ejercicios = document.getElementById("ejerciciosRutinaE").children;
+              for(let i = 0;i<ejercicios.length;i++){
+                let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent
+                if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+                  ejercicios[i].style.display = 'none';
+                else
+                  ejercicios[i].style.display = 'block';
               }
             })
           });
@@ -409,8 +374,26 @@
           inputNombre.value = "";
           $("#ejerciciosRutinaC").empty();
           let ejercicios = await getEjercicios(db)
+          let array_ejercicios = []
           for(let i = 0 ; i < ejercicios.rows.length; i++){
-            let ejercicio = ejercicios.rows.item(i)
+            array_ejercicios.push(ejercicios.rows.item(i))
+          }
+          pintarEjercicios(array_ejercicios)
+          $("#buscar_ejercicioRutinaC").on("keyup",async function(){
+            let texto_input = $('#buscar_ejercicioRutinaC').val().toLowerCase();
+            const ejercicios = document.getElementById("ejerciciosRutinaC").children;
+            for(let i = 0;i<ejercicios.length;i++){
+              let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent
+              if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+                ejercicios[i].style.display = 'none';
+              else
+                ejercicios[i].style.display = 'block';
+            }
+          })
+        })
+        function pintarEjercicios(array_ejercicios){
+          for(let i = 0 ; i < array_ejercicios.length; i++){
+            let ejercicio = array_ejercicios[i]
             let div1 = document.createElement('div');
             let div2 = document.createElement('div');
             div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
@@ -444,46 +427,7 @@
             div1.appendChild(div2);
             document.getElementById("ejerciciosRutinaC").appendChild(div1);
           }
-          $("#lupaRutinaC").on("click",async function(){
-            let texto_input = $('#buscar_ejercicioRutinaC').val()
-            $("#ejerciciosRutinaC").empty()
-            let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
-            for(let i = 0 ; i < ejercicios.rows.length; i++){
-              let ejercicio = ejercicios.rows.item(i)
-              let div1 = document.createElement('div');
-              let div2 = document.createElement('div');
-              div2.classList.add('bg-white', 'rounded', 'shadow-sm', 'p-3', 'row', 'align-items-center');
-              let div3 = document.createElement('div');
-              div3.classList.add('col-1');
-              let checkbox = document.createElement('input');
-              checkbox.type = 'checkbox';
-              checkbox.id = ejercicio.ID;
-              checkbox.name = 'ejercicios';
-              checkbox.value = ejercicio.ID;
-              checkbox.classList.add('form-check-input')
-              div3.appendChild(checkbox);
-              div2.appendChild(div3);
-              let div4 = document.createElement('div');
-              div4.classList.add('col-3');
-              let img = document.createElement('img');
-              img.classList.add('rounded-circle', 'shadow', 'img-fluid');
-              img.src = ejercicio.imagen;
-              div4.appendChild(img);
-              div2.appendChild(div4);
-              let div5 = document.createElement('div');
-              div5.classList.add('col-8');
-              let div6 = document.createElement('div');
-              div6.classList.add('row');
-              let p = document.createElement('p');
-              p.textContent = ejercicio.nombre;
-              div6.appendChild(p);
-              div5.appendChild(div6);
-              div2.appendChild(div5);
-              div1.appendChild(div2);
-              document.getElementById("ejerciciosRutinaC").appendChild(div1);
-            }
-          })
-        });
+        }
       },false)
       async function cRutina(){
           let datos = [$("#nombreC").val(),$("#dia_preferidoC").val()]

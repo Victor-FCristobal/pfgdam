@@ -1005,11 +1005,12 @@ async function insertarEntrenamientos(){
     $("#ejerciciosNuevoEntrenamiento").empty()
     let ejerciciosNuevoEntrenamiento = await getEjercicios(db,"WHERE oculto = 0");
     pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
-    $("#lupa").on("click",async function(){
+    // $("#lupa").on("click",async function(){
+    $("#buscar_ejercicio").on("keyup",async function(){
       let texto_input = $('#buscar_ejercicio').val()
       $("#ejerciciosNuevoEntrenamiento").empty()
       let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
-      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
+      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento)
     });
   })
   $("#btn-nuevoEntrenamientoRutina").on("click",async function(){

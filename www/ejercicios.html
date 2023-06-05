@@ -465,11 +465,16 @@
           div1.appendChild(h1);
           document.getElementById("ejercicios").appendChild(div1);
         }
-        $("#lupaBusqueda").on("click",async function(){
+        // $("#lupaBusqueda").on("click",async function(){
+        $('#buscar_ejercicioBusqueda').on("keyup",async function(){
           $("#ejercicios").empty()
           // $("#filtrado").empty()
           let texto_input = $('#buscar_ejercicioBusqueda').val()
           let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
+          if($("#btn-favoritos").is(':checked'))
+            ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 0 AND favorito = 1`);
+          if($("#btn-ocultos").is(':checked'))
+            ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 1`);
           if(ejercicios.rows.length > 0){
             let padre = document.getElementById("ejercicios");
             // pintarFiltrado();
