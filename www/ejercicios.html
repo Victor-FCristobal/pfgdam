@@ -451,43 +451,22 @@
         
         // Lista de ejercicios
         const ejercicios = await getEjercicios(db,`WHERE grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
-        if(ejercicios.rows.length > 0){
-          let padre = document.getElementById("ejercicios");
-          pintarFiltrado();
-          pintarEjercicios(ejercicios,padre);
-        }
-        else{
-          let div1 = document.createElement('div');
-          div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
-          let h1 = document.createElement('h1');
-          h1.textContent = "No hay ejercicios en esta categoría";
-          h1.classList.add('text-center','text-black-50');
-          div1.appendChild(h1);
-          document.getElementById("ejercicios").appendChild(div1);
-        }
+        let padre = document.getElementById("ejercicios");
+        pintarFiltrado();
+        pintarEjercicios(ejercicios,padre);
+
         // $("#lupaBusqueda").on("click",async function(){
         $('#buscar_ejercicioBusqueda').on("keyup",async function(){
-          $("#ejercicios").empty()
-          // $("#filtrado").empty()
           let texto_input = $('#buscar_ejercicioBusqueda').val()
-          let ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 0`);
-          if($("#btn-favoritos").is(':checked'))
-            ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 0 AND favorito = 1`);
-          if($("#btn-ocultos").is(':checked'))
-            ejercicios = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND grupo_muscular = ${grupo_muscular_id} AND oculto = 1`);
-          if(ejercicios.rows.length > 0){
-            let padre = document.getElementById("ejercicios");
-            // pintarFiltrado();
-            pintarEjercicios(ejercicios,padre);
-          }
-          else{
-            let div1 = document.createElement('div');
-            div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
-            let h1 = document.createElement('h1');
-            h1.textContent = "No hay ejercicios con ese nombre en esta categoría";
-            h1.classList.add('text-center','text-black-50');
-            div1.appendChild(h1);
-            document.getElementById("ejercicios").appendChild(div1);
+          const ejercicios = document.getElementById("ejercicios").children;
+          if(!ejercicios[0].classList.contains("vh-100-app")){
+            for(let i = 0;i<ejercicios.length;i++){
+              let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent
+              if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+                ejercicios[i].style.display = 'none';
+              else
+                ejercicios[i].style.display = 'block';
+            }
           }
         });
         async function pintarFiltrado(){
@@ -579,87 +558,98 @@
           // }
         }
         function pintarEjercicios(ejercicios,padre){
-          for (let i = 0; i < ejercicios.rows.length; i++) {
-            let ejercicio = ejercicios.rows.item(i);
-            let divPrincipal = document.createElement("div");
-            divPrincipal.classList.add("px-4", "my-2");
-            let divInterno = document.createElement("div");
-            divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
-            let columna1 = document.createElement("div");
-            columna1.classList.add("col-4");
-            let imagen = document.createElement("img");
-            imagen.classList.add("rounded-circle", "shadow", "img-fluid");
-            imagen.src = ejercicio.imagen;
-            columna1.appendChild(imagen);
-            divInterno.appendChild(columna1);
-            let columna2 = document.createElement("div");
-            columna2.classList.add("col-8");
-            let filaInterna = document.createElement("div");
-            filaInterna.classList.add("row");
-            let columna1FilaInterna = document.createElement("div");
-            columna1FilaInterna.classList.add("col-10");
-            let parrafo = document.createElement("p");
-            parrafo.textContent = ejercicio.nombre
-            columna1FilaInterna.appendChild(parrafo);
-            filaInterna.appendChild(columna1FilaInterna);
-            let columna2FilaInterna = document.createElement("div");
-            columna2FilaInterna.classList.add("col-2");
-            let dropdown = document.createElement("div");
-            dropdown.classList.add("dropdown");
-            let boton = document.createElement("button");
-            boton.classList.add("btn");
-            boton.setAttribute("type", "button");
-            boton.setAttribute("data-bs-toggle", "dropdown");
-            boton.setAttribute("aria-expanded", "false");
-            let icono = document.createElement("i");
-            icono.classList.add("fa-solid", "fa-ellipsis-vertical");
-            boton.appendChild(icono);
-            dropdown.appendChild(boton);
-            let lista = document.createElement("ul");
-            lista.classList.add("dropdown-menu");
-            let elementosLista = [
-              { icono: "fa-info-circle", texto: " Información", modal: "modalIEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-              { icono: "fa-clock-rotate-left", texto: " Histórico", modal: "modalHEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-              { icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
-              { icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
-            ];
-            if(ejercicio.oculto == 0){
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
-            }
-            else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
-            }
-            if(ejercicio.favorito == 0){
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
-            }
-            else{
-              elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-x", texto: " Quitar favorito" });
-            }
-            elementosLista.forEach(function(elemento) {
-              let itemLista = document.createElement("li");
-              let enlace = document.createElement("a");
-              enlace.href = elemento.href || "#";
-              enlace.classList.add("dropdown-item", elemento.clase);
-              let iconoLista = document.createElement("i");
-              iconoLista.classList.add("fa-solid", elemento.icono);
-              let textoEnlace = document.createTextNode(elemento.texto);
-              enlace.appendChild(iconoLista);
-              enlace.appendChild(textoEnlace);
-              itemLista.appendChild(enlace);
-              lista.appendChild(itemLista);
-              if (elemento.modal) {
-                enlace.setAttribute("data-bs-toggle", "modal");
-                enlace.setAttribute("data-bs-target", "#" + elemento.modal);
-                enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+          if(ejercicios.rows.length > 0){
+            for (let i = 0; i < ejercicios.rows.length; i++) {
+              let ejercicio = ejercicios.rows.item(i);
+              let divPrincipal = document.createElement("div");
+              divPrincipal.classList.add("px-4", "my-2");
+              let divInterno = document.createElement("div");
+              divInterno.classList.add("bg-white", "rounded", "shadow-sm", "p-3", "row", "align-items-center");
+              let columna1 = document.createElement("div");
+              columna1.classList.add("col-4");
+              let imagen = document.createElement("img");
+              imagen.classList.add("rounded-circle", "shadow", "img-fluid");
+              imagen.src = ejercicio.imagen;
+              columna1.appendChild(imagen);
+              divInterno.appendChild(columna1);
+              let columna2 = document.createElement("div");
+              columna2.classList.add("col-8");
+              let filaInterna = document.createElement("div");
+              filaInterna.classList.add("row");
+              let columna1FilaInterna = document.createElement("div");
+              columna1FilaInterna.classList.add("col-10");
+              let parrafo = document.createElement("p");
+              parrafo.textContent = ejercicio.nombre
+              columna1FilaInterna.appendChild(parrafo);
+              filaInterna.appendChild(columna1FilaInterna);
+              let columna2FilaInterna = document.createElement("div");
+              columna2FilaInterna.classList.add("col-2");
+              let dropdown = document.createElement("div");
+              dropdown.classList.add("dropdown");
+              let boton = document.createElement("button");
+              boton.classList.add("btn");
+              boton.setAttribute("type", "button");
+              boton.setAttribute("data-bs-toggle", "dropdown");
+              boton.setAttribute("aria-expanded", "false");
+              let icono = document.createElement("i");
+              icono.classList.add("fa-solid", "fa-ellipsis-vertical");
+              boton.appendChild(icono);
+              dropdown.appendChild(boton);
+              let lista = document.createElement("ul");
+              lista.classList.add("dropdown-menu");
+              let elementosLista = [
+                { icono: "fa-info-circle", texto: " Información", modal: "modalIEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { icono: "fa-clock-rotate-left", texto: " Histórico", modal: "modalHEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { icono: "fa-pencil", texto: " Editar", modal: "modalUEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID },
+                { icono: "fa-trash-can", texto: " Eliminar", modal: "modalDEjercicio", atributo: "data-bs-ejercicio", valorAtributo: ejercicio.ID }
+              ];
+              if(ejercicio.oculto == 0){
+                elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&ocultar=${ejercicio.ID}`, clase: "ocultarEjercicio", icono: "fa-eye-slash", texto: " Ocultar" });
               }
-            });
-            dropdown.appendChild(lista);
-            columna2FilaInterna.appendChild(dropdown);
-            filaInterna.appendChild(columna2FilaInterna);
-            columna2.appendChild(filaInterna);
-            divInterno.appendChild(columna2);
-            divPrincipal.appendChild(divInterno);
-            padre.appendChild(divPrincipal);
+              else{
+                elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&mostrar=${ejercicio.ID}`, clase: "mostrarEjercicio", icono: "fa-eye", texto: " Mostrar" });
+              }
+              if(ejercicio.favorito == 0){
+                elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoS=${ejercicio.ID}`, clase: "favoritoSEjercicio", icono: "fa-star", texto: " Favorito" });
+              }
+              else{
+                elementosLista.push({ href: `ejercicios.html?grupo_muscular=${grupo_muscular_id}&favoritoN=${ejercicio.ID}`, clase: "favoritoNEjercicio", icono: "fa-x", texto: " Quitar favorito" });
+              }
+              elementosLista.forEach(function(elemento) {
+                let itemLista = document.createElement("li");
+                let enlace = document.createElement("a");
+                enlace.href = elemento.href || "#";
+                enlace.classList.add("dropdown-item", elemento.clase);
+                let iconoLista = document.createElement("i");
+                iconoLista.classList.add("fa-solid", elemento.icono);
+                let textoEnlace = document.createTextNode(elemento.texto);
+                enlace.appendChild(iconoLista);
+                enlace.appendChild(textoEnlace);
+                itemLista.appendChild(enlace);
+                lista.appendChild(itemLista);
+                if (elemento.modal) {
+                  enlace.setAttribute("data-bs-toggle", "modal");
+                  enlace.setAttribute("data-bs-target", "#" + elemento.modal);
+                  enlace.setAttribute(elemento.atributo, elemento.valorAtributo);
+                }
+              });
+              dropdown.appendChild(lista);
+              columna2FilaInterna.appendChild(dropdown);
+              filaInterna.appendChild(columna2FilaInterna);
+              columna2.appendChild(filaInterna);
+              divInterno.appendChild(columna2);
+              divPrincipal.appendChild(divInterno);
+              padre.appendChild(divPrincipal);
+            }
+          }
+          else {
+            let div1 = document.createElement('div');
+            div1.classList.add('align-items-center','d-flex','vh-100-app','justify-content-center')
+            let h1 = document.createElement('h1');
+            h1.textContent = "No hay ejercicios en esta categoría";
+            h1.classList.add('text-center','text-black-50');
+            div1.appendChild(h1);
+            padre.appendChild(div1);
           }
         }
         $("#btn-favoritos").on("click", async function(){

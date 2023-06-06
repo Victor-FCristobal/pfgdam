@@ -748,7 +748,7 @@ function getCategorias(db,condicion = ""){
 function getEjercicios(db,condicion = ""){
   return new Promise(function(resolve,reject){
     db.transaction(function(tx){
-      tx.executeSql('SELECT * FROM EJERCICIO ' + condicion, [], function(tx,rs){
+      tx.executeSql('SELECT * FROM EJERCICIO ' + condicion + " ORDER BY nombre", [], function(tx,rs){
         resolve(rs);
       },function(error){
         reject(error);
@@ -1005,12 +1005,17 @@ async function insertarEntrenamientos(){
     $("#ejerciciosNuevoEntrenamiento").empty()
     let ejerciciosNuevoEntrenamiento = await getEjercicios(db,"WHERE oculto = 0");
     pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento);
-    // $("#lupa").on("click",async function(){
     $("#buscar_ejercicio").on("keyup",async function(){
       let texto_input = $('#buscar_ejercicio').val()
-      $("#ejerciciosNuevoEntrenamiento").empty()
-      let ejerciciosNuevoEntrenamiento = await getEjercicios(db,`WHERE nombre LIKE "%${texto_input}%" AND oculto = 0`);
-      pintarEjerciciosEntrenamiento(ejerciciosNuevoEntrenamiento)
+      const ejercicios = document.getElementById("ejerciciosNuevoEntrenamiento").children;
+      for(let i = 0;i<ejercicios.length;i++){
+        // [i].[0].[1].[0]
+        let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[1].childNodes[0].textContent
+        if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+          ejercicios[i].style.display = 'none';
+        else
+          ejercicios[i].style.display = 'block';
+      }
     });
   })
   $("#btn-nuevoEntrenamientoRutina").on("click",async function(){
