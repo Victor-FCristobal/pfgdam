@@ -340,7 +340,7 @@
               const ejercicios = document.getElementById("ejerciciosRutinaE").children;
               for(let i = 0;i<ejercicios.length;i++){
                 let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent
-                if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+                if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input.toLocaleLowerCase()))
                   ejercicios[i].style.display = 'none';
                 else
                   ejercicios[i].style.display = 'block';
@@ -384,7 +384,7 @@
             const ejercicios = document.getElementById("ejerciciosRutinaC").children;
             for(let i = 0;i<ejercicios.length;i++){
               let nombre_ejercicio = ejercicios[i].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent
-              if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input))
+              if(!nombre_ejercicio.toLocaleLowerCase().includes(texto_input.toLocaleLowerCase()))
                 ejercicios[i].style.display = 'none';
               else
                 ejercicios[i].style.display = 'block';
